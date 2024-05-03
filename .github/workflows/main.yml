@@ -41,11 +41,11 @@ jobs:
       - name: Configure docker for GCP
         run: gcloud auth configure-docker  
         
-      - name: Build and push Docker image to google cloud artifact registry
+      - name: Build and push Docker image to google cloud container registry
         uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
         with:
           # gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} # can be base64 encoded or plain text || not needed if you use google-github-actions/auth
-          registry: pkg.dev
+          registry: gcr.io
           project_id: ${{ env.PROJECT_ID }}
           image_name: ${{ env.DOCKER_IMAGE }}
           image_tag: latest
