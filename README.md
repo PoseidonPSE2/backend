@@ -1,4 +1,4 @@
-# Go Server
+# Go Server....
 
 Dieser Server ist in Go geschrieben und ermöglicht es, Daten zu einer Datenbank hinzuzufügen und abzurufen.
 
