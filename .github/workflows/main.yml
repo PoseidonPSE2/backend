@@ -24,7 +24,7 @@ jobs:
         
       # Set up Google Cloud SDK
       - name: Configure Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@0.2.0
         with:
           project_id: ${{ env.PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
