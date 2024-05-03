@@ -1,44 +1,54 @@
-name: Main
+# .github/workflows/cloud-run.yml
+
+name: Cloud Run Deployment
+
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-  SERVICE: Poseidon-Backend # google run service name
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE: Poseidon-Backend
   REGION: europe-central2
+  DOCKER_IMAGE: Poseidon_Backend
 
-on: # When do you want it to run
-  push: # When pushed to master branch 
+on:
+  push:
     branches:
-        - main
+      - main  # Adjust branch name as needed
 
-jobs: # Define jobs to run
-
+jobs:
   deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout Repository
+      # Checkout the code
+      - name: Checkout repository
         uses: actions/checkout@v2
-
-      # Sets up the gcloud cli with the credentials we previously created, and will be storing within Github as secrets.
-      - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
+        
+      # Set up Google Cloud SDK
+      - name: Configure Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
         with:
-          project_id: ${{ env.PROJECT_ID }}
+          version: 'latest'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
-
-        # Configure Docker with Credentials
-      - name: Authorize Docker push
-        run: gcloud auth configure-docker
-
-        # Build the Go binary
+      
+      # Authenticate with Google Cloud
+      - name: Authenticate with Google Cloud
+        run: gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+        
+      # Set the default project
+      - name: Set default project
+        run: gcloud config set project ${{ env.PROJECT_ID }}
+        
+      # Build the Go binary
       - name: Build Go binary
         run: go build -o app .
-
-      - name: Build and Push Container
+        
+      # Build the container image
+      - name: Build container image
         run: |
-          docker build -t gcr.io/${{ env.PROJECT_ID }}/my-image .
-          docker push gcr.io/${{ env.PROJECT_ID }}/my-image
-      
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }} .
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}
+          
       # Deploy the container image to Cloud Run
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy ${{ env.SERVICE }} --image gcr.io/${{ env.PROJECT_ID }}/my-image --platform managed --region ${{ env.REGION }}
+          gcloud run deploy ${{ env.SERVICE }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }} --platform managed --region ${{ env.REGION }}
