@@ -6,7 +6,7 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE: Poseidon-Backend
   REGION: europe-central2
-  DOCKER_IMAGE: Poseidon_Backend
+  DOCKER_IMAGE: poseidon_backend
 
 on:
   push:
