@@ -16,7 +16,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
       # Checkout the code
       - name: Checkout repository
@@ -32,35 +36,19 @@ jobs:
   
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
-      # Set up Google Cloud SDK
-      # - name: Configure Google Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v0.3.0
-      #   with:
-      #     project_id: ${{ env.PROJECT_ID }}
-      #     service_account_key: ${{ secrets.GCP_SA_KEY }}
-      #     export_default_credentials: true
-      
+
       # Configure Docker
       - name: Configure docker for GCP
         run: gcloud auth configure-docker  
         
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker image to google cloud registry
+        uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
         with:
+          # gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} # can be base64 encoded or plain text || not needed if you use google-github-actions/auth
+          registry: gcr.io
+          project_id: ${{ env.PROJECT_ID }}
+          image_name: ${{ env.DOCKER_IMAGE }}
+          image_tag: latest
+          dockerfile: ./dockerfile
           context: .
-          push: true
-          tags: gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}:latest
-          build-args: |
-            HTTP_PORT=8080
     
-      - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@main
-        with:
-          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}:latest
-          service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
-          platform: managed
-          allow-unauthenticated: true
-          env_vars: |
-              FOO=bar
-              ZIP=zap
