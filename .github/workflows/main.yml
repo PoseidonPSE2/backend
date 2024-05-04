@@ -6,6 +6,7 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE: poseidon-backend
   DOCKER_IMAGE: poseidon_backend
+  REGION: europe-west3
   DATE: "`r format(Sys.time(), '%d %B, %Y')`"
 
 on:
@@ -44,6 +45,7 @@ jobs:
         with:
           service: '${{ env.SERVICE }}/${{ env.DATE }}'
           image: 'gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}/latest'
+          region: ${{ env.REGION }}
     
       - name: 'Use output'
         run: 'curl "${{ steps.deploy.outputs.url }}"'
