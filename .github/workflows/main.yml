@@ -6,6 +6,7 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE: poseidon-backend
   DOCKER_IMAGE: poseidon_backend
+  DATE: "`r format(Sys.time(), '%d %B, %Y')`"
 
 on:
   workflow_dispatch:
@@ -34,15 +35,15 @@ jobs:
           registry: gcr.io
           project_id: ${{ env.PROJECT_ID }}
           image_name: ${{ env.DOCKER_IMAGE }}
-          image_tag: ${{  github.sha }}
+          image_tag: latest
           dockerfile: ./dockerfile
           context: .
       
       - id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
-          service: '${{ env.SERVICE }}'
-          image: 'gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}/${{  github.sha }}'
+          service: '${{ env.SERVICE }}/${{ env.DATE }}'
+          image: 'gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}/latest'
     
       - name: 'Use output'
         run: 'curl "${{ steps.deploy.outputs.url }}"'
