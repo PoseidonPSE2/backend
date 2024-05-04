@@ -5,7 +5,7 @@ name: Cloud Run Deployment
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE: poseidon-backend
-  DOCKER_IMAGE: poseidon_backend
+  DOCKER_IMAGE: poseidon-backend
   REGION: europe-west3
 
 on:
