@@ -4,8 +4,7 @@ name: Cloud Run Deployment
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE: Poseidon-Backend
-  REGION: europe-central2
+  SERVICE: poseidon-backend
   DOCKER_IMAGE: poseidon_backend
 
 on:
@@ -27,26 +26,24 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
-          credentials_json: '${{ secrets.GCP_SA_KEY }}'
-  
-      # - name: 'Set up Cloud SDK'
-      #   uses: 'google-github-actions/setup-gcloud@v2'
-  
-      # - name: 'Use gcloud CLI'
-      #   run: 'gcloud info'
-
-      # Configure Docker
-      # - name: Configure docker for GCP
-      #   run: gcloud auth configure-docker  
+          credentials_json: '${{ secrets.GCP_SA_KEY }}' 
         
-      - name: Build and push Docker image to google cloud container registry
+      - name: Build and push Docker image to Google Cloud Container Registry
         uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
         with:
-          # gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} # can be base64 encoded or plain text || not needed if you use google-github-actions/auth
           registry: gcr.io
           project_id: ${{ env.PROJECT_ID }}
           image_name: ${{ env.DOCKER_IMAGE }}
-          image_tag: latest
+          image_tag: ${{  github.sha }}
           dockerfile: ./dockerfile
           context: .
+      
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: '${{ env.SERVICE }}'
+          image: 'gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}/${{  github.sha }}'
+    
+      - name: 'Use output'
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
     
