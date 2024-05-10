@@ -1,10 +1,11 @@
 package main
 
 import (
-	"database/crud"
-	"database/models"
 	"fmt"
 	"log"
+
+	"github.com/PoseidonPSE2/code_backend/database/crud"
+	"github.com/PoseidonPSE2/code_backend/database/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

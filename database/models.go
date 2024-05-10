@@ -125,6 +125,53 @@ type WaterTransaction struct {
 	Guest     bool      `gorm:"default:false"`
 }
 
+// Enumeration Constraints:
+
+func (NFCChip) TableName() string {
+	return "nfc_chip"
+}
+
+func (RefillStationProblem) TableName() string {
+	return "refill_station_problem"
+}
+
+func (chip *NFCChip) BeforeCreate(tx *gorm.DB) (err error) {
+	allowedWaterTypes := []string{"Tap Water", "Mineral Water"}
+	if !contains(allowedWaterTypes, chip.WaterType) {
+		return fmt.Errorf("invalid water type: %s", chip.WaterType)
+	}
+	return nil
+}
+
+func (station *RefillStation) BeforeCreate(tx *gorm.DB) (err error) {
+	allowedTypes := []string{"Manual", "Smart"}
+	allowedWaterTypes := []string{"Mineral", "Tap", "Mineral & Tap"}
+
+	if !contains(allowedTypes, station.Type) {
+		return fmt.Errorf("invalid station type: %s", station.Type)
+	}
+	if !contains(allowedWaterTypes, station.OfferedWaterTypes) {
+		return fmt.Errorf("invalid water types: %s", station.OfferedWaterTypes)
+	}
+	return nil
+}
+
+func (problem *RefillStationProblem) BeforeCreate(tx *gorm.DB) (err error) {
+	allowedStatuses := []string{"Inactive", "Active", "In Process"}
+	if !contains(allowedStatuses, problem.Status) {
+		return fmt.Errorf("invalid problem status: %s", problem.Status)
+	}
+	return nil
+}
+
+func (transaction *WaterTransaction) BeforeCreate(tx *gorm.DB) (err error) {
+	allowedWaterTypes := []string{"Tap Water", "Mineral Water"}
+	if !contains(allowedWaterTypes, transaction.WaterType) {
+		return fmt.Errorf("invalid water type: %s", transaction.WaterType)
+	}
+	return nil
+}
+
 func contains(slice []string, item string) bool {
 	for _, s := range slice {
 		if s == item {
