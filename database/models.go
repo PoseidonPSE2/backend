@@ -126,7 +126,6 @@ type WaterTransaction struct {
 }
 
 // Enumeration Constraints:
-
 func (NFCChip) TableName() string {
 	return "nfc_chip"
 }
