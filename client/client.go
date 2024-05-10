@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/PoseidonPSE2/code_backend/database/crud"
-	"github.com/PoseidonPSE2/code_backend/database/models"
+	"github.com/PoseidonPSE2/code_backend/database"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -21,26 +20,26 @@ func main() {
 	fmt.Println("Successfully connected to the database.")
 
 	// Beispiel-User erstellen
-	user := models.User{
+	user := database.User{
 		FirstName: "John",
 		LastName:  "Doe",
 		Email:     strPtr("john.doe@example.com"),
 	}
 
 	// User erstellen
-	if err := crud.CreateUser(db, &user); err != nil {
+	if err := database.CreateUser(db, &user); err != nil {
 		log.Fatalf("failed to create user: %v", err)
 	}
 
 	// Alle User finden
-	users, err := crud.FindAllUsers(db)
+	users, err := database.FindAllUsers(db)
 	if err != nil {
 		log.Fatalf("failed to find all users: %v", err)
 	}
 	fmt.Println("Users:", users)
 
 	// Einen bestimmten User löschen
-	if err := crud.DeleteUserByID(db, user.ID); err != nil {
+	if err := database.DeleteUserByID(db, user.ID); err != nil {
 		log.Fatalf("failed to delete user: %v", err)
 	}
 }
