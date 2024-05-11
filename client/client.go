@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// PostgreSQL-Verbindungszeichenfolge
-	dsn := "host=localhost user=postgres password=yourpassword dbname=yourdb port=5432 sslmode=disable"
+	dsn := "host=localhost user=developer password=pw dbname=poseidon port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect to the database: %v", err)
