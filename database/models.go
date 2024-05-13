@@ -13,15 +13,15 @@ type User struct {
 	FirstName string  `gorm:"size:100;not null"`
 	LastName  string  `gorm:"size:100;not null"`
 	Email     *string `gorm:"size:100;unique;default:null"`
-	NFCChips  []NFCChip
-	Answers   []ConsumerTestAnswer
-	Reviews   []RefillStationReview
+	NFCChips  []NFCChip `gorm:"foreignKey:UserID"`
+	Answers   []ConsumerTestAnswer `gorm:"foreignKey:UserID"`
+	Reviews   []RefillStationReview `gorm:"foreignKey:UserID"`
 }
 
 // ConsumerTest Model
 type ConsumerTest struct {
 	ID        uint `gorm:"primaryKey"`
-	Questions []ConsumerTestQuestion
+	Questions []ConsumerTestQuestion `gorm:"foreignKey:TestID"`
 }
 
 // ConsumerTestQuestion Model
@@ -31,7 +31,7 @@ type ConsumerTestQuestion struct {
 	MinValue *float32 `gorm:"default:null"`
 	MaxValue *float32 `gorm:"default:null"`
 	TestID   uint     `gorm:"not null"`
-	Answers  []ConsumerTestAnswer
+	Answers  []ConsumerTestAnswer `gorm:"foreignKey:QuestionID"`
 }
 
 // ConsumerTestAnswer Model
@@ -52,7 +52,7 @@ type NFCChip struct {
 	WaterType         string  `gorm:"size:16;not null"`
 	PathImage         *string `gorm:"size:255;default:null"`
 	Active            bool    `gorm:"default:true"`
-	WaterTransactions []WaterTransaction
+	WaterTransactions []WaterTransaction `gorm:"foreignKey:ChipID"`
 }
 
 // RefillStation Model
@@ -69,9 +69,9 @@ type RefillStation struct {
 	Active            bool    `gorm:"default:true"`
 	Type              string  `gorm:"size:16;not null"`
 	OfferedWaterTypes string  `gorm:"size:32;not null"`
-	Reviews           []RefillStationReview
-	Problems          []RefillStationProblem
-	WaterTransactions []WaterTransaction
+	Reviews           []RefillStationReview `gorm:"foreignKey:StationID"`
+	Problems          []RefillStationProblem `gorm:"foreignKey:StationID"`
+	WaterTransactions []WaterTransaction `gorm:"foreignKey:StationID"`
 }
 
 // RefillStationReview Model
@@ -181,5 +181,5 @@ func contains(slice []string, item string) bool {
 }
 
 func isValidRating(rating int) bool {
-	return rating >= 1 && rating <= 5
+	return rating >= 1 und <= 5
 }
