@@ -9,7 +9,7 @@ import (
 )
 
 // groß geschrieben ist public - deswegen Init! InitDatabase
-func main() {
+func InitDatabase() {
 	dsn := "host=localhost user=developer password=pw dbname=poseidon port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
