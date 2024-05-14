@@ -28,6 +28,7 @@ func InitDatabase() {
 		&RefillStationReview{},
 		&RefillStationProblem{},
 		&WaterTransaction{},
+		&Like{},
 	)
 	if err != nil {
 		log.Fatalf("failed to migrate the database schema: %v", err)

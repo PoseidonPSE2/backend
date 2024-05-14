@@ -9,28 +9,29 @@ import (
 
 // User Model
 type User struct {
-	ID        uint                  `gorm:"primaryKey;autoIncrement"`
-	FirstName string                `gorm:"size:100;not null"`
-	LastName  string                `gorm:"size:100;not null"`
-	Email     *string               `gorm:"size:100;unique;default:null"`
-	NFCChips  []NFCChip             `gorm:"foreignKey:UserID"`
-	Answers   []ConsumerTestAnswer  `gorm:"foreignKey:UserID"`
+	ID        uint    `gorm:"primaryKey;autoIncrement"`
+	FirstName string  `gorm:"size:100;not null"`
+	LastName  string  `gorm:"size:100;not null"`
+	Email     *string `gorm:"size:100;unique;default:null"`
+	NFCChips  []NFCChip `gorm:"foreignKey:UserID"`
+	Answers   []ConsumerTestAnswer `gorm:"foreignKey:UserID"`
 	Reviews   []RefillStationReview `gorm:"foreignKey:UserID"`
+	Likes     []Like `gorm:"foreignKey:UserID"`
 }
 
 // ConsumerTest Model
 type ConsumerTest struct {
-	ID        uint                   `gorm:"primaryKey"`
+	ID        uint `gorm:"primaryKey"`
 	Questions []ConsumerTestQuestion `gorm:"foreignKey:TestID"`
 }
 
 // ConsumerTestQuestion Model
 type ConsumerTestQuestion struct {
-	ID       uint                 `gorm:"primaryKey"`
-	Text     string               `gorm:"size:255;not null"`
-	MinValue *float32             `gorm:"default:null"`
-	MaxValue *float32             `gorm:"default:null"`
-	TestID   uint                 `gorm:"not null"`
+	ID       uint     `gorm:"primaryKey"`
+	Text     string   `gorm:"size:255;not null"`
+	MinValue *float32 `gorm:"default:null"`
+	MaxValue *float32 `gorm:"default:null"`
+	TestID   uint     `gorm:"not null"`
 	Answers  []ConsumerTestAnswer `gorm:"foreignKey:QuestionID"`
 }
 
@@ -45,33 +46,35 @@ type ConsumerTestAnswer struct {
 
 // NFCChip Model
 type NFCChip struct {
-	ID                uint               `gorm:"primaryKey"`
-	UserID            uint               `gorm:"not null"`
-	HardwareID        string             `gorm:"size:32;unique;not null"`
-	FillVolume        int                `gorm:"not null"`
-	WaterType         string             `gorm:"size:16;not null"`
-	PathImage         *string            `gorm:"size:255;default:null"`
-	Active            bool               `gorm:"default:true"`
+	ID                uint    `gorm:"primaryKey"`
+	UserID            uint    `gorm:"not null"`
+	HardwareID        string  `gorm:"size:32;unique;not null"`
+	FillVolume        int     `gorm:"not null"`
+	WaterType         string  `gorm:"size:16;not null"`
+	PathImage         *string `gorm:"size:255;default:null"`
+	Active            bool    `gorm:"default:true"`
 	WaterTransactions []WaterTransaction `gorm:"foreignKey:ChipID"`
 }
 
 // RefillStation Model
 type RefillStation struct {
-	ID                uint                   `gorm:"primaryKey"`
-	Name              string                 `gorm:"size:100;not null"`
-	Description       string                 `gorm:"size:255;not null"`
-	Latitude          float64                `gorm:"not null"`
-	Longitude         float64                `gorm:"not null"`
-	Address           string                 `gorm:"size:255;not null"`
-	LikeCounter       int                    `gorm:"default:0"`
-	WaterSource       string                 `gorm:"size:50;not null"`
-	OpeningTimes      string                 `gorm:"size:100;not null"`
-	Active            bool                   `gorm:"default:true"`
-	Type              string                 `gorm:"size:16;not null"`
-	OfferedWaterTypes string                 `gorm:"size:32;not null"`
-	Reviews           []RefillStationReview  `gorm:"foreignKey:StationID"`
+	ID                uint    `gorm:"primaryKey"`
+	Name              string  `gorm:"size:100;not null"`
+	Description       string  `gorm:"size:255;not null"`
+	Latitude          float64 `gorm:"not null"`
+	Longitude         float64 `gorm:"not null"`
+	Address           string  `gorm:"size:255;not null"`
+	LikeCounter       int     `gorm:"default:0"`
+	WaterSource       string  `gorm:"size:50;not null"`
+	OpeningTimes      string  `gorm:"size:100;not null"`
+	Active            bool    `gorm:"default:true"`
+	Type              string  `gorm:"size:16;not null"`
+	OfferedWaterTypes string  `gorm:"size:32;not null"`
+	ImagePath         *string `gorm:"size:255;default:null"`
+	Reviews           []RefillStationReview `gorm:"foreignKey:StationID"`
 	Problems          []RefillStationProblem `gorm:"foreignKey:StationID"`
-	WaterTransactions []WaterTransaction     `gorm:"foreignKey:StationID"`
+	WaterTransactions []WaterTransaction `gorm:"foreignKey:StationID"`
+	Likes             []Like `gorm:"foreignKey:StationID"`
 }
 
 // RefillStationReview Model
@@ -119,10 +122,19 @@ type WaterTransaction struct {
 	ID        uint      `gorm:"primaryKey"`
 	StationID uint      `gorm:"not null"`
 	ChipID    *uint     `gorm:"default:null"`
+	UserID    *uint     `gorm:"default:null"`
 	Volume    int       `gorm:"not null"`
 	WaterType string    `gorm:"size:16;not null"`
 	Timestamp time.Time `gorm:"autoCreateTime"`
 	Guest     bool      `gorm:"default:false"`
+}
+
+// Like Model
+type Like struct {
+	ID        uint `gorm:"primaryKey"`
+	StationID uint `gorm:"not null"`
+	UserID    uint `gorm:"not null"`
+	Likes     bool `gorm:"not null"`
 }
 
 // Enumeration Constraints:
