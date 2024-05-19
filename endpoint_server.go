@@ -17,8 +17,9 @@ import (
 var db *gorm.DB
 
 func init() {
+	dsn := "host=localhost user=developer password=pw dbname=poseidon port=5432 sslmode=disable"
 	var err error
-	db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
 	}
