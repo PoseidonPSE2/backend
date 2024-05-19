@@ -4,7 +4,7 @@ name: Database Cloud Run Deployment
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE: poseidon-backend
+  SERVICE: poseidon-backend-db
   DOCKER_IMAGE: poseidon-backend-db
   REGION: europe-west3
 
@@ -45,6 +45,8 @@ jobs:
           service: '${{ env.SERVICE }}'
           image: 'gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}:latest'
           region: ${{ env.REGION }}
+          # Additional arguments for port forwarding
+          args: --port 5432
     
       - name: 'Use output'
         run: 'curl "${{ steps.deploy.outputs.url }}"'
