@@ -1,0 +1,51 @@
+# .github/workflows/cloud-run.yml
+
+name: Backend Cloud Run Deployment
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE: poseidon-backend
+  DOCKER_IMAGE: poseidon-backend
+  REGION: europe-west3
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}' 
+        
+      - name: Build and push Docker image to Google Cloud Container Registry
+        uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
+        with:
+          registry: gcr.io
+          project_id: ${{ env.PROJECT_ID }}
+          image_name: ${{ env.DOCKER_IMAGE }}
+          image_tag: latest
+          dockerfile: ./dockerfiles/backend_dockerfile
+          context: .
+      
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: '${{ env.SERVICE }}'
+          image: 'gcr.io/${{ env.PROJECT_ID }}/${{ env.DOCKER_IMAGE }}:latest'
+          region: ${{ env.REGION }}
+    
+      - name: 'Use output'
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
+    
