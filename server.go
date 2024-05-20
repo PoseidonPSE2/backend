@@ -18,7 +18,7 @@ type databaseEntry struct {
 	WaterType string
 }
 
-var db = make(map[string]databaseEntry)
+var database_temp = make(map[string]databaseEntry)
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
 	var request_data data
@@ -31,7 +31,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Anfrage erhalten für ID: %s", request_data.ID)
 
-	if entry, ok := db[request_data.ID]; ok {
+	if entry, ok := database_temp[request_data.ID]; ok {
 		var dataResponse = data{
 			ID:        request_data.ID,
 			Ml:        entry.Ml,
@@ -62,7 +62,7 @@ func addData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db[data.ID] = databaseEntry{Ml: data.Ml, WaterType: data.WaterType}
+	database_temp[data.ID] = databaseEntry{Ml: data.Ml, WaterType: data.WaterType}
 	response := fmt.Sprintf("ID %s mit Füllstand %s ml und Wasserart %s wurde hinzugefügt\n", data.ID, data.Ml, data.WaterType)
 	log.Printf("Daten hinzugefügt: %s", response)
 	fmt.Fprint(w, response)
@@ -78,21 +78,21 @@ func addDataManually(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db[id] = databaseEntry{Ml: ml, WaterType: waterType}
+	database_temp[id] = databaseEntry{Ml: ml, WaterType: waterType}
 	response := fmt.Sprintf("ID %s mit Füllstand %s ml und Wasserart %s wurde hinzugefügt\n", id, ml, waterType)
 	log.Printf("Daten hinzugefügt: %s", response)
 	fmt.Fprint(w, response)
 }
 
 func addInitialData() {
-	db["13:8E:BD:0C"] = databaseEntry{Ml: "500", WaterType: "still"}
-	db["13:E0:0B:35"] = databaseEntry{Ml: "100", WaterType: "sprudel"}
+	database_temp["13:8E:BD:0C"] = databaseEntry{Ml: "500", WaterType: "still"}
+	database_temp["13:E0:0B:35"] = databaseEntry{Ml: "100", WaterType: "sprudel"}
 }
 func getAllEntries(w http.ResponseWriter, r *http.Request) {
 
 	var allEntries []data
 
-	for id, entry := range db {
+	for id, entry := range database_temp {
 		allEntries = append(allEntries, data{
 			ID:        id,
 			Ml:        entry.Ml,
@@ -111,7 +111,8 @@ func getAllEntries(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s\n", response)
 }
 
-func main() {
+// This was main, but needed to renamed it, because there is already a main in endpoint_server.go
+func temp() {
 	addInitialData()
 	http.HandleFunc("/", handleRequest)
 	http.HandleFunc("/add", addData)
