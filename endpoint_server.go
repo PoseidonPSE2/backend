@@ -17,7 +17,7 @@ import (
 var db *gorm.DB
 
 func init() {
-	dsn := "host=localhost user=developer password=pw dbname=poseidon port=5432 sslmode=disable"
+	dsn := "host=35.246.250.79 user=postgres password=pw dbname=poseidon port=5432 sslmode=disable"
 	var err error
 	db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	if err != nil {
