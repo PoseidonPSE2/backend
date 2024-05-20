@@ -17,17 +17,23 @@ import (
 var db *gorm.DB
 
 func init() {
+	log.Print("Starting application")
+	log.Print("Connecting to database")
 	dsn := "host=35.246.250.79 user=postgres password=pw dbname=poseidon port=5432 sslmode=disable"
 	var err error
 	db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
+	} else {
+		log.Print("succesfuly connected to database")
 	}
 
+	log.Print("Schema migration starting")
 	// Migrate the schema
 	db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
 		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
 		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
+	log.Print("Schema migration done")
 }
 
 func respondWithJSON(w http.ResponseWriter, status int, payload interface{}) {
