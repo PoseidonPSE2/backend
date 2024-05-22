@@ -31,9 +31,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	// cleanup will stop the driver from retrieving ephemeral certificates
-	// Don't call cleanup until you're done with your database connections
-	defer cleanup()
 
 	log.Print("Connecting to database")
 
@@ -73,6 +70,10 @@ func init() {
 			&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
 		log.Print("Schema migration done")
 	}
+
+	// cleanup will stop the driver from retrieving ephemeral certificates
+	// Don't call cleanup until you're done with your database connections
+	defer cleanup()
 }
 
 func respondWithJSON(w http.ResponseWriter, status int, payload interface{}) {
