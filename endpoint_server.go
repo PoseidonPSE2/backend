@@ -36,7 +36,8 @@ func init() {
 
 	user := "developer"
 	password := "pw"
-	dbHost := "35.246.250.79"
+	dbHost := "unique-machine-422214-b0:europe-west3:poseidon-database"
+	//dbHost := "35.246.250.79"
 	databaseName := "poseidon"
 
 	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, user, databaseName, password)
