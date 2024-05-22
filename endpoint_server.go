@@ -2,12 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
 
-	"gorm.io/driver/sqlite"
+	"cloud.google.com/go/cloudsqlconn"
+	"cloud.google.com/go/cloudsqlconn/postgres/pgxv5"
+
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	"github.com/PoseidonPSE2/code_backend/database"
@@ -18,22 +22,57 @@ var db *gorm.DB
 
 func init() {
 	log.Print("Starting application")
-	log.Print("Connecting to database")
-	dsn := "host=35.246.250.79 user=developer password=pw dbname=poseidon port=5432 sslmode=disable"
-	var err error
-	db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("failed to connect database: %v", err)
-	} else {
-		log.Print("succesfuly connected to database")
-	}
 
-	log.Print("Schema migration starting")
-	// Migrate the schema
-	db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
-		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
-		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
-	log.Print("Schema migration done")
+	cleanup, err := pgxv5.RegisterDriver(
+		"cloudsql-postgres",
+		cloudsqlconn.WithLazyRefresh(),
+		cloudsqlconn.WithIAMAuthN(),
+	)
+	if err != nil {
+		panic(err)
+	}
+	// cleanup will stop the driver from retrieving ephemeral certificates
+	// Don't call cleanup until you're done with your database connections
+	defer cleanup()
+
+	log.Print("Connecting to database")
+
+	user := "developer"
+	password := "pw"
+	dbHost := "35.246.250.79"
+	databaseName := "poseidon"
+
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, user, databaseName, password)
+
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DriverName: "cloudsql-postgres",
+		DSN:        dsn,
+	}))
+	if err != nil {
+		panic(err)
+	} else {
+		// get the underlying *sql.DB type to verify the connection
+		sdb, err := db.DB()
+		if err != nil {
+			panic(err)
+		}
+
+		var t time.Time
+		if err := sdb.QueryRow("select now()").Scan(&t); err != nil {
+			panic(err)
+		}
+
+		fmt.Println(t)
+
+		log.Print("succesfuly connected to database")
+
+		log.Print("Schema migration starting")
+		// Migrate the schema
+		db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
+			&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
+			&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
+		log.Print("Schema migration done")
+	}
 }
 
 func respondWithJSON(w http.ResponseWriter, status int, payload interface{}) {
