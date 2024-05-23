@@ -11,6 +11,9 @@ COPY go.sum ./
 # Download and install Go dependencies
 RUN go mod download
 
+# Install Postgres driver for Gorm
+RUN go get -u github.com/lib/pq
+
 # Copy the rest of the application source code
 COPY . .
 

@@ -47,17 +47,17 @@ func init() {
 		DSN:        dsn,
 	}))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	} else {
 		// get the underlying *sql.DB type to verify the connection
 		sdb, err := db.DB()
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 
 		var t time.Time
 		if err := sdb.QueryRow("select now()").Scan(&t); err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 
 		fmt.Println(t)
