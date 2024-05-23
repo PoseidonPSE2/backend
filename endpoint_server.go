@@ -33,7 +33,7 @@ func init() {
 
 	log.Print("Connecting to database")
 
-	user := "poseidon-backend@unique-machine-422214-b0.iam"
+	user := "poseidon-backend@unique-machine-422214-b0.iam.gserviceaccount.com"
 	password := "pw"
 	dbHost := "unique-machine-422214-b0:europe-west3:poseidon-database"
 	//dbHost := "35.246.250.79"
