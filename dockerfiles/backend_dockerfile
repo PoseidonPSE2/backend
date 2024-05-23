@@ -15,7 +15,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go binary with race detection enabled
-RUN CGO_ENABLED=1 GOOS=linux go build -o app .
+RUN CGO_ENABLED=0 GOOS=linux go build -o app .
 # RUN CGO_ENABLED=1 GOOS=linux go build -o app -a -ldflags '-extldflags "-static"' .
 
 # Debugging step: check if the binary was created
