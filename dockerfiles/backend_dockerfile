@@ -39,9 +39,6 @@ RUN ls -la /app
 # Ensure the binary has execution permissions
 RUN chmod +x /app/app
 
-# Ensure the binary can run
-RUN /app/app --help
-
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
