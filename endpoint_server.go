@@ -29,7 +29,7 @@ func init() {
 		cloudsqlconn.WithIAMAuthN(),
 	)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	log.Print("Connecting to database")
