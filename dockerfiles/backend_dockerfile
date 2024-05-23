@@ -1,14 +1,12 @@
-ARG GO_VERSION=1.22.2
-
 # Use the official golang image as the base image
+ARG GO_VERSION=1.22.2
 FROM --platform=linux/amd64 golang:${GO_VERSION} AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the Go mod and sum files
-COPY go.mod ./
-COPY go.sum ./
+COPY go.mod go.sum ./
 
 # Download and install Go dependencies
 RUN go mod download
@@ -20,14 +18,26 @@ COPY . .
 RUN CGO_ENABLED=1 GOOS=linux go build -o app .
 # RUN CGO_ENABLED=1 GOOS=linux go build -o app -a -ldflags '-extldflags "-static"' .
 
+# Debugging step: check if the binary was created
+RUN ls -la /app
+
 # Use a minimal base image to run the application
 FROM alpine:latest
+
+# Install necessary libraries
+RUN apk --no-cache add ca-certificates
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the binary from the builder stage to the runtime image
 COPY --from=builder /app/app .
+
+# Debugging step: check if the binary was copied correctly
+RUN ls -la /app
+
+# Ensure the binary has execution permissions
+RUN chmod +x /app/app
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
