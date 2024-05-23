@@ -31,20 +31,26 @@ func init() {
 		log.Fatal(err)
 	}
 
+	// cleanup will stop the driver from retrieving ephemeral certificates
+	// Don't call cleanup until you're done with your database connections
+	defer cleanup()
+
 	log.Print("Connecting to database")
 
-	user := "poseidon-backend@unique-machine-422214-b0.iam.gserviceaccount.com"
-	password := "pw"
-	dbHost := "unique-machine-422214-b0:europe-west3:poseidon-database"
+	user := "poseidon-backend@unique-machine-422214-b0.iam"
+	// password := "pw"
+	// dbHost := "unique-machine-422214-b0:europe-west3:poseidon-database"
 	//dbHost := "35.246.250.79"
 	databaseName := "poseidon"
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", dbHost, user, password, databaseName)
+	//dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", dbHost, user, password, databaseName)
+	dsn := fmt.Sprintf("user=%s dbname=%s sslmode=disable", user, databaseName)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DriverName: "cloudsql-postgres",
 		DSN:        dsn,
 	}))
+
 	if err != nil {
 		log.Fatal(err)
 	} else {
@@ -70,10 +76,6 @@ func init() {
 			&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
 		log.Print("Schema migration done")
 	}
-
-	// cleanup will stop the driver from retrieving ephemeral certificates
-	// Don't call cleanup until you're done with your database connections
-	defer cleanup()
 }
 
 func respondWithJSON(w http.ResponseWriter, status int, payload interface{}) {
