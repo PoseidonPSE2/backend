@@ -25,7 +25,6 @@ func init() {
 
 	cleanup, err := pgxv5.RegisterDriver(
 		"cloudsql-postgres",
-		cloudsqlconn.WithLazyRefresh(),
 		cloudsqlconn.WithIAMAuthN(),
 	)
 	if err != nil {
@@ -34,13 +33,13 @@ func init() {
 
 	log.Print("Connecting to database")
 
-	user := "developer"
+	user := "poseidon-backend@unique-machine-422214-b0.iam"
 	password := "pw"
 	dbHost := "unique-machine-422214-b0:europe-west3:poseidon-database"
 	//dbHost := "35.246.250.79"
 	databaseName := "poseidon"
 
-	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, user, databaseName, password)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", dbHost, user, password, databaseName)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DriverName: "cloudsql-postgres",
