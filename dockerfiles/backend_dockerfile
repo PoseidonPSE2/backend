@@ -13,20 +13,18 @@ COPY go.sum ./
 # Download and install Go dependencies
 RUN go mod download
 
-# Install Postgres driver for Gorm
-RUN go get -u github.com/lib/pq
-
 # Copy the rest of the application source code
 COPY . .
 
 # Build the Go binary with race detection enabled
-RUN CGO_ENABLED=1 GOOS=linux go build -o app -a -ldflags '-extldflags "-static"' .
+RUN CGO_ENABLED=1 GOOS=linux go build -o app .
+# RUN CGO_ENABLED=1 GOOS=linux go build -o app -a -ldflags '-extldflags "-static"' .
 
 # Use a minimal base image to run the application
 FROM alpine:latest
 
 # Set the working directory inside the container
-WORKDIR /root/
+WORKDIR /app
 
 # Copy the binary from the builder stage to the runtime image
 COPY --from=builder /app/app .
