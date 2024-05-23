@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -9,7 +10,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/cloudsqlconn"
-	"cloud.google.com/go/cloudsqlconn/postgres/pgxv5"
+	"cloud.google.com/go/cloudsqlconn/postgres/pgxv4"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -23,59 +24,54 @@ var db *gorm.DB
 func init() {
 	log.Print("Starting application")
 
-	cleanup, err := pgxv5.RegisterDriver(
-		"cloudsql-postgres",
-		cloudsqlconn.WithIAMAuthN(),
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// cleanup will stop the driver from retrieving ephemeral certificates
-	// Don't call cleanup until you're done with your database connections
-	defer cleanup()
-
-	log.Print("Connecting to database")
-
-	user := "poseidon-backend@unique-machine-422214-b0.iam"
-	// password := "pw"
-	// dbHost := "unique-machine-422214-b0:europe-west3:poseidon-database"
-	//dbHost := "35.246.250.79"
+	projectID := "unique-machine-422214-b0"
+	region := "europe-west3"
+	instanceID := "poseidon-database"
 	databaseName := "poseidon"
+	user := "poseidon-backend@unique-machine-422214-b0.iam"
 
-	//dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", dbHost, user, password, databaseName)
-	dsn := fmt.Sprintf("user=%s dbname=%s sslmode=disable", user, databaseName)
+	host := fmt.Sprintf("%s:%s:%s", projectID, region, instanceID)
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable", host, user, databaseName)
 
-	db, err := gorm.Open(postgres.New(postgres.Config{
-		DriverName: "cloudsql-postgres",
-		DSN:        dsn,
-	}))
-
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
-	} else {
-		// get the underlying *sql.DB type to verify the connection
-		sdb, err := db.DB()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		var t time.Time
-		if err := sdb.QueryRow("select now()").Scan(&t); err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println(t)
-
-		log.Print("succesfuly connected to database")
-
-		log.Print("Schema migration starting")
-		// Migrate the schema
-		db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
-			&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
-			&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
-		log.Print("Schema migration done")
+		fmt.Println("Error creating GORM instance:", err)
+		return
 	}
+	fmt.Println("Successfully connected to the database!")
+
+	log.Print("Schema migration starting")
+	// Migrate the schema
+	db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
+		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
+		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
+	log.Print("Schema migration done")
+}
+
+// getDB creates a connection to the database
+// based on environment variables.
+func getDB() (*sql.DB, func() error) {
+	// Define your Cloud SQL instance connection details
+	projectID := "unique-machine-422214-b0"
+	region := "europe-west3"
+	instanceID := "poseidon-database"
+	databaseName := "poseidon"
+	user := "poseidon-backend@unique-machine-422214-b0.iam"
+
+	host := fmt.Sprintf("%s:%s:%s", projectID, region, instanceID)
+
+	cleanup, err := pgxv4.RegisterDriver("cloudsql-postgres", cloudsqlconn.WithIAMAuthN())
+	if err != nil {
+		log.Fatalf("Error on pgxv4.RegisterDriver: %v", err)
+	}
+
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable", host, user, databaseName)
+	db, err := sql.Open("cloudsql-postgres", dsn)
+	if err != nil {
+		log.Fatalf("Error on sql.Open: %v", err)
+	}
+
+	return db, cleanup
 }
 
 func respondWithJSON(w http.ResponseWriter, status int, payload interface{}) {
