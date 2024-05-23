@@ -22,25 +22,25 @@ import (
 var db *gorm.DB
 
 func init() {
+	var err error
 	log.Print("Starting application")
 
-	projectID := "unique-machine-422214-b0"
-	region := "europe-west3"
-	instanceID := "poseidon-database"
-	databaseName := "poseidon"
-	user := "poseidon-backend@unique-machine-422214-b0.iam"
+	dbHost := "poseidon-database.flycast"
+	dbUser := "postgres"
+	dbPw := "rnJpE83UKr1MyF8"
+	dbName := "poseidon-database"
+	dbPort := "5432"
 
-	host := fmt.Sprintf("%s:%s:%s", projectID, region, instanceID)
-	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable", host, user, databaseName)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUser, dbPw, dbName, dbPort)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println("Error creating GORM instance:", err)
-		return
+		log.Fatalf("failed to connect database: %v", err)
 	}
 	fmt.Println("Successfully connected to the database!")
 
 	log.Print("Schema migration starting")
+
 	// Migrate the schema
 	db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
 		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
