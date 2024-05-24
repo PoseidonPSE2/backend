@@ -1,0 +1,9 @@
+Username:             postgres
+Password:             rnJpE83UKr1MyF8
+Internal Hostname:    poseidon-database.internal
+Extern Hostname:      poseidon-database.fly.dev
+Flycast:              fdaa:9:4b64:0:1::2
+Proxy port:           5432
+Postgres port:        5433
+DB name:              poseidon-backend
+Connection string:    postgres://postgres:rnJpE83UKr1MyF8@poseidon-database.flycast:5432

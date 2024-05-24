@@ -1,0 +1,6 @@
+// Deploy backend
+fly deploy poseidon-backend
+
+// Connect to database with psql
+flyctl ssh console --app poseidon-backend
+psql -h 127.0.0.1 -U postgres
