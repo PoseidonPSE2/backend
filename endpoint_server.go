@@ -1,16 +1,12 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
-
-	"cloud.google.com/go/cloudsqlconn"
-	"cloud.google.com/go/cloudsqlconn/postgres/pgxv4"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -25,15 +21,16 @@ func init() {
 	var err error
 	log.Print("Starting application")
 
-	dbHost := "poseidon-database.flycast"
-	dbUser := "postgres"
-	dbPw := "rnJpE83UKr1MyF8"
-	dbName := "poseidon-database"
-	dbPort := "5432"
+	// dbHost := "poseidon-database.flycast"
+	// dbUser := "postgres"
+	// dbPw := "rnJpE83UKr1MyF8"
+	// dbName := "poseidon-database"
+	// dbPort := "5432"
+	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUser, dbPw, dbName, dbPort)
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUser, dbPw, dbName, dbPort)
+	connectionString := "postgres://postgres:rnJpE83UKr1MyF8@poseidon-database.flycast:5432"
 
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
 	}
@@ -46,32 +43,6 @@ func init() {
 		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
 		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
 	log.Print("Schema migration done")
-}
-
-// getDB creates a connection to the database
-// based on environment variables.
-func getDB() (*sql.DB, func() error) {
-	// Define your Cloud SQL instance connection details
-	projectID := "unique-machine-422214-b0"
-	region := "europe-west3"
-	instanceID := "poseidon-database"
-	databaseName := "poseidon"
-	user := "poseidon-backend@unique-machine-422214-b0.iam"
-
-	host := fmt.Sprintf("%s:%s:%s", projectID, region, instanceID)
-
-	cleanup, err := pgxv4.RegisterDriver("cloudsql-postgres", cloudsqlconn.WithIAMAuthN())
-	if err != nil {
-		log.Fatalf("Error on pgxv4.RegisterDriver: %v", err)
-	}
-
-	dsn := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable", host, user, databaseName)
-	db, err := sql.Open("cloudsql-postgres", dsn)
-	if err != nil {
-		log.Fatalf("Error on sql.Open: %v", err)
-	}
-
-	return db, cleanup
 }
 
 func respondWithJSON(w http.ResponseWriter, status int, payload interface{}) {
