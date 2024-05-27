@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -1101,6 +1102,77 @@ func deleteLike(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+//extrawünsche
+
+// @Summary Get a refill station by ID
+// @Description Get a refill station by its ID
+// @Tags refill_stations
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Refill Station ID"
+// @Success 200 {object} database.RefillStation
+// @Router /refill_stations/{id} [get]
+func getRefillStationById(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+	var station database.RefillStation
+	result := db.First(&station, id)
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+		return
+	}
+	respondWithJSON(c, http.StatusOK, station)
+}
+
+// @Summary Get the average review score for a refill station
+// @Description Get the average review score for a refill station by its ID
+// @Tags refill_station_reviews
+// @Accept  json
+// @Produce  json
+// @Param id query int true "Refill Station ID"
+// @Success 200 {number} float64
+// @Router /refill_station_review/average [get]
+func getRefillStationReview(c *gin.Context) {
+	idStr := c.Query("id")
+	if idStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
+		return
+	}
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
+	var reviews []database.RefillStationReview
+	result := db.Where("station_id = ?", id).Find(&reviews)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	if len(reviews) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No reviews found"})
+		return
+	}
+
+	var totalCleanness, totalAccessibility, totalWaterQuality float64
+	for _, review := range reviews {
+		totalCleanness += float64(review.Cleanness)
+		totalAccessibility += float64(review.Accessibility)
+		totalWaterQuality += float64(review.WaterQuality)
+	}
+
+	average := (totalCleanness + totalAccessibility + totalWaterQuality) / (float64(len(reviews)) * 3)
+	average = math.Round(average*10) / 10 // Round to 1 decimal place
+
+	c.JSON(http.StatusOK, gin.H{"average": average})
+}
+
 // @title Swagger Example API
 // @version 1.0
 // @description This is a sample server for a water station.
@@ -1167,6 +1239,9 @@ func main() {
 	r.POST("/likes", createLike)
 	r.PUT("/likes", updateLike)
 	r.DELETE("/likes", deleteLike)
+
+	r.GET("/refill_stations/:id", getRefillStationById)
+	r.GET("/refill_station_review/average", getRefillStationReview)
 
 	// Swagger UI endpoint
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
