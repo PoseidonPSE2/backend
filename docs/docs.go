@@ -375,6 +375,87 @@ const docTemplate = `{
                 }
             }
         },
+        "/contribution/community": {
+            "get": {
+                "description": "Get the total water amount and savings for the community",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contribution"
+                ],
+                "summary": "Get community contribution",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contribution/kl": {
+            "get": {
+                "description": "Get the number of smart and manual refill stations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contribution"
+                ],
+                "summary": "Get contribution by station type",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/contribution/user": {
+            "get": {
+                "description": "Get the total water amount and savings for a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contribution"
+                ],
+                "summary": "Get user contribution",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/likes": {
             "get": {
                 "description": "Get all likes",
@@ -726,6 +807,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/refill_station_review/average": {
+            "get": {
+                "description": "Get the average review score for a refill station by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Get the average review score for a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
         "/refill_station_reviews": {
             "get": {
                 "description": "Get all refill station reviews",
@@ -956,6 +1069,38 @@ const docTemplate = `{
                 "responses": {
                     "204": {
                         "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/refill_stations/{id}": {
+            "get": {
+                "description": "Get a refill station by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Get a refill station by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStation"
+                        }
                     }
                 }
             }
