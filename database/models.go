@@ -51,6 +51,7 @@ type NFCChip struct {
 	HardwareID        string             `gorm:"size:32;unique;not null"`
 	FillVolume        int                `gorm:"not null"`
 	WaterType         string             `gorm:"size:16;not null"`
+	Title             string             `gorm:"size:16;not null"`
 	PathImage         *string            `gorm:"size:255;default:null"`
 	Active            bool               `gorm:"default:true"`
 	WaterTransactions []WaterTransaction `gorm:"foreignKey:ChipID"`

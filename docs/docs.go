@@ -1539,6 +1539,9 @@ const docTemplate = `{
                 "pathImage": {
                     "type": "string"
                 },
+                "title": {
+                    "type": "string"
+                },
                 "userID": {
                     "type": "integer"
                 },
