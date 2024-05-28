@@ -1105,6 +1105,112 @@ const docTemplate = `{
                 }
             }
         },
+        "/refillstation_like": {
+            "get": {
+                "description": "Check if a specific user likes a specific refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Check if a user likes a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "refillstationId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.IsLikedResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a like for a specific refill station by a specific user if it doesn't already exist",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Create a like for a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "refillstationId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.Like"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "description": "Get all users",
@@ -1407,9 +1513,6 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "likes": {
-                    "type": "boolean"
-                },
                 "stationID": {
                     "type": "integer"
                 },
@@ -1637,6 +1740,22 @@ const docTemplate = `{
                 },
                 "waterType": {
                     "type": "string"
+                }
+            }
+        },
+        "main.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.IsLikedResponse": {
+            "type": "object",
+            "properties": {
+                "isLiked": {
+                    "type": "boolean"
                 }
             }
         }

@@ -43,8 +43,6 @@ definitions:
     properties:
       id:
         type: integer
-      likes:
-        type: boolean
       stationID:
         type: integer
       userID:
@@ -195,6 +193,16 @@ definitions:
         type: integer
       waterType:
         type: string
+    type: object
+  main.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  main.IsLikedResponse:
+    properties:
+      isLiked:
+        type: boolean
     type: object
 host: localhost:8080
 info:
@@ -922,6 +930,78 @@ paths:
       summary: Get a refill station by ID
       tags:
       - refill_stations
+  /refillstation_like:
+    get:
+      consumes:
+      - application/json
+      description: Check if a specific user likes a specific refill station
+      parameters:
+      - description: Refill Station ID
+        in: query
+        name: refillstationId
+        required: true
+        type: integer
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.IsLikedResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Check if a user likes a refill station
+      tags:
+      - likes
+    post:
+      consumes:
+      - application/json
+      description: Create a like for a specific refill station by a specific user
+        if it doesn't already exist
+      parameters:
+      - description: Refill Station ID
+        in: query
+        name: refillstationId
+        required: true
+        type: integer
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.Like'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Create a like for a refill station
+      tags:
+      - likes
   /users:
     delete:
       consumes:

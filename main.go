@@ -1173,6 +1173,116 @@ func getRefillStationReview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"average": average})
 }
 
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
+
+type IsLikedResponse struct {
+	IsLiked bool `json:"isLiked"`
+}
+
+// @Summary Check if a user likes a refill station
+// @Description Check if a specific user likes a specific refill station
+// @Tags likes
+// @Accept  json
+// @Produce  json
+// @Param refillstationId query int true "Refill Station ID"
+// @Param userId query int true "User ID"
+// @Success 200 {object} IsLikedResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /refillstation_like [get]
+func getRefillstationLike(c *gin.Context) {
+	refillstationIdStr := c.Query("refillstationId")
+	userIdStr := c.Query("userId")
+
+	if refillstationIdStr == "" || userIdStr == "" {
+		c.JSON(http.StatusBadRequest, ErrorResponse{"refillstationId and userId are required"})
+		return
+	}
+
+	refillstationId, err := strconv.Atoi(refillstationIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{"Invalid refillstationId"})
+		return
+	}
+
+	userId, err := strconv.Atoi(userIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{"Invalid userId"})
+		return
+	}
+
+	var like database.Like
+	result := db.Where("station_id = ? AND user_id = ?", refillstationId, userId).First(&like)
+	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{result.Error.Error()})
+		return
+	}
+
+	isLiked := result.RowsAffected > 0
+	respondWithJSON(c, http.StatusOK, IsLikedResponse{IsLiked: isLiked})
+}
+
+// @Summary Create a like for a refill station
+// @Description Create a like for a specific refill station by a specific user if it doesn't already exist
+// @Tags likes
+// @Accept  json
+// @Produce  json
+// @Param refillstationId query int true "Refill Station ID"
+// @Param userId query int true "User ID"
+// @Success 201 {object} database.Like
+// @Failure 400 {object} ErrorResponse
+// @Failure 409 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /refillstation_like [post]
+func postRefillstationLike(c *gin.Context) {
+	refillstationIdStr := c.Query("refillstationId")
+	userIdStr := c.Query("userId")
+
+	if refillstationIdStr == "" || userIdStr == "" {
+		c.JSON(http.StatusBadRequest, ErrorResponse{"refillstationId and userId are required"})
+		return
+	}
+
+	refillstationId, err := strconv.Atoi(refillstationIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{"Invalid refillstationId"})
+		return
+	}
+
+	userId, err := strconv.Atoi(userIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{"Invalid userId"})
+		return
+	}
+
+	var like database.Like
+	result := db.Where("station_id = ? AND user_id = ?", refillstationId, userId).First(&like)
+	if result.Error == nil {
+		c.JSON(http.StatusConflict, ErrorResponse{"Like already exists"})
+		return
+	}
+
+	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{result.Error.Error()})
+		return
+	}
+
+	newLike := database.Like{
+		StationID: uint(refillstationId),
+		UserID:    uint(userId),
+	}
+
+	result = db.Create(&newLike)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{result.Error.Error()})
+		return
+	}
+
+	respondWithJSON(c, http.StatusCreated, newLike)
+}
+
 func calculateSavings(volume int) (float64, float64) {
 	const moneyFactor = 0.50
 	const trashFactor = 0.10
@@ -1337,6 +1447,8 @@ func main() {
 
 	r.GET("/refill_stations/:id", getRefillStationById)
 	r.GET("/refill_station_review/average", getRefillStationReview)
+	r.GET("/refillstation_like", getRefillstationLike)
+	r.POST("/refillstation_like", postRefillstationLike)
 	r.GET("/contribution/user", getContributionByUser)
 	r.GET("/contribution/community", getContributionCommunity)
 	r.GET("/contribution/kl", getContributionKL)
