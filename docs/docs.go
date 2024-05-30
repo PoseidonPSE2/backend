@@ -24,6 +24,123 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/bottles": {
+            "get": {
+                "description": "Get all bottles",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Show all bottles",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Bottle"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Update a bottle",
+                "parameters": [
+                    {
+                        "description": "Bottle",
+                        "name": "bottle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Create a bottle",
+                "parameters": [
+                    {
+                        "description": "Bottle",
+                        "name": "bottle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Delete a bottle",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bottle ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/consumer_test_answers": {
             "get": {
                 "description": "Get all consumer test answers",
@@ -561,123 +678,6 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "Like ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
-        "/nfchips": {
-            "get": {
-                "description": "Get all NFC chips",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "nfchips"
-                ],
-                "summary": "Show all NFC chips",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.NFCChip"
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update an existing NFC chip",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "nfchips"
-                ],
-                "summary": "Update an NFC chip",
-                "parameters": [
-                    {
-                        "description": "NFC Chip",
-                        "name": "chip",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.NFCChip"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/database.NFCChip"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new NFC chip",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "nfchips"
-                ],
-                "summary": "Create an NFC chip",
-                "parameters": [
-                    {
-                        "description": "NFC Chip",
-                        "name": "chip",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.NFCChip"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/database.NFCChip"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete an existing NFC chip",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "nfchips"
-                ],
-                "summary": "Delete an NFC chip",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "NFC Chip ID",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -1447,6 +1447,41 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "database.Bottle": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "fillVolume": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nfcid": {
+                    "type": "string"
+                },
+                "pathImage": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "integer"
+                },
+                "waterTransactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/database.WaterTransaction"
+                    }
+                },
+                "waterType": {
+                    "type": "string"
+                }
+            }
+        },
         "database.ConsumerTest": {
             "type": "object",
             "properties": {
@@ -1518,41 +1553,6 @@ const docTemplate = `{
                 },
                 "userID": {
                     "type": "integer"
-                }
-            }
-        },
-        "database.NFCChip": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "fillVolume": {
-                    "type": "integer"
-                },
-                "hardwareID": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "pathImage": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "userID": {
-                    "type": "integer"
-                },
-                "waterTransactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/database.WaterTransaction"
-                    }
-                },
-                "waterType": {
-                    "type": "string"
                 }
             }
         },
@@ -1685,6 +1685,12 @@ const docTemplate = `{
                         "$ref": "#/definitions/database.ConsumerTestAnswer"
                     }
                 },
+                "bottles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/database.Bottle"
+                    }
+                },
                 "email": {
                     "type": "string"
                 },
@@ -1703,12 +1709,6 @@ const docTemplate = `{
                         "$ref": "#/definitions/database.Like"
                     }
                 },
-                "nfcchips": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/database.NFCChip"
-                    }
-                },
                 "reviews": {
                     "type": "array",
                     "items": {
@@ -1720,7 +1720,7 @@ const docTemplate = `{
         "database.WaterTransaction": {
             "type": "object",
             "properties": {
-                "chipID": {
+                "bottleID": {
                     "type": "integer"
                 },
                 "guest": {
