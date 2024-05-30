@@ -1691,6 +1691,42 @@ func getContributionKL(c *gin.Context) {
 	respondWithJSON(c, http.StatusOK, response)
 }
 
+// RefillStationMarkerResponse represents a refill station marker in the response
+type RefillStationMarkerResponse struct {
+	ID        uint    `json:"id"`
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+	Status    bool    `json:"status"`
+}
+
+// @Summary Get all refill station markers
+// @Description Get all refill station markers with specific attributes
+// @Tags refill_stations
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} RefillStationMarkerResponse
+// @Router /refill_stations/markers [get]
+func getAllRefillstationMarker(c *gin.Context) {
+	var stations []database.RefillStation
+	result := db.Select("id, longitude, latitude, active").Find(&stations)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	var markers []RefillStationMarkerResponse
+	for _, station := range stations {
+		markers = append(markers, RefillStationMarkerResponse{
+			ID:        station.ID,
+			Longitude: station.Longitude,
+			Latitude:  station.Latitude,
+			Status:    station.Active,
+		})
+	}
+
+	respondWithJSON(c, http.StatusOK, markers)
+}
+
 // @title Swagger Example API
 // @version 1.0
 // @description This is a sample server for a water station.
@@ -1765,6 +1801,7 @@ func main() {
 	r.GET("/contribution/user", getContributionByUser)
 	r.GET("/contribution/community", getContributionCommunity)
 	r.GET("/contribution/kl", getContributionKL)
+	r.GET("/refill_stations/markers", getAllRefillstationMarker)
 
 	// Swagger UI endpoint
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

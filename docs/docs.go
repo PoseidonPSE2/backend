@@ -1070,6 +1070,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/refill_stations/markers": {
+            "get": {
+                "description": "Get all refill station markers with specific attributes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Get all refill station markers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.RefillStationMarkerResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/refill_stations/{id}": {
             "get": {
                 "description": "Get a refill station by its ID",
@@ -1839,6 +1865,23 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "main.RefillStationMarkerResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "status": {
+                    "type": "boolean"
                 }
             }
         },

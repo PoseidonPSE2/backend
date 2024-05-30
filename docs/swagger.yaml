@@ -258,6 +258,17 @@ definitions:
       user_id:
         type: integer
     type: object
+  main.RefillStationMarkerResponse:
+    properties:
+      id:
+        type: integer
+      latitude:
+        type: number
+      longitude:
+        type: number
+      status:
+        type: boolean
+    type: object
   main.RefillStationProblemResponse:
     properties:
       description:
@@ -1226,6 +1237,23 @@ paths:
           schema:
             $ref: '#/definitions/main.RefillStationResponse'
       summary: Get a refill station by ID
+      tags:
+      - refill_stations
+  /refill_stations/markers:
+    get:
+      consumes:
+      - application/json
+      description: Get all refill station markers with specific attributes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.RefillStationMarkerResponse'
+            type: array
+      summary: Get all refill station markers
       tags:
       - refill_stations
   /refillstation_like:
