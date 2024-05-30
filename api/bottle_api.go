@@ -20,6 +20,13 @@ type BottleResponse struct {
 	Active     bool    `json:"active"`
 }
 
+type BottlePreferences struct {
+	ID         uint   `json:"id"`
+	UserID     uint   `json:"user_id"`
+	FillVolume int    `json:"fill_volume"`
+	WaterType  string `json:"water_type"`
+}
+
 // CreateBottleRequest represents a request to create a bottle
 type CreateBottleRequest struct {
 	UserID     uint    `json:"user_id"`
@@ -74,6 +81,26 @@ func GetBottles(c *gin.Context) {
 		}
 		respondWithJSON(c, http.StatusOK, bottle)
 	}
+}
+
+// @Summary Get bottle preferences by the NFC ID
+// @Description Get bottle preferences by the NFC ID
+// @Tags bottles
+// @Accept json
+// @Produce json
+// @Param nfc_id path string true "NFC ID"
+// @Success 200 {object} BottlePreferences
+// @Router /bottles/preferences/{nfc-id} [get]
+func GetBottlePreferencesByNFCId(c *gin.Context) {
+	idStr := c.Param("id")
+	var result BottlePreferences
+
+	if err := db.Model(&database.Bottle{}).Where("nfc_id = ?", idStr).First(&result).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Row not found for NFC ID"})
+		return
+	}
+
+	respondWithJSON(c, http.StatusOK, result)
 }
 
 // @Summary Create a bottle
