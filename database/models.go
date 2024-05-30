@@ -66,7 +66,6 @@ type RefillStation struct {
 	Latitude          float64                `gorm:"not null"`
 	Longitude         float64                `gorm:"not null"`
 	Address           string                 `gorm:"size:255;not null"`
-	LikeCounter       int                    `gorm:"default:0"`
 	WaterSource       string                 `gorm:"size:50;not null"`
 	OpeningTimes      string                 `gorm:"size:100;not null"`
 	Active            bool                   `gorm:"default:true"`
@@ -159,7 +158,7 @@ func (bottle *Bottle) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (station *RefillStation) BeforeCreate(tx *gorm.DB) (err error) {
 	allowedTypes := []string{"Manual", "Smart"}
-	allowedWaterTypes := []string{"Mineral", "Tap"}
+	allowedWaterTypes := []string{"Mineral", "Tap", "Mineral, Tap"}
 
 	if !contains(allowedTypes, station.Type) {
 		return fmt.Errorf("invalid station type: %s", station.Type)
