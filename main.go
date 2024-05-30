@@ -54,12 +54,20 @@ func respondWithJSON(c *gin.Context, status int, payload interface{}) {
 	c.Data(status, "application/json", response)
 }
 
+// UserResponse represents a user in the response
+type UserResponse struct {
+	ID        uint    `json:"id"`
+	FirstName string  `json:"first_name"`
+	LastName  string  `json:"last_name"`
+	Email     *string `json:"email"`
+}
+
 // @Summary Show all users
 // @Description Get all users
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.User
+// @Success 200 {array} UserResponse
 // @Router /users [get]
 func getUsers(c *gin.Context) {
 	idStr := c.Query("id")
@@ -87,13 +95,20 @@ func getUsers(c *gin.Context) {
 	}
 }
 
+// CreateUserRequest represents a request to create a user
+type CreateUserRequest struct {
+	FirstName string  `json:"first_name"`
+	LastName  string  `json:"last_name"`
+	Email     *string `json:"email"`
+}
+
 // @Summary Create a user
 // @Description Create a new user
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param user body database.User true "User"
-// @Success 201 {object} database.User
+// @Param user body CreateUserRequest true "User"
+// @Success 201 {object} UserResponse
 // @Router /users [post]
 func createUser(c *gin.Context) {
 	var user database.User
@@ -109,13 +124,21 @@ func createUser(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, user)
 }
 
+// UpdateUserRequest represents a request to update a user
+type UpdateUserRequest struct {
+	ID        uint    `json:"id"`
+	FirstName string  `json:"first_name"`
+	LastName  string  `json:"last_name"`
+	Email     *string `json:"email"`
+}
+
 // @Summary Update a user
 // @Description Update an existing user
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param user body database.User true "User"
-// @Success 200 {object} database.User
+// @Param user body UpdateUserRequest true "User"
+// @Success 200 {object} UserResponse
 // @Router /users [put]
 func updateUser(c *gin.Context) {
 	var user database.User
@@ -158,12 +181,24 @@ func deleteUser(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// BottleResponse represents a bottle in the response
+type BottleResponse struct {
+	ID         uint    `json:"id"`
+	UserID     uint    `json:"user_id"`
+	NFCID      string  `json:"nfc_id"`
+	FillVolume int     `json:"fill_volume"`
+	WaterType  string  `json:"water_type"`
+	Title      string  `json:"title"`
+	PathImage  *string `json:"path_image"`
+	Active     bool    `json:"active"`
+}
+
 // @Summary Show all bottles
 // @Description Get all bottles
 // @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.Bottle
+// @Success 200 {array} BottleResponse
 // @Router /bottles [get]
 func getBottles(c *gin.Context) {
 	idStr := c.Query("id")
@@ -191,13 +226,24 @@ func getBottles(c *gin.Context) {
 	}
 }
 
+// CreateBottleRequest represents a request to create a bottle
+type CreateBottleRequest struct {
+	UserID     uint    `json:"user_id"`
+	NFCID      string  `json:"nfc_id"`
+	FillVolume int     `json:"fill_volume"`
+	WaterType  string  `json:"water_type"`
+	Title      string  `json:"title"`
+	PathImage  *string `json:"path_image"`
+	Active     bool    `json:"active"`
+}
+
 // @Summary Create a bottle
 // @Description Create a new bottle
 // @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Param bottle body database.Bottle true "Bottle"
-// @Success 201 {object} database.Bottle
+// @Param bottle body CreateBottleRequest true "Bottle"
+// @Success 201 {object} BottleResponse
 // @Router /bottles [post]
 func createBottle(c *gin.Context) {
 	var bottle database.Bottle
@@ -213,13 +259,25 @@ func createBottle(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, bottle)
 }
 
+// UpdateBottleRequest represents a request to update a bottle
+type UpdateBottleRequest struct {
+	ID         uint    `json:"id"`
+	UserID     uint    `json:"user_id"`
+	NFCID      string  `json:"nfc_id"`
+	FillVolume int     `json:"fill_volume"`
+	WaterType  string  `json:"water_type"`
+	Title      string  `json:"title"`
+	PathImage  *string `json:"path_image"`
+	Active     bool    `json:"active"`
+}
+
 // @Summary Update a bottle
 // @Description Update an existing bottle
 // @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Param bottle body database.Bottle true "Bottle"
-// @Success 200 {object} database.Bottle
+// @Param bottle body UpdateBottleRequest true "Bottle"
+// @Success 200 {object} BottleResponse
 // @Router /bottles [put]
 func updateBottle(c *gin.Context) {
 	var bottle database.Bottle
@@ -262,12 +320,17 @@ func deleteBottle(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// ConsumerTestResponse represents a consumer test in the response
+type ConsumerTestResponse struct {
+	ID uint `json:"id"`
+}
+
 // @Summary Show all consumer tests
 // @Description Get all consumer tests
 // @Tags consumer_tests
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.ConsumerTest
+// @Success 200 {array} ConsumerTestResponse
 // @Router /consumer_tests [get]
 func getConsumerTests(c *gin.Context) {
 	idStr := c.Query("id")
@@ -295,13 +358,18 @@ func getConsumerTests(c *gin.Context) {
 	}
 }
 
+// CreateConsumerTestRequest represents a request to create a consumer test
+type CreateConsumerTestRequest struct {
+	Questions []database.ConsumerTestQuestion `json:"questions"`
+}
+
 // @Summary Create a consumer test
 // @Description Create a new consumer test
 // @Tags consumer_tests
 // @Accept  json
 // @Produce  json
-// @Param test body database.ConsumerTest true "Consumer Test"
-// @Success 201 {object} database.ConsumerTest
+// @Param test body CreateConsumerTestRequest true "Consumer Test"
+// @Success 201 {object} ConsumerTestResponse
 // @Router /consumer_tests [post]
 func createConsumerTest(c *gin.Context) {
 	var test database.ConsumerTest
@@ -317,13 +385,19 @@ func createConsumerTest(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, test)
 }
 
+// UpdateConsumerTestRequest represents a request to update a consumer test
+type UpdateConsumerTestRequest struct {
+	ID        uint                            `json:"id"`
+	Questions []database.ConsumerTestQuestion `json:"questions"`
+}
+
 // @Summary Update a consumer test
 // @Description Update an existing consumer test
 // @Tags consumer_tests
 // @Accept  json
 // @Produce  json
-// @Param test body database.ConsumerTest true "Consumer Test"
-// @Success 200 {object} database.ConsumerTest
+// @Param test body UpdateConsumerTestRequest true "Consumer Test"
+// @Success 200 {object} ConsumerTestResponse
 // @Router /consumer_tests [put]
 func updateConsumerTest(c *gin.Context) {
 	var test database.ConsumerTest
@@ -366,12 +440,21 @@ func deleteConsumerTest(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// ConsumerTestQuestionResponse represents a consumer test question in the response
+type ConsumerTestQuestionResponse struct {
+	ID       uint     `json:"id"`
+	Text     string   `json:"text"`
+	MinValue *float32 `json:"min_value"`
+	MaxValue *float32 `json:"max_value"`
+	TestID   uint     `json:"test_id"`
+}
+
 // @Summary Show all consumer test questions
 // @Description Get all consumer test questions
 // @Tags consumer_test_questions
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.ConsumerTestQuestion
+// @Success 200 {array} ConsumerTestQuestionResponse
 // @Router /consumer_test_questions [get]
 func getConsumerTestQuestions(c *gin.Context) {
 	idStr := c.Query("id")
@@ -399,13 +482,21 @@ func getConsumerTestQuestions(c *gin.Context) {
 	}
 }
 
+// CreateConsumerTestQuestionRequest represents a request to create a consumer test question
+type CreateConsumerTestQuestionRequest struct {
+	Text     string   `json:"text"`
+	MinValue *float32 `json:"min_value"`
+	MaxValue *float32 `json:"max_value"`
+	TestID   uint     `json:"test_id"`
+}
+
 // @Summary Create a consumer test question
 // @Description Create a new consumer test question
 // @Tags consumer_test_questions
 // @Accept  json
 // @Produce  json
-// @Param question body database.ConsumerTestQuestion true "Consumer Test Question"
-// @Success 201 {object} database.ConsumerTestQuestion
+// @Param question body CreateConsumerTestQuestionRequest true "Consumer Test Question"
+// @Success 201 {object} ConsumerTestQuestionResponse
 // @Router /consumer_test_questions [post]
 func createConsumerTestQuestion(c *gin.Context) {
 	var question database.ConsumerTestQuestion
@@ -421,13 +512,22 @@ func createConsumerTestQuestion(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, question)
 }
 
+// UpdateConsumerTestQuestionRequest represents a request to update a consumer test question
+type UpdateConsumerTestQuestionRequest struct {
+	ID       uint     `json:"id"`
+	Text     string   `json:"text"`
+	MinValue *float32 `json:"min_value"`
+	MaxValue *float32 `json:"max_value"`
+	TestID   uint     `json:"test_id"`
+}
+
 // @Summary Update a consumer test question
 // @Description Update an existing consumer test question
 // @Tags consumer_test_questions
 // @Accept  json
 // @Produce  json
-// @Param question body database.ConsumerTestQuestion true "Consumer Test Question"
-// @Success 200 {object} database.ConsumerTestQuestion
+// @Param question body UpdateConsumerTestQuestionRequest true "Consumer Test Question"
+// @Success 200 {object} ConsumerTestQuestionResponse
 // @Router /consumer_test_questions [put]
 func updateConsumerTestQuestion(c *gin.Context) {
 	var question database.ConsumerTestQuestion
@@ -470,12 +570,21 @@ func deleteConsumerTestQuestion(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// ConsumerTestAnswerResponse represents a consumer test answer in the response
+type ConsumerTestAnswerResponse struct {
+	ID         uint      `json:"id"`
+	UserID     uint      `json:"user_id"`
+	QuestionID uint      `json:"question_id"`
+	Answer     float32   `json:"answer"`
+	Timestamp  time.Time `json:"timestamp"`
+}
+
 // @Summary Show all consumer test answers
 // @Description Get all consumer test answers
 // @Tags consumer_test_answers
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.ConsumerTestAnswer
+// @Success 200 {array} ConsumerTestAnswerResponse
 // @Router /consumer_test_answers [get]
 func getConsumerTestAnswers(c *gin.Context) {
 	idStr := c.Query("id")
@@ -503,13 +612,20 @@ func getConsumerTestAnswers(c *gin.Context) {
 	}
 }
 
+// CreateConsumerTestAnswerRequest represents a request to create a consumer test answer
+type CreateConsumerTestAnswerRequest struct {
+	UserID     uint    `json:"user_id"`
+	QuestionID uint    `json:"question_id"`
+	Answer     float32 `json:"answer"`
+}
+
 // @Summary Create a consumer test answer
 // @Description Create a new consumer test answer
 // @Tags consumer_test_answers
 // @Accept  json
 // @Produce  json
-// @Param answer body database.ConsumerTestAnswer true "Consumer Test Answer"
-// @Success 201 {object} database.ConsumerTestAnswer
+// @Param answer body CreateConsumerTestAnswerRequest true "Consumer Test Answer"
+// @Success 201 {object} ConsumerTestAnswerResponse
 // @Router /consumer_test_answers [post]
 func createConsumerTestAnswer(c *gin.Context) {
 	var answer database.ConsumerTestAnswer
@@ -526,13 +642,21 @@ func createConsumerTestAnswer(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, answer)
 }
 
+// UpdateConsumerTestAnswerRequest represents a request to update a consumer test answer
+type UpdateConsumerTestAnswerRequest struct {
+	ID         uint    `json:"id"`
+	UserID     uint    `json:"user_id"`
+	QuestionID uint    `json:"question_id"`
+	Answer     float32 `json:"answer"`
+}
+
 // @Summary Update a consumer test answer
 // @Description Update an existing consumer test answer
 // @Tags consumer_test_answers
 // @Accept  json
 // @Produce  json
-// @Param answer body database.ConsumerTestAnswer true "Consumer Test Answer"
-// @Success 200 {object} database.ConsumerTestAnswer
+// @Param answer body UpdateConsumerTestAnswerRequest true "Consumer Test Answer"
+// @Success 200 {object} ConsumerTestAnswerResponse
 // @Router /consumer_test_answers [put]
 func updateConsumerTestAnswer(c *gin.Context) {
 	var answer database.ConsumerTestAnswer
@@ -576,12 +700,29 @@ func deleteConsumerTestAnswer(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// RefillStationResponse represents a refill station in the response
+type RefillStationResponse struct {
+	ID                uint    `json:"id"`
+	Name              string  `json:"name"`
+	Description       string  `json:"description"`
+	Latitude          float64 `json:"latitude"`
+	Longitude         float64 `json:"longitude"`
+	Address           string  `json:"address"`
+	LikeCounter       int     `json:"like_counter"`
+	WaterSource       string  `json:"water_source"`
+	OpeningTimes      string  `json:"opening_times"`
+	Active            bool    `json:"active"`
+	Type              string  `json:"type"`
+	OfferedWaterTypes string  `json:"offered_water_types"`
+	ImagePath         *string `json:"image_path"`
+}
+
 // @Summary Show all refill stations
 // @Description Get all refill stations
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.RefillStation
+// @Success 200 {array} RefillStationResponse
 // @Router /refill_stations [get]
 func getRefillStations(c *gin.Context) {
 	idStr := c.Query("id")
@@ -609,13 +750,29 @@ func getRefillStations(c *gin.Context) {
 	}
 }
 
+// CreateRefillStationRequest represents a request to create a refill station
+type CreateRefillStationRequest struct {
+	Name              string  `json:"name"`
+	Description       string  `json:"description"`
+	Latitude          float64 `json:"latitude"`
+	Longitude         float64 `json:"longitude"`
+	Address           string  `json:"address"`
+	LikeCounter       int     `json:"like_counter"`
+	WaterSource       string  `json:"water_source"`
+	OpeningTimes      string  `json:"opening_times"`
+	Active            bool    `json:"active"`
+	Type              string  `json:"type"`
+	OfferedWaterTypes string  `json:"offered_water_types"`
+	ImagePath         *string `json:"image_path"`
+}
+
 // @Summary Create a refill station
 // @Description Create a new refill station
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Param station body database.RefillStation true "Refill Station"
-// @Success 201 {object} database.RefillStation
+// @Param station body CreateRefillStationRequest true "Refill Station"
+// @Success 201 {object} RefillStationResponse
 // @Router /refill_stations [post]
 func createRefillStation(c *gin.Context) {
 	var station database.RefillStation
@@ -631,13 +788,30 @@ func createRefillStation(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, station)
 }
 
+// UpdateRefillStationRequest represents a request to update a refill station
+type UpdateRefillStationRequest struct {
+	ID                uint    `json:"id"`
+	Name              string  `json:"name"`
+	Description       string  `json:"description"`
+	Latitude          float64 `json:"latitude"`
+	Longitude         float64 `json:"longitude"`
+	Address           string  `json:"address"`
+	LikeCounter       int     `json:"like_counter"`
+	WaterSource       string  `json:"water_source"`
+	OpeningTimes      string  `json:"opening_times"`
+	Active            bool    `json:"active"`
+	Type              string  `json:"type"`
+	OfferedWaterTypes string  `json:"offered_water_types"`
+	ImagePath         *string `json:"image_path"`
+}
+
 // @Summary Update a refill station
 // @Description Update an existing refill station
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Param station body database.RefillStation true "Refill Station"
-// @Success 200 {object} database.RefillStation
+// @Param station body UpdateRefillStationRequest true "Refill Station"
+// @Success 200 {object} RefillStationResponse
 // @Router /refill_stations [put]
 func updateRefillStation(c *gin.Context) {
 	var station database.RefillStation
@@ -680,12 +854,23 @@ func deleteRefillStation(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// RefillStationReviewResponse represents a refill station review in the response
+type RefillStationReviewResponse struct {
+	ID            uint      `json:"id"`
+	StationID     uint      `json:"station_id"`
+	UserID        uint      `json:"user_id"`
+	Cleanness     int       `json:"cleanness"`
+	Accessibility int       `json:"accessibility"`
+	WaterQuality  int       `json:"water_quality"`
+	Timestamp     time.Time `json:"timestamp"`
+}
+
 // @Summary Show all refill station reviews
 // @Description Get all refill station reviews
 // @Tags refill_station_reviews
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.RefillStationReview
+// @Success 200 {array} RefillStationReviewResponse
 // @Router /refill_station_reviews [get]
 func getRefillStationReviews(c *gin.Context) {
 	idStr := c.Query("id")
@@ -713,13 +898,22 @@ func getRefillStationReviews(c *gin.Context) {
 	}
 }
 
+// CreateRefillStationReviewRequest represents a request to create a refill station review
+type CreateRefillStationReviewRequest struct {
+	StationID     uint `json:"station_id"`
+	UserID        uint `json:"user_id"`
+	Cleanness     int  `json:"cleanness"`
+	Accessibility int  `json:"accessibility"`
+	WaterQuality  int  `json:"water_quality"`
+}
+
 // @Summary Create a refill station review
 // @Description Create a new refill station review
 // @Tags refill_station_reviews
 // @Accept  json
 // @Produce  json
-// @Param review body database.RefillStationReview true "Refill Station Review"
-// @Success 201 {object} database.RefillStationReview
+// @Param review body CreateRefillStationReviewRequest true "Refill Station Review"
+// @Success 201 {object} RefillStationReviewResponse
 // @Router /refill_station_reviews [post]
 func createRefillStationReview(c *gin.Context) {
 	var review database.RefillStationReview
@@ -736,13 +930,24 @@ func createRefillStationReview(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, review)
 }
 
+// UpdateRefillStationReviewRequest represents a request to update a refill station review
+type UpdateRefillStationReviewRequest struct {
+	ID            uint      `json:"id"`
+	StationID     uint      `json:"station_id"`
+	UserID        uint      `json:"user_id"`
+	Cleanness     int       `json:"cleanness"`
+	Accessibility int       `json:"accessibility"`
+	WaterQuality  int       `json:"water_quality"`
+	Timestamp     time.Time `json:"timestamp"`
+}
+
 // @Summary Update a refill station review
 // @Description Update an existing refill station review
 // @Tags refill_station_reviews
 // @Accept  json
 // @Produce  json
-// @Param review body database.RefillStationReview true "Refill Station Review"
-// @Success 200 {object} database.RefillStationReview
+// @Param review body UpdateRefillStationReviewRequest true "Refill Station Review"
+// @Success 200 {object} RefillStationReviewResponse
 // @Router /refill_station_reviews [put]
 func updateRefillStationReview(c *gin.Context) {
 	var review database.RefillStationReview
@@ -786,12 +991,23 @@ func deleteRefillStationReview(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// RefillStationProblemResponse represents a refill station problem in the response
+type RefillStationProblemResponse struct {
+	ID          uint      `json:"id"`
+	StationID   uint      `json:"station_id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Status      string    `json:"status"`
+	LinkToMedia *string   `json:"link_to_media"`
+	Timestamp   time.Time `json:"timestamp"`
+}
+
 // @Summary Show all refill station problems
 // @Description Get all refill station problems
 // @Tags refill_station_problems
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.RefillStationProblem
+// @Success 200 {array} RefillStationProblemResponse
 // @Router /refill_station_problems [get]
 func getRefillStationProblems(c *gin.Context) {
 	idStr := c.Query("id")
@@ -819,13 +1035,22 @@ func getRefillStationProblems(c *gin.Context) {
 	}
 }
 
+// CreateRefillStationProblemRequest represents a request to create a refill station problem
+type CreateRefillStationProblemRequest struct {
+	StationID   uint    `json:"station_id"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Status      string  `json:"status"`
+	LinkToMedia *string `json:"link_to_media"`
+}
+
 // @Summary Create a refill station problem
 // @Description Create a new refill station problem
 // @Tags refill_station_problems
 // @Accept  json
 // @Produce  json
-// @Param problem body database.RefillStationProblem true "Refill Station Problem"
-// @Success 201 {object} database.RefillStationProblem
+// @Param problem body CreateRefillStationProblemRequest true "Refill Station Problem"
+// @Success 201 {object} RefillStationProblemResponse
 // @Router /refill_station_problems [post]
 func createRefillStationProblem(c *gin.Context) {
 	var problem database.RefillStationProblem
@@ -842,13 +1067,24 @@ func createRefillStationProblem(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, problem)
 }
 
+// UpdateRefillStationProblemRequest represents a request to update a refill station problem
+type UpdateRefillStationProblemRequest struct {
+	ID          uint      `json:"id"`
+	StationID   uint      `json:"station_id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Status      string    `json:"status"`
+	LinkToMedia *string   `json:"link_to_media"`
+	Timestamp   time.Time `json:"timestamp"`
+}
+
 // @Summary Update a refill station problem
 // @Description Update an existing refill station problem
 // @Tags refill_station_problems
 // @Accept  json
 // @Produce  json
-// @Param problem body database.RefillStationProblem true "Refill Station Problem"
-// @Success 200 {object} database.RefillStationProblem
+// @Param problem body UpdateRefillStationProblemRequest true "Refill Station Problem"
+// @Success 200 {object} RefillStationProblemResponse
 // @Router /refill_station_problems [put]
 func updateRefillStationProblem(c *gin.Context) {
 	var problem database.RefillStationProblem
@@ -892,12 +1128,24 @@ func deleteRefillStationProblem(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// WaterTransactionResponse represents a water transaction in the response
+type WaterTransactionResponse struct {
+	ID        uint      `json:"id"`
+	StationID uint      `json:"station_id"`
+	BottleID  *uint     `json:"bottle_id"`
+	UserID    *uint     `json:"user_id"`
+	Volume    int       `json:"volume"`
+	WaterType string    `json:"water_type"`
+	Timestamp time.Time `json:"timestamp"`
+	Guest     bool      `json:"guest"`
+}
+
 // @Summary Show all water transactions
 // @Description Get all water transactions
 // @Tags water_transactions
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.WaterTransaction
+// @Success 200 {array} WaterTransactionResponse
 // @Router /water_transactions [get]
 func getWaterTransactions(c *gin.Context) {
 	idStr := c.Query("id")
@@ -925,13 +1173,23 @@ func getWaterTransactions(c *gin.Context) {
 	}
 }
 
+// CreateWaterTransactionRequest represents a request to create a water transaction
+type CreateWaterTransactionRequest struct {
+	StationID uint   `json:"station_id"`
+	BottleID  *uint  `json:"bottle_id"`
+	UserID    *uint  `json:"user_id"`
+	Volume    int    `json:"volume"`
+	WaterType string `json:"water_type"`
+	Guest     bool   `json:"guest"`
+}
+
 // @Summary Create a water transaction
 // @Description Create a new water transaction
 // @Tags water_transactions
 // @Accept  json
 // @Produce  json
-// @Param transaction body database.WaterTransaction true "Water Transaction"
-// @Success 201 {object} database.WaterTransaction
+// @Param transaction body CreateWaterTransactionRequest true "Water Transaction"
+// @Success 201 {object} WaterTransactionResponse
 // @Router /water_transactions [post]
 func createWaterTransaction(c *gin.Context) {
 	var transaction database.WaterTransaction
@@ -948,13 +1206,25 @@ func createWaterTransaction(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, transaction)
 }
 
+// UpdateWaterTransactionRequest represents a request to update a water transaction
+type UpdateWaterTransactionRequest struct {
+	ID        uint      `json:"id"`
+	StationID uint      `json:"station_id"`
+	BottleID  *uint     `json:"bottle_id"`
+	UserID    *uint     `json:"user_id"`
+	Volume    int       `json:"volume"`
+	WaterType string    `json:"water_type"`
+	Timestamp time.Time `json:"timestamp"`
+	Guest     bool      `json:"guest"`
+}
+
 // @Summary Update a water transaction
 // @Description Update an existing water transaction
 // @Tags water_transactions
 // @Accept  json
 // @Produce  json
-// @Param transaction body database.WaterTransaction true "Water Transaction"
-// @Success 200 {object} database.WaterTransaction
+// @Param transaction body UpdateWaterTransactionRequest true "Water Transaction"
+// @Success 200 {object} WaterTransactionResponse
 // @Router /water_transactions [put]
 func updateWaterTransaction(c *gin.Context) {
 	var transaction database.WaterTransaction
@@ -998,12 +1268,19 @@ func deleteWaterTransaction(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+// LikeResponse represents a like in the response
+type LikeResponse struct {
+	ID        uint `json:"id"`
+	StationID uint `json:"station_id"`
+	UserID    uint `json:"user_id"`
+}
+
 // @Summary Show all likes
 // @Description Get all likes
 // @Tags likes
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.Like
+// @Success 200 {array} LikeResponse
 // @Router /likes [get]
 func getLikes(c *gin.Context) {
 	idStr := c.Query("id")
@@ -1031,13 +1308,19 @@ func getLikes(c *gin.Context) {
 	}
 }
 
+// CreateLikeRequest represents a request to create a like
+type CreateLikeRequest struct {
+	StationID uint `json:"station_id"`
+	UserID    uint `json:"user_id"`
+}
+
 // @Summary Create a like
 // @Description Create a new like
 // @Tags likes
 // @Accept  json
 // @Produce  json
-// @Param like body database.Like true "Like"
-// @Success 201 {object} database.Like
+// @Param like body CreateLikeRequest true "Like"
+// @Success 201 {object} LikeResponse
 // @Router /likes [post]
 func createLike(c *gin.Context) {
 	var like database.Like
@@ -1053,13 +1336,20 @@ func createLike(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, like)
 }
 
+// UpdateLikeRequest represents a request to update a like
+type UpdateLikeRequest struct {
+	ID        uint `json:"id"`
+	StationID uint `json:"station_id"`
+	UserID    uint `json:"user_id"`
+}
+
 // @Summary Update a like
 // @Description Update an existing like
 // @Tags likes
 // @Accept  json
 // @Produce  json
-// @Param like body database.Like true "Like"
-// @Success 200 {object} database.Like
+// @Param like body UpdateLikeRequest true "Like"
+// @Success 200 {object} LikeResponse
 // @Router /likes [put]
 func updateLike(c *gin.Context) {
 	var like database.Like
@@ -1102,15 +1392,13 @@ func deleteLike(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-//extrawünsche
-
 // @Summary Get a refill station by ID
 // @Description Get a refill station by its ID
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
 // @Param id path int true "Refill Station ID"
-// @Success 200 {object} database.RefillStation
+// @Success 200 {object} RefillStationResponse
 // @Router /refill_stations/{id} [get]
 func getRefillStationById(c *gin.Context) {
 	idStr := c.Param("id")
@@ -1173,10 +1461,12 @@ func getRefillStationReview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"average": average})
 }
 
+// ErrorResponse represents an error response
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
+// IsLikedResponse represents a response indicating if a user likes a refill station
 type IsLikedResponse struct {
 	IsLiked bool `json:"isLiked"`
 }
@@ -1231,7 +1521,7 @@ func getRefillstationLike(c *gin.Context) {
 // @Produce  json
 // @Param refillstationId query int true "Refill Station ID"
 // @Param userId query int true "User ID"
-// @Success 201 {object} database.Like
+// @Success 201 {object} LikeResponse
 // @Failure 400 {object} ErrorResponse
 // @Failure 409 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -1283,6 +1573,14 @@ func postRefillstationLike(c *gin.Context) {
 	respondWithJSON(c, http.StatusCreated, newLike)
 }
 
+// ContributionUserResponse represents the user contribution response
+type ContributionUserResponse struct {
+	AmountFillings int64   `json:"amountFillings"`
+	AmountWater    int64   `json:"amountWater"`
+	SavedMoney     float64 `json:"savedMoney"`
+	SavedTrash     float64 `json:"savedTrash"`
+}
+
 func calculateSavings(volume int) (float64, float64) {
 	const moneyFactor = 0.50
 	const trashFactor = 0.10
@@ -1299,7 +1597,7 @@ func calculateSavings(volume int) (float64, float64) {
 // @Accept  json
 // @Produce  json
 // @Param userId query int true "User ID"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ContributionUserResponse
 // @Router /contribution/user [get]
 func getContributionByUser(c *gin.Context) {
 	userIdStr := c.Query("userId")
@@ -1317,14 +1615,23 @@ func getContributionByUser(c *gin.Context) {
 
 	savedMoney, savedTrash := calculateSavings(int(totalVolume))
 
-	response := map[string]interface{}{
-		"amountFillings": totalFillings,
-		"amountWater":    totalVolume,
-		"savedMoney":     savedMoney,
-		"savedTrash":     savedTrash,
+	response := ContributionUserResponse{
+		AmountFillings: totalFillings,
+		AmountWater:    totalVolume,
+		SavedMoney:     savedMoney,
+		SavedTrash:     savedTrash,
 	}
 
 	respondWithJSON(c, http.StatusOK, response)
+}
+
+// ContributionCommunityResponse represents the community contribution response
+type ContributionCommunityResponse struct {
+	AmountFillings int64   `json:"amountFillings"`
+	AmountWater    int64   `json:"amountWater"`
+	SavedMoney     float64 `json:"savedMoney"`
+	SavedTrash     float64 `json:"savedTrash"`
+	AmountUser     int64   `json:"amountUser"`
 }
 
 // @Summary Get community contribution
@@ -1332,7 +1639,7 @@ func getContributionByUser(c *gin.Context) {
 // @Tags contribution
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ContributionCommunityResponse
 // @Router /contribution/community [get]
 func getContributionCommunity(c *gin.Context) {
 	var totalVolume int64
@@ -1345,15 +1652,21 @@ func getContributionCommunity(c *gin.Context) {
 
 	savedMoney, savedTrash := calculateSavings(int(totalVolume))
 
-	response := map[string]interface{}{
-		"amountFillings": totalFillings,
-		"amountWater":    totalVolume,
-		"savedMoney":     savedMoney,
-		"savedTrash":     savedTrash,
-		"amountUser":     totalUsers,
+	response := ContributionCommunityResponse{
+		AmountFillings: totalFillings,
+		AmountWater:    totalVolume,
+		SavedMoney:     savedMoney,
+		SavedTrash:     savedTrash,
+		AmountUser:     totalUsers,
 	}
 
 	respondWithJSON(c, http.StatusOK, response)
+}
+
+// ContributionKLResponse represents the contribution by station type response
+type ContributionKLResponse struct {
+	AmountRefillStationSmart  int64 `json:"amountRefillStationSmart"`
+	AmountRefillStationManual int64 `json:"amountRefillStationManual"`
 }
 
 // @Summary Get contribution by station type
@@ -1361,7 +1674,7 @@ func getContributionCommunity(c *gin.Context) {
 // @Tags contribution
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} ContributionKLResponse
 // @Router /contribution/kl [get]
 func getContributionKL(c *gin.Context) {
 	var smartStations int64
@@ -1370,9 +1683,9 @@ func getContributionKL(c *gin.Context) {
 	db.Model(&database.RefillStation{}).Where("type = ?", "Smart").Count(&smartStations)
 	db.Model(&database.RefillStation{}).Where("type = ?", "Manual").Count(&manualStations)
 
-	response := map[string]interface{}{
-		"amountRefillStationSmart":  smartStations,
-		"amountRefillStationManual": manualStations,
+	response := ContributionKLResponse{
+		AmountRefillStationSmart:  smartStations,
+		AmountRefillStationManual: manualStations,
 	}
 
 	respondWithJSON(c, http.StatusOK, response)
