@@ -23,7 +23,7 @@ func InitDatabase() {
 		&ConsumerTest{},
 		&ConsumerTestQuestion{},
 		&ConsumerTestAnswer{},
-		&NFCChip{},
+		&Bottle{},
 		&RefillStation{},
 		&RefillStationReview{},
 		&RefillStationProblem{},

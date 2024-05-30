@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -13,7 +14,7 @@ type User struct {
 	FirstName string                `gorm:"size:100;not null"`
 	LastName  string                `gorm:"size:100;not null"`
 	Email     *string               `gorm:"size:100;unique;default:null"`
-	NFCChips  []NFCChip             `gorm:"foreignKey:UserID"`
+	Bottles   []Bottle              `gorm:"foreignKey:UserID"`
 	Answers   []ConsumerTestAnswer  `gorm:"foreignKey:UserID"`
 	Reviews   []RefillStationReview `gorm:"foreignKey:UserID"`
 	Likes     []Like                `gorm:"foreignKey:UserID"`
@@ -44,17 +45,17 @@ type ConsumerTestAnswer struct {
 	Timestamp  time.Time `gorm:"autoCreateTime"`
 }
 
-// NFCChip Model
-type NFCChip struct {
+// Bottle Model (previously NFCChip)
+type Bottle struct {
 	ID                uint               `gorm:"primaryKey"`
 	UserID            uint               `gorm:"not null"`
-	HardwareID        string             `gorm:"size:32;unique;not null"`
+	NFCID             string             `gorm:"size:32;unique;not null"`
 	FillVolume        int                `gorm:"not null"`
 	WaterType         string             `gorm:"size:16;not null"`
 	Title             string             `gorm:"size:16;not null"`
 	PathImage         *string            `gorm:"size:255;default:null"`
 	Active            bool               `gorm:"default:true"`
-	WaterTransactions []WaterTransaction `gorm:"foreignKey:ChipID"`
+	WaterTransactions []WaterTransaction `gorm:"foreignKey:BottleID"`
 }
 
 // RefillStation Model
@@ -122,7 +123,7 @@ type RefillStationProblem struct {
 type WaterTransaction struct {
 	ID        uint      `gorm:"primaryKey"`
 	StationID uint      `gorm:"not null"`
-	ChipID    *uint     `gorm:"default:null"`
+	BottleID  *uint     `gorm:"default:null"`
 	UserID    *uint     `gorm:"default:null"`
 	Volume    int       `gorm:"not null"`
 	WaterType string    `gorm:"size:16;not null"`
@@ -138,25 +139,27 @@ type Like struct {
 }
 
 // Enumeration Constraints:
-func (NFCChip) TableName() string {
-	return "nfc_chip"
+func (Bottle) TableName() string {
+	return "bottle"
 }
 
 func (RefillStationProblem) TableName() string {
 	return "refill_station_problem"
 }
 
-func (chip *NFCChip) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedWaterTypes := []string{"Tap Water", "Mineral Water"}
-	if !contains(allowedWaterTypes, chip.WaterType) {
-		return fmt.Errorf("invalid water type: %s", chip.WaterType)
+func (bottle *Bottle) BeforeCreate(tx *gorm.DB) (err error) {
+	allowedWaterTypes := []string{"tap", "mineral"}
+	waterType := strings.ToLower(bottle.WaterType)
+	if !contains(allowedWaterTypes, waterType) {
+		return fmt.Errorf("invalid water type: %s", bottle.WaterType)
 	}
+	bottle.WaterType = waterType
 	return nil
 }
 
 func (station *RefillStation) BeforeCreate(tx *gorm.DB) (err error) {
 	allowedTypes := []string{"Manual", "Smart"}
-	allowedWaterTypes := []string{"Mineral", "Tap", "Mineral & Tap"}
+	allowedWaterTypes := []string{"Mineral", "Tap"}
 
 	if !contains(allowedTypes, station.Type) {
 		return fmt.Errorf("invalid station type: %s", station.Type)
@@ -176,10 +179,12 @@ func (problem *RefillStationProblem) BeforeCreate(tx *gorm.DB) (err error) {
 }
 
 func (transaction *WaterTransaction) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedWaterTypes := []string{"Tap Water", "Mineral Water"}
-	if !contains(allowedWaterTypes, transaction.WaterType) {
+	allowedWaterTypes := []string{"tap", "mineral"}
+	waterType := strings.ToLower(transaction.WaterType)
+	if !contains(allowedWaterTypes, waterType) {
 		return fmt.Errorf("invalid water type: %s", transaction.WaterType)
 	}
+	transaction.WaterType = waterType
 	return nil
 }
 

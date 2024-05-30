@@ -39,7 +39,7 @@ func init() {
 	log.Print("Schema migration starting")
 
 	// Migrate the schema
-	db.AutoMigrate(&database.User{}, &database.NFCChip{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
+	db.AutoMigrate(&database.User{}, &database.Bottle{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
 		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
 		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
 	log.Print("Schema migration done")
@@ -158,92 +158,92 @@ func deleteUser(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-// @Summary Show all NFC chips
-// @Description Get all NFC chips
-// @Tags nfchips
+// @Summary Show all bottles
+// @Description Get all bottles
+// @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} database.NFCChip
-// @Router /nfchips [get]
-func getNFCChips(c *gin.Context) {
+// @Success 200 {array} database.Bottle
+// @Router /bottles [get]
+func getBottles(c *gin.Context) {
 	idStr := c.Query("id")
 	if idStr == "" {
-		var chips []database.NFCChip
-		result := db.Find(&chips)
+		var bottles []database.Bottle
+		result := db.Find(&bottles)
 		if result.Error != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, chips)
+		respondWithJSON(c, http.StatusOK, bottles)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 			return
 		}
-		var chip database.NFCChip
-		result := db.First(&chip, id)
+		var bottle database.Bottle
+		result := db.First(&bottle, id)
 		if result.Error != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, chip)
+		respondWithJSON(c, http.StatusOK, bottle)
 	}
 }
 
-// @Summary Create an NFC chip
-// @Description Create a new NFC chip
-// @Tags nfchips
+// @Summary Create a bottle
+// @Description Create a new bottle
+// @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Param chip body database.NFCChip true "NFC Chip"
-// @Success 201 {object} database.NFCChip
-// @Router /nfchips [post]
-func createNFCChip(c *gin.Context) {
-	var chip database.NFCChip
-	if err := c.ShouldBindJSON(&chip); err != nil {
+// @Param bottle body database.Bottle true "Bottle"
+// @Success 201 {object} database.Bottle
+// @Router /bottles [post]
+func createBottle(c *gin.Context) {
+	var bottle database.Bottle
+	if err := c.ShouldBindJSON(&bottle); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	result := db.Create(&chip)
+	result := db.Create(&bottle)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, chip)
+	respondWithJSON(c, http.StatusCreated, bottle)
 }
 
-// @Summary Update an NFC chip
-// @Description Update an existing NFC chip
-// @Tags nfchips
+// @Summary Update a bottle
+// @Description Update an existing bottle
+// @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Param chip body database.NFCChip true "NFC Chip"
-// @Success 200 {object} database.NFCChip
-// @Router /nfchips [put]
-func updateNFCChip(c *gin.Context) {
-	var chip database.NFCChip
-	if err := c.ShouldBindJSON(&chip); err != nil {
+// @Param bottle body database.Bottle true "Bottle"
+// @Success 200 {object} database.Bottle
+// @Router /bottles [put]
+func updateBottle(c *gin.Context) {
+	var bottle database.Bottle
+	if err := c.ShouldBindJSON(&bottle); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	result := db.Save(&chip)
+	result := db.Save(&bottle)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, chip)
+	respondWithJSON(c, http.StatusOK, bottle)
 }
 
-// @Summary Delete an NFC chip
-// @Description Delete an existing NFC chip
-// @Tags nfchips
+// @Summary Delete a bottle
+// @Description Delete an existing bottle
+// @Tags bottles
 // @Accept  json
 // @Produce  json
-// @Param id query int true "NFC Chip ID"
+// @Param id query int true "Bottle ID"
 // @Success 204
-// @Router /nfchips [delete]
-func deleteNFCChip(c *gin.Context) {
+// @Router /bottles [delete]
+func deleteBottle(c *gin.Context) {
 	idStr := c.Query("id")
 	if idStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
@@ -254,7 +254,7 @@ func deleteNFCChip(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 		return
 	}
-	result := db.Delete(&database.NFCChip{}, id)
+	result := db.Delete(&database.Bottle{}, id)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
@@ -1400,10 +1400,10 @@ func main() {
 	r.PUT("/users", updateUser)
 	r.DELETE("/users", deleteUser)
 
-	r.GET("/nfchips", getNFCChips)
-	r.POST("/nfchips", createNFCChip)
-	r.PUT("/nfchips", updateNFCChip)
-	r.DELETE("/nfchips", deleteNFCChip)
+	r.GET("/bottles", getBottles)
+	r.POST("/bottles", createBottle)
+	r.PUT("/bottles", updateBottle)
+	r.DELETE("/bottles", deleteBottle)
 
 	r.GET("/consumer_tests", getConsumerTests)
 	r.POST("/consumer_tests", createConsumerTest)
