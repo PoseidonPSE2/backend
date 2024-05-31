@@ -1,5 +1,496 @@
 basePath: /
 definitions:
+  api.BottlePreferences:
+    properties:
+      fill_volume:
+        type: integer
+      id:
+        type: integer
+      user_id:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  api.BottleResponse:
+    properties:
+      active:
+        type: boolean
+      fill_volume:
+        type: integer
+      id:
+        type: integer
+      nfc_id:
+        type: string
+      path_image:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  api.ConsumerTestAnswerResponse:
+    properties:
+      answer:
+        type: number
+      id:
+        type: integer
+      question_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  api.ConsumerTestQuestionResponse:
+    properties:
+      id:
+        type: integer
+      max_value:
+        type: number
+      min_value:
+        type: number
+      test_id:
+        type: integer
+      text:
+        type: string
+    type: object
+  api.ConsumerTestResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  api.ContributionCommunityResponse:
+    properties:
+      amountFillings:
+        type: integer
+      amountUser:
+        type: integer
+      amountWater:
+        type: integer
+      savedMoney:
+        type: number
+      savedTrash:
+        type: number
+    type: object
+  api.ContributionKLResponse:
+    properties:
+      amountRefillStationManual:
+        type: integer
+      amountRefillStationSmart:
+        type: integer
+    type: object
+  api.ContributionUserResponse:
+    properties:
+      amountFillings:
+        type: integer
+      amountWater:
+        type: integer
+      savedMoney:
+        type: number
+      savedTrash:
+        type: number
+    type: object
+  api.CreateBottleRequest:
+    properties:
+      active:
+        type: boolean
+      fill_volume:
+        type: integer
+      nfc_id:
+        type: string
+      path_image:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  api.CreateConsumerTestAnswerRequest:
+    properties:
+      answer:
+        type: number
+      question_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  api.CreateConsumerTestQuestionRequest:
+    properties:
+      max_value:
+        type: number
+      min_value:
+        type: number
+      test_id:
+        type: integer
+      text:
+        type: string
+    type: object
+  api.CreateConsumerTestRequest:
+    properties:
+      questions:
+        items:
+          $ref: '#/definitions/database.ConsumerTestQuestion'
+        type: array
+    type: object
+  api.CreateLikeRequest:
+    properties:
+      station_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  api.CreateRefillStationProblemRequest:
+    properties:
+      description:
+        type: string
+      link_to_media:
+        type: string
+      station_id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  api.CreateRefillStationRequest:
+    properties:
+      active:
+        type: boolean
+      address:
+        type: string
+      description:
+        type: string
+      image_path:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      offered_water_types:
+        type: string
+      opening_times:
+        type: string
+      type:
+        type: string
+      water_source:
+        type: string
+    type: object
+  api.CreateRefillStationReviewRequest:
+    properties:
+      accessibility:
+        type: integer
+      cleanness:
+        type: integer
+      station_id:
+        type: integer
+      user_id:
+        type: integer
+      water_quality:
+        type: integer
+    type: object
+  api.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  api.CreateWaterTransactionRequest:
+    properties:
+      bottle_id:
+        type: integer
+      guest:
+        type: boolean
+      station_id:
+        type: integer
+      user_id:
+        type: integer
+      volume:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  api.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  api.IsLikedResponse:
+    properties:
+      isLiked:
+        type: boolean
+    type: object
+  api.LikeResponse:
+    properties:
+      id:
+        type: integer
+      station_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  api.RefillStationMarkerResponse:
+    properties:
+      id:
+        type: integer
+      latitude:
+        type: number
+      longitude:
+        type: number
+      status:
+        type: boolean
+    type: object
+  api.RefillStationProblemResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      link_to_media:
+        type: string
+      station_id:
+        type: integer
+      status:
+        type: string
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  api.RefillStationResponse:
+    properties:
+      active:
+        type: boolean
+      address:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image_path:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      offered_water_types:
+        type: string
+      opening_times:
+        type: string
+      type:
+        type: string
+      water_source:
+        type: string
+    type: object
+  api.RefillStationReviewResponse:
+    properties:
+      accessibility:
+        type: integer
+      cleanness:
+        type: integer
+      id:
+        type: integer
+      station_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+      water_quality:
+        type: integer
+    type: object
+  api.UpdateBottleRequest:
+    properties:
+      active:
+        type: boolean
+      fill_volume:
+        type: integer
+      id:
+        type: integer
+      nfc_id:
+        type: string
+      path_image:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  api.UpdateConsumerTestAnswerRequest:
+    properties:
+      answer:
+        type: number
+      id:
+        type: integer
+      question_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  api.UpdateConsumerTestQuestionRequest:
+    properties:
+      id:
+        type: integer
+      max_value:
+        type: number
+      min_value:
+        type: number
+      test_id:
+        type: integer
+      text:
+        type: string
+    type: object
+  api.UpdateConsumerTestRequest:
+    properties:
+      id:
+        type: integer
+      questions:
+        items:
+          $ref: '#/definitions/database.ConsumerTestQuestion'
+        type: array
+    type: object
+  api.UpdateLikeRequest:
+    properties:
+      id:
+        type: integer
+      station_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  api.UpdateRefillStationProblemRequest:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      link_to_media:
+        type: string
+      station_id:
+        type: integer
+      status:
+        type: string
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  api.UpdateRefillStationRequest:
+    properties:
+      active:
+        type: boolean
+      address:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image_path:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      offered_water_types:
+        type: string
+      opening_times:
+        type: string
+      type:
+        type: string
+      water_source:
+        type: string
+    type: object
+  api.UpdateRefillStationReviewRequest:
+    properties:
+      accessibility:
+        type: integer
+      cleanness:
+        type: integer
+      id:
+        type: integer
+      station_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+      water_quality:
+        type: integer
+    type: object
+  api.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+    type: object
+  api.UpdateWaterTransactionRequest:
+    properties:
+      bottle_id:
+        type: integer
+      guest:
+        type: boolean
+      id:
+        type: integer
+      station_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+      volume:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  api.UserResponse:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+    type: object
+  api.WaterTransactionResponse:
+    properties:
+      bottle_id:
+        type: integer
+      guest:
+        type: boolean
+      id:
+        type: integer
+      station_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+      volume:
+        type: integer
+      water_type:
+        type: string
+    type: object
   database.ConsumerTestAnswer:
     properties:
       answer:
@@ -30,493 +521,7 @@ definitions:
       text:
         type: string
     type: object
-  main.BottleResponse:
-    properties:
-      active:
-        type: boolean
-      fill_volume:
-        type: integer
-      id:
-        type: integer
-      nfc_id:
-        type: string
-      path_image:
-        type: string
-      title:
-        type: string
-      user_id:
-        type: integer
-      water_type:
-        type: string
-    type: object
-  main.ConsumerTestAnswerResponse:
-    properties:
-      answer:
-        type: number
-      id:
-        type: integer
-      question_id:
-        type: integer
-      timestamp:
-        type: string
-      user_id:
-        type: integer
-    type: object
-  main.ConsumerTestQuestionResponse:
-    properties:
-      id:
-        type: integer
-      max_value:
-        type: number
-      min_value:
-        type: number
-      test_id:
-        type: integer
-      text:
-        type: string
-    type: object
-  main.ConsumerTestResponse:
-    properties:
-      id:
-        type: integer
-    type: object
-  main.ContributionCommunityResponse:
-    properties:
-      amountFillings:
-        type: integer
-      amountUser:
-        type: integer
-      amountWater:
-        type: integer
-      savedMoney:
-        type: number
-      savedTrash:
-        type: number
-    type: object
-  main.ContributionKLResponse:
-    properties:
-      amountRefillStationManual:
-        type: integer
-      amountRefillStationSmart:
-        type: integer
-    type: object
-  main.ContributionUserResponse:
-    properties:
-      amountFillings:
-        type: integer
-      amountWater:
-        type: integer
-      savedMoney:
-        type: number
-      savedTrash:
-        type: number
-    type: object
-  main.CreateBottleRequest:
-    properties:
-      active:
-        type: boolean
-      fill_volume:
-        type: integer
-      nfc_id:
-        type: string
-      path_image:
-        type: string
-      title:
-        type: string
-      user_id:
-        type: integer
-      water_type:
-        type: string
-    type: object
-  main.CreateConsumerTestAnswerRequest:
-    properties:
-      answer:
-        type: number
-      question_id:
-        type: integer
-      user_id:
-        type: integer
-    type: object
-  main.CreateConsumerTestQuestionRequest:
-    properties:
-      max_value:
-        type: number
-      min_value:
-        type: number
-      test_id:
-        type: integer
-      text:
-        type: string
-    type: object
-  main.CreateConsumerTestRequest:
-    properties:
-      questions:
-        items:
-          $ref: '#/definitions/database.ConsumerTestQuestion'
-        type: array
-    type: object
-  main.CreateLikeRequest:
-    properties:
-      station_id:
-        type: integer
-      user_id:
-        type: integer
-    type: object
-  main.CreateRefillStationProblemRequest:
-    properties:
-      description:
-        type: string
-      link_to_media:
-        type: string
-      station_id:
-        type: integer
-      status:
-        type: string
-      title:
-        type: string
-    type: object
-  main.CreateRefillStationRequest:
-    properties:
-      active:
-        type: boolean
-      address:
-        type: string
-      description:
-        type: string
-      image_path:
-        type: string
-      latitude:
-        type: number
-      like_counter:
-        type: integer
-      longitude:
-        type: number
-      name:
-        type: string
-      offered_water_types:
-        type: string
-      opening_times:
-        type: string
-      type:
-        type: string
-      water_source:
-        type: string
-    type: object
-  main.CreateRefillStationReviewRequest:
-    properties:
-      accessibility:
-        type: integer
-      cleanness:
-        type: integer
-      station_id:
-        type: integer
-      user_id:
-        type: integer
-      water_quality:
-        type: integer
-    type: object
-  main.CreateUserRequest:
-    properties:
-      email:
-        type: string
-      first_name:
-        type: string
-      last_name:
-        type: string
-    type: object
-  main.CreateWaterTransactionRequest:
-    properties:
-      bottle_id:
-        type: integer
-      guest:
-        type: boolean
-      station_id:
-        type: integer
-      user_id:
-        type: integer
-      volume:
-        type: integer
-      water_type:
-        type: string
-    type: object
-  main.ErrorResponse:
-    properties:
-      error:
-        type: string
-    type: object
-  main.IsLikedResponse:
-    properties:
-      isLiked:
-        type: boolean
-    type: object
-  main.LikeResponse:
-    properties:
-      id:
-        type: integer
-      station_id:
-        type: integer
-      user_id:
-        type: integer
-    type: object
-  main.RefillStationMarkerResponse:
-    properties:
-      id:
-        type: integer
-      latitude:
-        type: number
-      longitude:
-        type: number
-      status:
-        type: boolean
-    type: object
-  main.RefillStationProblemResponse:
-    properties:
-      description:
-        type: string
-      id:
-        type: integer
-      link_to_media:
-        type: string
-      station_id:
-        type: integer
-      status:
-        type: string
-      timestamp:
-        type: string
-      title:
-        type: string
-    type: object
-  main.RefillStationResponse:
-    properties:
-      active:
-        type: boolean
-      address:
-        type: string
-      description:
-        type: string
-      id:
-        type: integer
-      image_path:
-        type: string
-      latitude:
-        type: number
-      like_counter:
-        type: integer
-      longitude:
-        type: number
-      name:
-        type: string
-      offered_water_types:
-        type: string
-      opening_times:
-        type: string
-      type:
-        type: string
-      water_source:
-        type: string
-    type: object
-  main.RefillStationReviewResponse:
-    properties:
-      accessibility:
-        type: integer
-      cleanness:
-        type: integer
-      id:
-        type: integer
-      station_id:
-        type: integer
-      timestamp:
-        type: string
-      user_id:
-        type: integer
-      water_quality:
-        type: integer
-    type: object
-  main.UpdateBottleRequest:
-    properties:
-      active:
-        type: boolean
-      fill_volume:
-        type: integer
-      id:
-        type: integer
-      nfc_id:
-        type: string
-      path_image:
-        type: string
-      title:
-        type: string
-      user_id:
-        type: integer
-      water_type:
-        type: string
-    type: object
-  main.UpdateConsumerTestAnswerRequest:
-    properties:
-      answer:
-        type: number
-      id:
-        type: integer
-      question_id:
-        type: integer
-      user_id:
-        type: integer
-    type: object
-  main.UpdateConsumerTestQuestionRequest:
-    properties:
-      id:
-        type: integer
-      max_value:
-        type: number
-      min_value:
-        type: number
-      test_id:
-        type: integer
-      text:
-        type: string
-    type: object
-  main.UpdateConsumerTestRequest:
-    properties:
-      id:
-        type: integer
-      questions:
-        items:
-          $ref: '#/definitions/database.ConsumerTestQuestion'
-        type: array
-    type: object
-  main.UpdateLikeRequest:
-    properties:
-      id:
-        type: integer
-      station_id:
-        type: integer
-      user_id:
-        type: integer
-    type: object
-  main.UpdateRefillStationProblemRequest:
-    properties:
-      description:
-        type: string
-      id:
-        type: integer
-      link_to_media:
-        type: string
-      station_id:
-        type: integer
-      status:
-        type: string
-      timestamp:
-        type: string
-      title:
-        type: string
-    type: object
-  main.UpdateRefillStationRequest:
-    properties:
-      active:
-        type: boolean
-      address:
-        type: string
-      description:
-        type: string
-      id:
-        type: integer
-      image_path:
-        type: string
-      latitude:
-        type: number
-      like_counter:
-        type: integer
-      longitude:
-        type: number
-      name:
-        type: string
-      offered_water_types:
-        type: string
-      opening_times:
-        type: string
-      type:
-        type: string
-      water_source:
-        type: string
-    type: object
-  main.UpdateRefillStationReviewRequest:
-    properties:
-      accessibility:
-        type: integer
-      cleanness:
-        type: integer
-      id:
-        type: integer
-      station_id:
-        type: integer
-      timestamp:
-        type: string
-      user_id:
-        type: integer
-      water_quality:
-        type: integer
-    type: object
-  main.UpdateUserRequest:
-    properties:
-      email:
-        type: string
-      first_name:
-        type: string
-      id:
-        type: integer
-      last_name:
-        type: string
-    type: object
-  main.UpdateWaterTransactionRequest:
-    properties:
-      bottle_id:
-        type: integer
-      guest:
-        type: boolean
-      id:
-        type: integer
-      station_id:
-        type: integer
-      timestamp:
-        type: string
-      user_id:
-        type: integer
-      volume:
-        type: integer
-      water_type:
-        type: string
-    type: object
-  main.UserResponse:
-    properties:
-      email:
-        type: string
-      first_name:
-        type: string
-      id:
-        type: integer
-      last_name:
-        type: string
-    type: object
-  main.WaterTransactionResponse:
-    properties:
-      bottle_id:
-        type: integer
-      guest:
-        type: boolean
-      id:
-        type: integer
-      station_id:
-        type: integer
-      timestamp:
-        type: string
-      user_id:
-        type: integer
-      volume:
-        type: integer
-      water_type:
-        type: string
-    type: object
-host: localhost:8080
+host: https://poseidon-backend.fly.dev/
 info:
   contact:
     email: support@swagger.io
@@ -560,7 +565,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.BottleResponse'
+              $ref: '#/definitions/api.BottleResponse'
             type: array
       summary: Show all bottles
       tags:
@@ -575,14 +580,14 @@ paths:
         name: bottle
         required: true
         schema:
-          $ref: '#/definitions/main.CreateBottleRequest'
+          $ref: '#/definitions/api.CreateBottleRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.BottleResponse'
+            $ref: '#/definitions/api.BottleResponse'
       summary: Create a bottle
       tags:
       - bottles
@@ -596,15 +601,36 @@ paths:
         name: bottle
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateBottleRequest'
+          $ref: '#/definitions/api.UpdateBottleRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.BottleResponse'
+            $ref: '#/definitions/api.BottleResponse'
       summary: Update a bottle
+      tags:
+      - bottles
+  /bottles/preferences/{nfc-id}:
+    get:
+      consumes:
+      - application/json
+      description: Get bottle preferences by the NFC ID
+      parameters:
+      - description: NFC ID
+        in: path
+        name: nfc_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.BottlePreferences'
+      summary: Get bottle preferences by the NFC ID
       tags:
       - bottles
   /consumer_test_answers:
@@ -637,7 +663,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.ConsumerTestAnswerResponse'
+              $ref: '#/definitions/api.ConsumerTestAnswerResponse'
             type: array
       summary: Show all consumer test answers
       tags:
@@ -652,14 +678,14 @@ paths:
         name: answer
         required: true
         schema:
-          $ref: '#/definitions/main.CreateConsumerTestAnswerRequest'
+          $ref: '#/definitions/api.CreateConsumerTestAnswerRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.ConsumerTestAnswerResponse'
+            $ref: '#/definitions/api.ConsumerTestAnswerResponse'
       summary: Create a consumer test answer
       tags:
       - consumer_test_answers
@@ -673,14 +699,14 @@ paths:
         name: answer
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateConsumerTestAnswerRequest'
+          $ref: '#/definitions/api.UpdateConsumerTestAnswerRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.ConsumerTestAnswerResponse'
+            $ref: '#/definitions/api.ConsumerTestAnswerResponse'
       summary: Update a consumer test answer
       tags:
       - consumer_test_answers
@@ -714,7 +740,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.ConsumerTestQuestionResponse'
+              $ref: '#/definitions/api.ConsumerTestQuestionResponse'
             type: array
       summary: Show all consumer test questions
       tags:
@@ -729,14 +755,14 @@ paths:
         name: question
         required: true
         schema:
-          $ref: '#/definitions/main.CreateConsumerTestQuestionRequest'
+          $ref: '#/definitions/api.CreateConsumerTestQuestionRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.ConsumerTestQuestionResponse'
+            $ref: '#/definitions/api.ConsumerTestQuestionResponse'
       summary: Create a consumer test question
       tags:
       - consumer_test_questions
@@ -750,14 +776,14 @@ paths:
         name: question
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateConsumerTestQuestionRequest'
+          $ref: '#/definitions/api.UpdateConsumerTestQuestionRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.ConsumerTestQuestionResponse'
+            $ref: '#/definitions/api.ConsumerTestQuestionResponse'
       summary: Update a consumer test question
       tags:
       - consumer_test_questions
@@ -791,7 +817,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.ConsumerTestResponse'
+              $ref: '#/definitions/api.ConsumerTestResponse'
             type: array
       summary: Show all consumer tests
       tags:
@@ -806,14 +832,14 @@ paths:
         name: test
         required: true
         schema:
-          $ref: '#/definitions/main.CreateConsumerTestRequest'
+          $ref: '#/definitions/api.CreateConsumerTestRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.ConsumerTestResponse'
+            $ref: '#/definitions/api.ConsumerTestResponse'
       summary: Create a consumer test
       tags:
       - consumer_tests
@@ -827,14 +853,14 @@ paths:
         name: test
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateConsumerTestRequest'
+          $ref: '#/definitions/api.UpdateConsumerTestRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.ConsumerTestResponse'
+            $ref: '#/definitions/api.ConsumerTestResponse'
       summary: Update a consumer test
       tags:
       - consumer_tests
@@ -849,7 +875,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.ContributionCommunityResponse'
+            $ref: '#/definitions/api.ContributionCommunityResponse'
       summary: Get community contribution
       tags:
       - contribution
@@ -864,7 +890,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.ContributionKLResponse'
+            $ref: '#/definitions/api.ContributionKLResponse'
       summary: Get contribution by station type
       tags:
       - contribution
@@ -885,7 +911,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.ContributionUserResponse'
+            $ref: '#/definitions/api.ContributionUserResponse'
       summary: Get user contribution
       tags:
       - contribution
@@ -919,7 +945,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.LikeResponse'
+              $ref: '#/definitions/api.LikeResponse'
             type: array
       summary: Show all likes
       tags:
@@ -934,14 +960,14 @@ paths:
         name: like
         required: true
         schema:
-          $ref: '#/definitions/main.CreateLikeRequest'
+          $ref: '#/definitions/api.CreateLikeRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.LikeResponse'
+            $ref: '#/definitions/api.LikeResponse'
       summary: Create a like
       tags:
       - likes
@@ -955,14 +981,14 @@ paths:
         name: like
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateLikeRequest'
+          $ref: '#/definitions/api.UpdateLikeRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.LikeResponse'
+            $ref: '#/definitions/api.LikeResponse'
       summary: Update a like
       tags:
       - likes
@@ -996,7 +1022,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.RefillStationProblemResponse'
+              $ref: '#/definitions/api.RefillStationProblemResponse'
             type: array
       summary: Show all refill station problems
       tags:
@@ -1011,14 +1037,14 @@ paths:
         name: problem
         required: true
         schema:
-          $ref: '#/definitions/main.CreateRefillStationProblemRequest'
+          $ref: '#/definitions/api.CreateRefillStationProblemRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.RefillStationProblemResponse'
+            $ref: '#/definitions/api.RefillStationProblemResponse'
       summary: Create a refill station problem
       tags:
       - refill_station_problems
@@ -1032,38 +1058,17 @@ paths:
         name: problem
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateRefillStationProblemRequest'
+          $ref: '#/definitions/api.UpdateRefillStationProblemRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.RefillStationProblemResponse'
+            $ref: '#/definitions/api.RefillStationProblemResponse'
       summary: Update a refill station problem
       tags:
       - refill_station_problems
-  /refill_station_review/average:
-    get:
-      consumes:
-      - application/json
-      description: Get the average review score for a refill station by its ID
-      parameters:
-      - description: Refill Station ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: number
-      summary: Get the average review score for a refill station
-      tags:
-      - refill_station_reviews
   /refill_station_reviews:
     delete:
       consumes:
@@ -1094,7 +1099,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.RefillStationReviewResponse'
+              $ref: '#/definitions/api.RefillStationReviewResponse'
             type: array
       summary: Show all refill station reviews
       tags:
@@ -1109,14 +1114,14 @@ paths:
         name: review
         required: true
         schema:
-          $ref: '#/definitions/main.CreateRefillStationReviewRequest'
+          $ref: '#/definitions/api.CreateRefillStationReviewRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.RefillStationReviewResponse'
+            $ref: '#/definitions/api.RefillStationReviewResponse'
       summary: Create a refill station review
       tags:
       - refill_station_reviews
@@ -1130,14 +1135,14 @@ paths:
         name: review
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateRefillStationReviewRequest'
+          $ref: '#/definitions/api.UpdateRefillStationReviewRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.RefillStationReviewResponse'
+            $ref: '#/definitions/api.RefillStationReviewResponse'
       summary: Update a refill station review
       tags:
       - refill_station_reviews
@@ -1171,7 +1176,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.RefillStationResponse'
+              $ref: '#/definitions/api.RefillStationResponse'
             type: array
       summary: Show all refill stations
       tags:
@@ -1186,14 +1191,14 @@ paths:
         name: station
         required: true
         schema:
-          $ref: '#/definitions/main.CreateRefillStationRequest'
+          $ref: '#/definitions/api.CreateRefillStationRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.RefillStationResponse'
+            $ref: '#/definitions/api.RefillStationResponse'
       summary: Create a refill station
       tags:
       - refill_stations
@@ -1207,14 +1212,14 @@ paths:
         name: station
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateRefillStationRequest'
+          $ref: '#/definitions/api.UpdateRefillStationRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.RefillStationResponse'
+            $ref: '#/definitions/api.RefillStationResponse'
       summary: Update a refill station
       tags:
       - refill_stations
@@ -1235,10 +1240,31 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.RefillStationResponse'
+            $ref: '#/definitions/api.RefillStationResponse'
       summary: Get a refill station by ID
       tags:
       - refill_stations
+  /refill_stations/{id}/reviews:
+    get:
+      consumes:
+      - application/json
+      description: Get the average review score for a refill station by its ID
+      parameters:
+      - description: Refill Station ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Get the average review score for a refill station
+      tags:
+      - refill_station_reviews
   /refill_stations/markers:
     get:
       consumes:
@@ -1251,7 +1277,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.RefillStationMarkerResponse'
+              $ref: '#/definitions/api.RefillStationMarkerResponse'
             type: array
       summary: Get all refill station markers
       tags:
@@ -1278,54 +1304,16 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.IsLikedResponse'
+            $ref: '#/definitions/api.IsLikedResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/api.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/api.ErrorResponse'
       summary: Check if a user likes a refill station
-      tags:
-      - likes
-    post:
-      consumes:
-      - application/json
-      description: Create a like for a specific refill station by a specific user
-        if it doesn't already exist
-      parameters:
-      - description: Refill Station ID
-        in: query
-        name: refillstationId
-        required: true
-        type: integer
-      - description: User ID
-        in: query
-        name: userId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/main.LikeResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/main.ErrorResponse'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/main.ErrorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/main.ErrorResponse'
-      summary: Create a like for a refill station
       tags:
       - likes
   /users:
@@ -1358,7 +1346,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.UserResponse'
+              $ref: '#/definitions/api.UserResponse'
             type: array
       summary: Show all users
       tags:
@@ -1373,14 +1361,14 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/main.CreateUserRequest'
+          $ref: '#/definitions/api.CreateUserRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.UserResponse'
+            $ref: '#/definitions/api.UserResponse'
       summary: Create a user
       tags:
       - users
@@ -1394,14 +1382,14 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateUserRequest'
+          $ref: '#/definitions/api.UpdateUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.UserResponse'
+            $ref: '#/definitions/api.UserResponse'
       summary: Update a user
       tags:
       - users
@@ -1435,7 +1423,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.WaterTransactionResponse'
+              $ref: '#/definitions/api.WaterTransactionResponse'
             type: array
       summary: Show all water transactions
       tags:
@@ -1450,14 +1438,14 @@ paths:
         name: transaction
         required: true
         schema:
-          $ref: '#/definitions/main.CreateWaterTransactionRequest'
+          $ref: '#/definitions/api.CreateWaterTransactionRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.WaterTransactionResponse'
+            $ref: '#/definitions/api.WaterTransactionResponse'
       summary: Create a water transaction
       tags:
       - water_transactions
@@ -1471,14 +1459,14 @@ paths:
         name: transaction
         required: true
         schema:
-          $ref: '#/definitions/main.UpdateWaterTransactionRequest'
+          $ref: '#/definitions/api.UpdateWaterTransactionRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.WaterTransactionResponse'
+            $ref: '#/definitions/api.WaterTransactionResponse'
       summary: Update a water transaction
       tags:
       - water_transactions
