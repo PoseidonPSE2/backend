@@ -147,12 +147,10 @@ func (RefillStationProblem) TableName() string {
 }
 
 func (bottle *Bottle) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedWaterTypes := []string{"tap", "mineral"}
-	waterType := strings.ToLower(bottle.WaterType)
-	if !contains(allowedWaterTypes, waterType) {
+	allowedWaterTypes := []string{"Tap Water", "Mineral Water"}
+	if !contains(allowedWaterTypes, bottle.WaterType) {
 		return fmt.Errorf("invalid water type: %s", bottle.WaterType)
 	}
-	bottle.WaterType = waterType
 	return nil
 }
 
@@ -178,12 +176,10 @@ func (problem *RefillStationProblem) BeforeCreate(tx *gorm.DB) (err error) {
 }
 
 func (transaction *WaterTransaction) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedWaterTypes := []string{"tap", "mineral"}
-	waterType := strings.ToLower(transaction.WaterType)
-	if !contains(allowedWaterTypes, waterType) {
+	allowedWaterTypes := []string{"Tap Water", "Mineral Water"}
+	if !contains(allowedWaterTypes, transaction.WaterType) {
 		return fmt.Errorf("invalid water type: %s", transaction.WaterType)
 	}
-	transaction.WaterType = waterType
 	return nil
 }
 
