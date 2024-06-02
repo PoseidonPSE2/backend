@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
 	"gorm.io/gorm"
