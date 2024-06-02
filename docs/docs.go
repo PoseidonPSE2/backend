@@ -1328,41 +1328,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{userId}/bottles": {
-            "get": {
-                "description": "Get all bottles associated with a specific user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "bottles"
-                ],
-                "summary": "Get all bottles by user ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.Bottle"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/water_transactions": {
             "get": {
                 "description": "Get all water transactions",
@@ -2237,41 +2202,6 @@ const docTemplate = `{
                 }
             }
         },
-        "database.Bottle": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "fillVolume": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "nfcid": {
-                    "type": "string"
-                },
-                "pathImage": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "userID": {
-                    "type": "integer"
-                },
-                "waterTransactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/database.WaterTransaction"
-                    }
-                },
-                "waterType": {
-                    "type": "string"
-                }
-            }
-        },
         "database.ConsumerTestAnswer": {
             "type": "object",
             "properties": {
@@ -2314,35 +2244,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "database.WaterTransaction": {
-            "type": "object",
-            "properties": {
-                "bottleID": {
-                    "type": "integer"
-                },
-                "guest": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "stationID": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "userID": {
-                    "type": "integer"
-                },
-                "volume": {
-                    "type": "integer"
-                },
-                "waterType": {
                     "type": "string"
                 }
             }
