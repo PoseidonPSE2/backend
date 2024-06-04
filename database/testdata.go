@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"log"
 	"math/rand"
 
@@ -137,7 +138,6 @@ func CreateConsumerTestsQuestions(db *gorm.DB) *gorm.DB {
 }
 
 func CreateConsumerTestsAnswers(db *gorm.DB) *gorm.DB {
-	// Test are only a logical container, no parameters
 	testAnswers := []ConsumerTestAnswer{
 		{
 			UserID:     1,
@@ -168,7 +168,7 @@ func CreateConsumerTestsAnswers(db *gorm.DB) *gorm.DB {
 }
 
 func CreateRefillStations(db *gorm.DB) *gorm.DB {
-	refillStations := []RefillStation{
+	refillStations := []*RefillStation{
 		{
 			Name:              "Rewe Stations",
 			Description:       "Wasserhahn REWE",
@@ -207,19 +207,17 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Description:       "Frische Lebensmittel von Obst über Käse, Gemüse und Wurstwaren, bis hin zu Fisch und Backwaren, sowie Blumen und Pflanzen",
 			Latitude:          49.44025,
 			Longitude:         7.75878,
-			Address:           "Königstraße 68 67655 Kaiserslautern",
+			Address:           "Königstraße 68, 67655 Kaiserslautern",
 			WaterSource:       "Stadtwerke",
-			OpeningTimes:      "Do / 07:00 AM - 13:59 PM",
-			Active:            false,
+			OpeningTimes:      "Do / 07:00 AM - 1:59 PM",
+			Active:            sql.NullBool{Valid: true, Bool: false},
 			Type:              "Smart",
 			OfferedWaterTypes: "Tap",
 		},
 	}
 
-	for _, station := range refillStations {
-		if err := db.Create(&station).Error; err != nil {
-			log.Fatalf("failed to create refill station: %v", err)
-		}
+	if err := db.Create(&refillStations).Error; err != nil {
+		log.Fatalf("failed to create refill station: %v", err)
 	}
 
 	log.Print("Created refill stations successfully")

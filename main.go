@@ -21,7 +21,7 @@ var db *gorm.DB
 
 // Database configuration variables
 var (
-	dbHost     = "poseidon-database.internal"
+	dbHost     = "poseidon-database.fly.dev"
 	dbPort     = "5432"
 	dbUser     = "postgres"
 	dbPassword = "rnJpE83UKr1MyF8"

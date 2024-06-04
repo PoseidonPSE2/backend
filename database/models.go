@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"strings"
 	"time"
@@ -74,7 +75,7 @@ type RefillStation struct {
 	Address            string                 `gorm:"size:255;not null" json:"address"`
 	WaterSource        string                 `gorm:"size:50;not null" json:"water_source"`
 	OpeningTimes       string                 `gorm:"size:100;not null" json:"opening_times"`
-	Active             bool                   `gorm:"default:true" json:"active"`
+	Active             sql.NullBool           `gorm:"default:true" json:"active"`
 	Type               string                 `gorm:"size:16;not null" json:"type"`
 	OfferedWaterTypes  string                 `gorm:"size:32;not null" json:"offered_water_types"`
 	RefillStationImage *[]byte                `gorm:"type:BYTEA;default:null" json:"refill_station_image,omitempty"`
