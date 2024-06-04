@@ -53,29 +53,29 @@ type Bottle struct {
 	FillVolume        int                `gorm:"not null"`
 	WaterType         string             `gorm:"size:16;not null"`
 	Title             string             `gorm:"size:16;not null"`
-	PathImage         *string            `gorm:"size:255;default:null"`
+	BottleImage       *[]byte            `gorm:"type:BYTEA;default:null"`
 	Active            bool               `gorm:"default:true"`
 	WaterTransactions []WaterTransaction `gorm:"foreignKey:BottleID"`
 }
 
 // RefillStation Model
 type RefillStation struct {
-	ID                uint                   `gorm:"primaryKey"`
-	Name              string                 `gorm:"size:100;not null"`
-	Description       string                 `gorm:"size:255;not null"`
-	Latitude          float64                `gorm:"not null"`
-	Longitude         float64                `gorm:"not null"`
-	Address           string                 `gorm:"size:255;not null"`
-	WaterSource       string                 `gorm:"size:50;not null"`
-	OpeningTimes      string                 `gorm:"size:100;not null"`
-	Active            bool                   `gorm:"default:true"`
-	Type              string                 `gorm:"size:16;not null"`
-	OfferedWaterTypes string                 `gorm:"size:32;not null"`
-	ImagePath         *string                `gorm:"size:255;default:null"`
-	Reviews           []RefillStationReview  `gorm:"foreignKey:StationID"`
-	Problems          []RefillStationProblem `gorm:"foreignKey:StationID"`
-	WaterTransactions []WaterTransaction     `gorm:"foreignKey:StationID"`
-	Likes             []Like                 `gorm:"foreignKey:StationID"`
+	ID                 uint                   `gorm:"primaryKey"`
+	Name               string                 `gorm:"size:100;not null"`
+	Description        string                 `gorm:"size:255;not null"`
+	Latitude           float64                `gorm:"not null"`
+	Longitude          float64                `gorm:"not null"`
+	Address            string                 `gorm:"size:255;not null"`
+	WaterSource        string                 `gorm:"size:50;not null"`
+	OpeningTimes       string                 `gorm:"size:100;not null"`
+	Active             bool                   `gorm:"default:true"`
+	Type               string                 `gorm:"size:16;not null"`
+	OfferedWaterTypes  string                 `gorm:"size:32;not null"`
+	RefillStationImage *[]byte                `gorm:"type:BYTEA;default:null"`
+	Reviews            []RefillStationReview  `gorm:"foreignKey:StationID"`
+	Problems           []RefillStationProblem `gorm:"foreignKey:StationID"`
+	WaterTransactions  []WaterTransaction     `gorm:"foreignKey:StationID"`
+	Likes              []Like                 `gorm:"foreignKey:StationID"`
 }
 
 // RefillStationReview Model
@@ -109,13 +109,13 @@ func (review *RefillStationReview) BeforeUpdate(tx *gorm.DB) (err error) {
 
 // RefillStationProblem Model
 type RefillStationProblem struct {
-	ID          uint      `gorm:"primaryKey"`
-	StationID   uint      `gorm:"not null"`
-	Title       string    `gorm:"size:100;not null"`
-	Description string    `gorm:"size:255;not null"`
-	Status      string    `gorm:"size:16;not null"`
-	LinkToMedia *string   `gorm:"size:255;default:null"`
-	Timestamp   time.Time `gorm:"autoCreateTime"`
+	ID                        uint      `gorm:"primaryKey"`
+	StationID                 uint      `gorm:"not null"`
+	Title                     string    `gorm:"size:100;not null"`
+	Description               string    `gorm:"size:255;not null"`
+	Status                    string    `gorm:"size:16;not null"`
+	RefillStationProblemImage *[]byte   `gorm:"type:BYTEA;default:null"`
+	Timestamp                 time.Time `gorm:"autoCreateTime"`
 }
 
 // WaterTransaction Model
