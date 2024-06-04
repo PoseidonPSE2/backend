@@ -541,7 +541,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/database.WaterTransaction"
+                            "$ref": "#/definitions/api.ContributionCommunityResponse"
                         }
                     }
                 }
@@ -564,7 +564,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/database.RefillStation"
+                            "$ref": "#/definitions/api.ContributionKLResponse"
                         }
                     }
                 }
@@ -596,7 +596,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/database.WaterTransaction"
+                            "$ref": "#/definitions/api.ContributionUserResponse"
                         }
                     }
                 }
@@ -1492,6 +1492,54 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.ContributionCommunityResponse": {
+            "type": "object",
+            "properties": {
+                "amountFillings": {
+                    "type": "integer"
+                },
+                "amountUser": {
+                    "type": "integer"
+                },
+                "amountWater": {
+                    "type": "integer"
+                },
+                "savedMoney": {
+                    "type": "number"
+                },
+                "savedTrash": {
+                    "type": "number"
+                }
+            }
+        },
+        "api.ContributionKLResponse": {
+            "type": "object",
+            "properties": {
+                "amountRefillStationManual": {
+                    "type": "integer"
+                },
+                "amountRefillStationSmart": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.ContributionUserResponse": {
+            "type": "object",
+            "properties": {
+                "amountFillings": {
+                    "type": "integer"
+                },
+                "amountWater": {
+                    "type": "integer"
+                },
+                "savedMoney": {
+                    "type": "number"
+                },
+                "savedTrash": {
+                    "type": "number"
+                }
+            }
+        },
         "database.Bottle": {
             "type": "object",
             "properties": {

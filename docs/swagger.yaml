@@ -1,5 +1,36 @@
 basePath: /
 definitions:
+  api.ContributionCommunityResponse:
+    properties:
+      amountFillings:
+        type: integer
+      amountUser:
+        type: integer
+      amountWater:
+        type: integer
+      savedMoney:
+        type: number
+      savedTrash:
+        type: number
+    type: object
+  api.ContributionKLResponse:
+    properties:
+      amountRefillStationManual:
+        type: integer
+      amountRefillStationSmart:
+        type: integer
+    type: object
+  api.ContributionUserResponse:
+    properties:
+      amountFillings:
+        type: integer
+      amountWater:
+        type: integer
+      savedMoney:
+        type: number
+      savedTrash:
+        type: number
+    type: object
   database.Bottle:
     properties:
       active:
@@ -510,7 +541,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/database.WaterTransaction'
+            $ref: '#/definitions/api.ContributionCommunityResponse'
       summary: Get community contribution
       tags:
       - contribution
@@ -525,7 +556,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/database.RefillStation'
+            $ref: '#/definitions/api.ContributionKLResponse'
       summary: Get contribution by station type
       tags:
       - contribution
@@ -546,7 +577,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/database.WaterTransaction'
+            $ref: '#/definitions/api.ContributionUserResponse'
       summary: Get user contribution
       tags:
       - contribution
