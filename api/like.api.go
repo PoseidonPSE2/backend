@@ -9,42 +9,12 @@ import (
 	"gorm.io/gorm"
 )
 
-// LikeResponse represents a like in the response
-type LikeResponse struct {
-	ID        uint `json:"id"`
-	StationID uint `json:"station_id"`
-	UserID    uint `json:"user_id"`
-}
-
-// CreateLikeRequest represents a request to create a like
-type CreateLikeRequest struct {
-	StationID uint `json:"station_id"`
-	UserID    uint `json:"user_id"`
-}
-
-// UpdateLikeRequest represents a request to update a like
-type UpdateLikeRequest struct {
-	ID        uint `json:"id"`
-	StationID uint `json:"station_id"`
-	UserID    uint `json:"user_id"`
-}
-
-// ErrorResponse represents an error response
-type ErrorResponse struct {
-	Error string `json:"error"`
-}
-
-// IsLikedResponse represents a response indicating if a user likes a refill station
-type IsLikedResponse struct {
-	IsLiked bool `json:"isLiked"`
-}
-
 // @Summary Show all likes
 // @Description Get all likes
 // @Tags likes
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} LikeResponse
+// @Success 200 {array} database.Like
 // @Router /likes [get]
 func GetLikes(c *gin.Context) {
 	idStr := c.Query("id")
@@ -55,7 +25,7 @@ func GetLikes(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, likes)
+		c.JSON(http.StatusOK, likes)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -68,7 +38,7 @@ func GetLikes(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, like)
+		c.JSON(http.StatusOK, like)
 	}
 }
 
@@ -79,40 +49,40 @@ func GetLikes(c *gin.Context) {
 // @Produce  json
 // @Param refillstationId query int true "Refill Station ID"
 // @Param userId query int true "User ID"
-// @Success 200 {object} IsLikedResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Success 200 {object} map[string]bool
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
 // @Router /refillstation_like [get]
 func GetLikeByUserIdAndStationID(c *gin.Context) {
 	refillstationIdStr := c.Query("refillstationId")
 	userIdStr := c.Query("userId")
 
 	if refillstationIdStr == "" || userIdStr == "" {
-		c.JSON(http.StatusBadRequest, ErrorResponse{"refillstationId and userId are required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "refillstationId and userId are required"})
 		return
 	}
 
 	refillstationId, err := strconv.Atoi(refillstationIdStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, ErrorResponse{"Invalid refillstationId"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid refillstationId"})
 		return
 	}
 
 	userId, err := strconv.Atoi(userIdStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, ErrorResponse{"Invalid userId"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid userId"})
 		return
 	}
 
 	var like database.Like
 	result := db.Where("station_id = ? AND user_id = ?", refillstationId, userId).First(&like)
 	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{result.Error.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
 
 	isLiked := result.RowsAffected > 0
-	respondWithJSON(c, http.StatusOK, IsLikedResponse{IsLiked: isLiked})
+	c.JSON(http.StatusOK, gin.H{"isLiked": isLiked})
 }
 
 // @Summary Create a like
@@ -120,8 +90,8 @@ func GetLikeByUserIdAndStationID(c *gin.Context) {
 // @Tags likes
 // @Accept  json
 // @Produce  json
-// @Param like body CreateLikeRequest true "Like"
-// @Success 201 {object} LikeResponse
+// @Param like body database.Like true "Like"
+// @Success 201 {object} database.Like
 // @Router /likes [post]
 func CreateLike(c *gin.Context) {
 	var like database.Like
@@ -134,7 +104,7 @@ func CreateLike(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, like)
+	c.JSON(http.StatusCreated, like)
 }
 
 // @Summary Update a like
@@ -142,8 +112,8 @@ func CreateLike(c *gin.Context) {
 // @Tags likes
 // @Accept  json
 // @Produce  json
-// @Param like body UpdateLikeRequest true "Like"
-// @Success 200 {object} LikeResponse
+// @Param like body database.Like true "Like"
+// @Success 200 {object} database.Like
 // @Router /likes [put]
 func UpdateLike(c *gin.Context) {
 	var like database.Like
@@ -156,7 +126,7 @@ func UpdateLike(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, like)
+	c.JSON(http.StatusOK, like)
 }
 
 // @Summary Delete a like

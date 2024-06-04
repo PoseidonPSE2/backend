@@ -9,36 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ConsumerTestAnswerResponse represents a consumer test answer in the response
-type ConsumerTestAnswerResponse struct {
-	ID         uint      `json:"id"`
-	UserID     uint      `json:"user_id"`
-	QuestionID uint      `json:"question_id"`
-	Answer     float32   `json:"answer"`
-	Timestamp  time.Time `json:"timestamp"`
-}
-
-// CreateConsumerTestAnswerRequest represents a request to create a consumer test answer
-type CreateConsumerTestAnswerRequest struct {
-	UserID     uint    `json:"user_id"`
-	QuestionID uint    `json:"question_id"`
-	Answer     float32 `json:"answer"`
-}
-
-// UpdateConsumerTestAnswerRequest represents a request to update a consumer test answer
-type UpdateConsumerTestAnswerRequest struct {
-	ID         uint    `json:"id"`
-	UserID     uint    `json:"user_id"`
-	QuestionID uint    `json:"question_id"`
-	Answer     float32 `json:"answer"`
-}
-
 // @Summary Show all consumer test answers
 // @Description Get all consumer test answers
 // @Tags consumer_test_answers
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} ConsumerTestAnswerResponse
+// @Success 200 {array} database.ConsumerTestAnswer
 // @Router /consumer_test_answers [get]
 func GetConsumerTestAnswers(c *gin.Context) {
 	idStr := c.Query("id")
@@ -49,7 +25,7 @@ func GetConsumerTestAnswers(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, answers)
+		c.JSON(http.StatusOK, answers)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -62,7 +38,7 @@ func GetConsumerTestAnswers(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, answer)
+		c.JSON(http.StatusOK, answer)
 	}
 }
 
@@ -71,8 +47,8 @@ func GetConsumerTestAnswers(c *gin.Context) {
 // @Tags consumer_test_answers
 // @Accept  json
 // @Produce  json
-// @Param answer body CreateConsumerTestAnswerRequest true "Consumer Test Answer"
-// @Success 201 {object} ConsumerTestAnswerResponse
+// @Param answer body database.ConsumerTestAnswer true "Consumer Test Answer"
+// @Success 201 {object} database.ConsumerTestAnswer
 // @Router /consumer_test_answers [post]
 func CreateConsumerTestAnswer(c *gin.Context) {
 	var answer database.ConsumerTestAnswer
@@ -86,7 +62,7 @@ func CreateConsumerTestAnswer(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, answer)
+	c.JSON(http.StatusCreated, answer)
 }
 
 // @Summary Update a consumer test answer
@@ -94,8 +70,8 @@ func CreateConsumerTestAnswer(c *gin.Context) {
 // @Tags consumer_test_answers
 // @Accept  json
 // @Produce  json
-// @Param answer body UpdateConsumerTestAnswerRequest true "Consumer Test Answer"
-// @Success 200 {object} ConsumerTestAnswerResponse
+// @Param answer body database.ConsumerTestAnswer true "Consumer Test Answer"
+// @Success 200 {object} database.ConsumerTestAnswer
 // @Router /consumer_test_answers [put]
 func UpdateConsumerTestAnswer(c *gin.Context) {
 	var answer database.ConsumerTestAnswer
@@ -109,7 +85,7 @@ func UpdateConsumerTestAnswer(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, answer)
+	c.JSON(http.StatusOK, answer)
 }
 
 // @Summary Delete a consumer test answer

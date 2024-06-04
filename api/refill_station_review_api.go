@@ -9,43 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RefillStationReviewResponse represents a refill station review in the response
-type RefillStationReviewResponse struct {
-	ID            uint      `json:"id"`
-	StationID     uint      `json:"station_id"`
-	UserID        uint      `json:"user_id"`
-	Cleanness     int       `json:"cleanness"`
-	Accessibility int       `json:"accessibility"`
-	WaterQuality  int       `json:"water_quality"`
-	Timestamp     time.Time `json:"timestamp"`
-}
-
-// CreateRefillStationReviewRequest represents a request to create a refill station review
-type CreateRefillStationReviewRequest struct {
-	StationID     uint `json:"station_id"`
-	UserID        uint `json:"user_id"`
-	Cleanness     int  `json:"cleanness"`
-	Accessibility int  `json:"accessibility"`
-	WaterQuality  int  `json:"water_quality"`
-}
-
-// UpdateRefillStationReviewRequest represents a request to update a refill station review
-type UpdateRefillStationReviewRequest struct {
-	ID            uint      `json:"id"`
-	StationID     uint      `json:"station_id"`
-	UserID        uint      `json:"user_id"`
-	Cleanness     int       `json:"cleanness"`
-	Accessibility int       `json:"accessibility"`
-	WaterQuality  int       `json:"water_quality"`
-	Timestamp     time.Time `json:"timestamp"`
-}
-
 // @Summary Show all refill station reviews
 // @Description Get all refill station reviews
 // @Tags refill_station_reviews
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} RefillStationReviewResponse
+// @Success 200 {array} database.RefillStationReview
 // @Router /refill_station_reviews [get]
 func GetRefillStationReviews(c *gin.Context) {
 	idStr := c.Query("id")
@@ -56,7 +25,7 @@ func GetRefillStationReviews(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, reviews)
+		c.JSON(http.StatusOK, reviews)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -69,7 +38,7 @@ func GetRefillStationReviews(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, review)
+		c.JSON(http.StatusOK, review)
 	}
 }
 
@@ -78,8 +47,8 @@ func GetRefillStationReviews(c *gin.Context) {
 // @Tags refill_station_reviews
 // @Accept  json
 // @Produce  json
-// @Param review body CreateRefillStationReviewRequest true "Refill Station Review"
-// @Success 201 {object} RefillStationReviewResponse
+// @Param review body database.RefillStationReview true "Refill Station Review"
+// @Success 201 {object} database.RefillStationReview
 // @Router /refill_station_reviews [post]
 func CreateRefillStationReview(c *gin.Context) {
 	var review database.RefillStationReview
@@ -93,7 +62,7 @@ func CreateRefillStationReview(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, review)
+	c.JSON(http.StatusCreated, review)
 }
 
 // @Summary Update a refill station review
@@ -101,8 +70,8 @@ func CreateRefillStationReview(c *gin.Context) {
 // @Tags refill_station_reviews
 // @Accept  json
 // @Produce  json
-// @Param review body UpdateRefillStationReviewRequest true "Refill Station Review"
-// @Success 200 {object} RefillStationReviewResponse
+// @Param review body database.RefillStationReview true "Refill Station Review"
+// @Success 200 {object} database.RefillStationReview
 // @Router /refill_station_reviews [put]
 func UpdateRefillStationReview(c *gin.Context) {
 	var review database.RefillStationReview
@@ -116,7 +85,7 @@ func UpdateRefillStationReview(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, review)
+	c.JSON(http.StatusOK, review)
 }
 
 // @Summary Delete a refill station review

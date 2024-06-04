@@ -9,46 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// WaterTransactionResponse represents a water transaction in the response
-type WaterTransactionResponse struct {
-	ID        uint      `json:"id"`
-	StationID uint      `json:"station_id"`
-	BottleID  *uint     `json:"bottle_id"`
-	UserID    *uint     `json:"user_id"`
-	Volume    int       `json:"volume"`
-	WaterType string    `json:"water_type"`
-	Timestamp time.Time `json:"timestamp"`
-	Guest     bool      `json:"guest"`
-}
-
-// CreateWaterTransactionRequest represents a request to create a water transaction
-type CreateWaterTransactionRequest struct {
-	StationID uint   `json:"station_id"`
-	BottleID  *uint  `json:"bottle_id"`
-	UserID    *uint  `json:"user_id"`
-	Volume    int    `json:"volume"`
-	WaterType string `json:"water_type"`
-	Guest     bool   `json:"guest"`
-}
-
-// UpdateWaterTransactionRequest represents a request to update a water transaction
-type UpdateWaterTransactionRequest struct {
-	ID        uint      `json:"id"`
-	StationID uint      `json:"station_id"`
-	BottleID  *uint     `json:"bottle_id"`
-	UserID    *uint     `json:"user_id"`
-	Volume    int       `json:"volume"`
-	WaterType string    `json:"water_type"`
-	Timestamp time.Time `json:"timestamp"`
-	Guest     bool      `json:"guest"`
-}
-
 // @Summary Show all water transactions
 // @Description Get all water transactions
 // @Tags water_transactions
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} WaterTransactionResponse
+// @Success 200 {array} database.WaterTransaction
 // @Router /water_transactions [get]
 func GetWaterTransactions(c *gin.Context) {
 	idStr := c.Query("id")
@@ -59,7 +25,7 @@ func GetWaterTransactions(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, transactions)
+		c.JSON(http.StatusOK, transactions)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -72,7 +38,7 @@ func GetWaterTransactions(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, transaction)
+		c.JSON(http.StatusOK, transaction)
 	}
 }
 
@@ -81,8 +47,8 @@ func GetWaterTransactions(c *gin.Context) {
 // @Tags water_transactions
 // @Accept  json
 // @Produce  json
-// @Param transaction body CreateWaterTransactionRequest true "Water Transaction"
-// @Success 201 {object} WaterTransactionResponse
+// @Param transaction body database.WaterTransaction true "Water Transaction"
+// @Success 201 {object} database.WaterTransaction
 // @Router /water_transactions [post]
 func CreateWaterTransaction(c *gin.Context) {
 	var transaction database.WaterTransaction
@@ -96,7 +62,7 @@ func CreateWaterTransaction(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, transaction)
+	c.JSON(http.StatusCreated, transaction)
 }
 
 // @Summary Update a water transaction
@@ -104,8 +70,8 @@ func CreateWaterTransaction(c *gin.Context) {
 // @Tags water_transactions
 // @Accept  json
 // @Produce  json
-// @Param transaction body UpdateWaterTransactionRequest true "Water Transaction"
-// @Success 200 {object} WaterTransactionResponse
+// @Param transaction body database.WaterTransaction true "Water Transaction"
+// @Success 200 {object} database.WaterTransaction
 // @Router /water_transactions [put]
 func UpdateWaterTransaction(c *gin.Context) {
 	var transaction database.WaterTransaction
@@ -119,7 +85,7 @@ func UpdateWaterTransaction(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, transaction)
+	c.JSON(http.StatusOK, transaction)
 }
 
 // @Summary Delete a water transaction

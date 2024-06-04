@@ -8,38 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ConsumerTestQuestionResponse represents a consumer test question in the response
-type ConsumerTestQuestionResponse struct {
-	ID       uint     `json:"id"`
-	Text     string   `json:"text"`
-	MinValue *float32 `json:"min_value"`
-	MaxValue *float32 `json:"max_value"`
-	TestID   uint     `json:"test_id"`
-}
-
-// CreateConsumerTestQuestionRequest represents a request to create a consumer test question
-type CreateConsumerTestQuestionRequest struct {
-	Text     string   `json:"text"`
-	MinValue *float32 `json:"min_value"`
-	MaxValue *float32 `json:"max_value"`
-	TestID   uint     `json:"test_id"`
-}
-
-// UpdateConsumerTestQuestionRequest represents a request to update a consumer test question
-type UpdateConsumerTestQuestionRequest struct {
-	ID       uint     `json:"id"`
-	Text     string   `json:"text"`
-	MinValue *float32 `json:"min_value"`
-	MaxValue *float32 `json:"max_value"`
-	TestID   uint     `json:"test_id"`
-}
-
 // @Summary Show all consumer test questions
 // @Description Get all consumer test questions
 // @Tags consumer_test_questions
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} ConsumerTestQuestionResponse
+// @Success 200 {array} database.ConsumerTestQuestion
 // @Router /consumer_test_questions [get]
 func GetConsumerTestQuestions(c *gin.Context) {
 	idStr := c.Query("id")
@@ -50,7 +24,7 @@ func GetConsumerTestQuestions(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, questions)
+		c.JSON(http.StatusOK, questions)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -63,7 +37,7 @@ func GetConsumerTestQuestions(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, question)
+		c.JSON(http.StatusOK, question)
 	}
 }
 
@@ -72,8 +46,8 @@ func GetConsumerTestQuestions(c *gin.Context) {
 // @Tags consumer_test_questions
 // @Accept  json
 // @Produce  json
-// @Param question body CreateConsumerTestQuestionRequest true "Consumer Test Question"
-// @Success 201 {object} ConsumerTestQuestionResponse
+// @Param question body database.ConsumerTestQuestion true "Consumer Test Question"
+// @Success 201 {object} database.ConsumerTestQuestion
 // @Router /consumer_test_questions [post]
 func CreateConsumerTestQuestion(c *gin.Context) {
 	var question database.ConsumerTestQuestion
@@ -86,7 +60,7 @@ func CreateConsumerTestQuestion(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, question)
+	c.JSON(http.StatusCreated, question)
 }
 
 // @Summary Update a consumer test question
@@ -94,8 +68,8 @@ func CreateConsumerTestQuestion(c *gin.Context) {
 // @Tags consumer_test_questions
 // @Accept  json
 // @Produce  json
-// @Param question body UpdateConsumerTestQuestionRequest true "Consumer Test Question"
-// @Success 200 {object} ConsumerTestQuestionResponse
+// @Param question body database.ConsumerTestQuestion true "Consumer Test Question"
+// @Success 200 {object} database.ConsumerTestQuestion
 // @Router /consumer_test_questions [put]
 func UpdateConsumerTestQuestion(c *gin.Context) {
 	var question database.ConsumerTestQuestion
@@ -108,7 +82,7 @@ func UpdateConsumerTestQuestion(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, question)
+	c.JSON(http.StatusOK, question)
 }
 
 // @Summary Delete a consumer test question

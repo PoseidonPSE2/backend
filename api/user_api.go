@@ -9,35 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UserResponse represents a user in the response
-type UserResponse struct {
-	ID        uint    `json:"id"`
-	FirstName string  `json:"first_name"`
-	LastName  string  `json:"last_name"`
-	Email     *string `json:"email"`
-}
-
-// UpdateUserRequest represents a request to update a user
-type UpdateUserRequest struct {
-	ID        uint    `json:"id"`
-	FirstName string  `json:"first_name"`
-	LastName  string  `json:"last_name"`
-	Email     *string `json:"email"`
-}
-
-// CreateUserRequest represents a request to create a user
-type CreateUserRequest struct {
-	FirstName string  `json:"first_name"`
-	LastName  string  `json:"last_name"`
-	Email     *string `json:"email"`
-}
-
 // @Summary Show all users
 // @Description Get all users
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} UserResponse
+// @Success 200 {array} database.User
 // @Router /users [get]
 func GetUsers(c *gin.Context) {
 	log.Print(db)
@@ -49,7 +26,7 @@ func GetUsers(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, users)
+		c.JSON(http.StatusOK, users)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -62,7 +39,7 @@ func GetUsers(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, user)
+		c.JSON(http.StatusOK, user)
 	}
 }
 
@@ -71,8 +48,8 @@ func GetUsers(c *gin.Context) {
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param user body CreateUserRequest true "User"
-// @Success 201 {object} UserResponse
+// @Param user body database.User true "User"
+// @Success 201 {object} database.User
 // @Router /users [post]
 func CreateUser(c *gin.Context) {
 	var user database.User
@@ -85,7 +62,7 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, user)
+	c.JSON(http.StatusCreated, user)
 }
 
 // @Summary Update a user
@@ -93,8 +70,8 @@ func CreateUser(c *gin.Context) {
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param user body UpdateUserRequest true "User"
-// @Success 200 {object} UserResponse
+// @Param user body database.User true "User"
+// @Success 200 {object} database.User
 // @Router /users [put]
 func UpdateUser(c *gin.Context) {
 	var user database.User
@@ -107,7 +84,7 @@ func UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, user)
+	c.JSON(http.StatusOK, user)
 }
 
 // @Summary Delete a user

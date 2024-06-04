@@ -43,7 +43,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.BottleResponse"
+                                "$ref": "#/definitions/database.Bottle"
                             }
                         }
                     }
@@ -68,7 +68,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateBottleRequest"
+                            "$ref": "#/definitions/database.Bottle"
                         }
                     }
                 ],
@@ -76,7 +76,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.BottleResponse"
+                            "$ref": "#/definitions/database.Bottle"
                         }
                     }
                 }
@@ -100,7 +100,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateBottleRequest"
+                            "$ref": "#/definitions/database.Bottle"
                         }
                     }
                 ],
@@ -108,7 +108,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.BottleResponse"
+                            "$ref": "#/definitions/database.Bottle"
                         }
                     }
                 }
@@ -167,7 +167,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.BottlePreferences"
+                            "$ref": "#/definitions/database.Bottle"
                         }
                     }
                 }
@@ -192,7 +192,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.ConsumerTestAnswerResponse"
+                                "$ref": "#/definitions/database.ConsumerTestAnswer"
                             }
                         }
                     }
@@ -217,7 +217,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateConsumerTestAnswerRequest"
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
                         }
                     }
                 ],
@@ -225,7 +225,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ConsumerTestAnswerResponse"
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
                         }
                     }
                 }
@@ -249,7 +249,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateConsumerTestAnswerRequest"
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
                         }
                     }
                 ],
@@ -257,7 +257,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.ConsumerTestAnswerResponse"
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
                         }
                     }
                 }
@@ -309,7 +309,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.ConsumerTestQuestionResponse"
+                                "$ref": "#/definitions/database.ConsumerTestQuestion"
                             }
                         }
                     }
@@ -334,7 +334,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateConsumerTestQuestionRequest"
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
                         }
                     }
                 ],
@@ -342,7 +342,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ConsumerTestQuestionResponse"
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
                         }
                     }
                 }
@@ -366,7 +366,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateConsumerTestQuestionRequest"
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
                         }
                     }
                 ],
@@ -374,7 +374,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.ConsumerTestQuestionResponse"
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
                         }
                     }
                 }
@@ -426,7 +426,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.ConsumerTestResponse"
+                                "$ref": "#/definitions/database.ConsumerTest"
                             }
                         }
                     }
@@ -451,7 +451,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateConsumerTestRequest"
+                            "$ref": "#/definitions/database.ConsumerTest"
                         }
                     }
                 ],
@@ -459,7 +459,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ConsumerTestResponse"
+                            "$ref": "#/definitions/database.ConsumerTest"
                         }
                     }
                 }
@@ -483,7 +483,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateConsumerTestRequest"
+                            "$ref": "#/definitions/database.ConsumerTest"
                         }
                     }
                 ],
@@ -491,7 +491,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.ConsumerTestResponse"
+                            "$ref": "#/definitions/database.ConsumerTest"
                         }
                     }
                 }
@@ -541,7 +541,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ContributionCommunityResponse"
+                            "$ref": "#/definitions/database.WaterTransaction"
                         }
                     }
                 }
@@ -564,7 +564,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ContributionKLResponse"
+                            "$ref": "#/definitions/database.RefillStation"
                         }
                     }
                 }
@@ -596,7 +596,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.ContributionUserResponse"
+                            "$ref": "#/definitions/database.WaterTransaction"
                         }
                     }
                 }
@@ -621,7 +621,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.LikeResponse"
+                                "$ref": "#/definitions/database.Like"
                             }
                         }
                     }
@@ -646,7 +646,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateLikeRequest"
+                            "$ref": "#/definitions/database.Like"
                         }
                     }
                 ],
@@ -654,7 +654,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.LikeResponse"
+                            "$ref": "#/definitions/database.Like"
                         }
                     }
                 }
@@ -678,7 +678,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateLikeRequest"
+                            "$ref": "#/definitions/database.Like"
                         }
                     }
                 ],
@@ -686,7 +686,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.LikeResponse"
+                            "$ref": "#/definitions/database.Like"
                         }
                     }
                 }
@@ -738,7 +738,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.RefillStationProblemResponse"
+                                "$ref": "#/definitions/database.RefillStationProblem"
                             }
                         }
                     }
@@ -763,7 +763,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateRefillStationProblemRequest"
+                            "$ref": "#/definitions/database.RefillStationProblem"
                         }
                     }
                 ],
@@ -771,7 +771,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationProblemResponse"
+                            "$ref": "#/definitions/database.RefillStationProblem"
                         }
                     }
                 }
@@ -795,7 +795,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateRefillStationProblemRequest"
+                            "$ref": "#/definitions/database.RefillStationProblem"
                         }
                     }
                 ],
@@ -803,7 +803,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationProblemResponse"
+                            "$ref": "#/definitions/database.RefillStationProblem"
                         }
                     }
                 }
@@ -855,7 +855,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.RefillStationReviewResponse"
+                                "$ref": "#/definitions/database.RefillStationReview"
                             }
                         }
                     }
@@ -880,7 +880,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateRefillStationReviewRequest"
+                            "$ref": "#/definitions/database.RefillStationReview"
                         }
                     }
                 ],
@@ -888,7 +888,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationReviewResponse"
+                            "$ref": "#/definitions/database.RefillStationReview"
                         }
                     }
                 }
@@ -912,7 +912,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateRefillStationReviewRequest"
+                            "$ref": "#/definitions/database.RefillStationReview"
                         }
                     }
                 ],
@@ -920,7 +920,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationReviewResponse"
+                            "$ref": "#/definitions/database.RefillStationReview"
                         }
                     }
                 }
@@ -972,7 +972,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.RefillStationResponse"
+                                "$ref": "#/definitions/database.RefillStation"
                             }
                         }
                     }
@@ -997,7 +997,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateRefillStationRequest"
+                            "$ref": "#/definitions/database.RefillStation"
                         }
                     }
                 ],
@@ -1005,7 +1005,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationResponse"
+                            "$ref": "#/definitions/database.RefillStation"
                         }
                     }
                 }
@@ -1029,7 +1029,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateRefillStationRequest"
+                            "$ref": "#/definitions/database.RefillStation"
                         }
                     }
                 ],
@@ -1037,7 +1037,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationResponse"
+                            "$ref": "#/definitions/database.RefillStation"
                         }
                     }
                 }
@@ -1089,7 +1089,8 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.RefillStationMarkerResponse"
+                                "type": "object",
+                                "additionalProperties": true
                             }
                         }
                     }
@@ -1122,7 +1123,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.RefillStationResponse"
+                            "$ref": "#/definitions/database.RefillStation"
                         }
                     }
                 }
@@ -1193,19 +1194,28 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.IsLikedResponse"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/api.ErrorResponse"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/api.ErrorResponse"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -1230,7 +1240,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.UserResponse"
+                                "$ref": "#/definitions/database.User"
                             }
                         }
                     }
@@ -1255,7 +1265,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateUserRequest"
+                            "$ref": "#/definitions/database.User"
                         }
                     }
                 ],
@@ -1263,7 +1273,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.UserResponse"
+                            "$ref": "#/definitions/database.User"
                         }
                     }
                 }
@@ -1287,7 +1297,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateUserRequest"
+                            "$ref": "#/definitions/database.User"
                         }
                     }
                 ],
@@ -1295,7 +1305,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.UserResponse"
+                            "$ref": "#/definitions/database.User"
                         }
                     }
                 }
@@ -1328,6 +1338,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/{userId}/bottles": {
+            "get": {
+                "description": "Get all bottles associated with a specific user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Get all bottles by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Bottle"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/water_transactions": {
             "get": {
                 "description": "Get all water transactions",
@@ -1347,7 +1392,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/api.WaterTransactionResponse"
+                                "$ref": "#/definitions/database.WaterTransaction"
                             }
                         }
                     }
@@ -1372,7 +1417,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.UpdateWaterTransactionRequest"
+                            "$ref": "#/definitions/database.WaterTransaction"
                         }
                     }
                 ],
@@ -1380,7 +1425,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.WaterTransactionResponse"
+                            "$ref": "#/definitions/database.WaterTransaction"
                         }
                     }
                 }
@@ -1404,7 +1449,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateWaterTransactionRequest"
+                            "$ref": "#/definitions/database.WaterTransaction"
                         }
                     }
                 ],
@@ -1412,7 +1457,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/api.WaterTransactionResponse"
+                            "$ref": "#/definitions/database.WaterTransaction"
                         }
                     }
                 }
@@ -1447,487 +1492,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.BottlePreferences": {
-            "type": "object",
-            "properties": {
-                "fill_volume": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "water_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.BottleResponse": {
+        "database.Bottle": {
             "type": "object",
             "properties": {
                 "active": {
                     "type": "boolean"
                 },
-                "fill_volume": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "nfc_id": {
-                    "type": "string"
-                },
-                "path_image": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "water_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.ConsumerTestAnswerResponse": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "number"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "question_id": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.ConsumerTestQuestionResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "max_value": {
-                    "type": "number"
-                },
-                "min_value": {
-                    "type": "number"
-                },
-                "test_id": {
-                    "type": "integer"
-                },
-                "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.ConsumerTestResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.ContributionCommunityResponse": {
-            "type": "object",
-            "properties": {
-                "amountFillings": {
-                    "type": "integer"
-                },
-                "amountUser": {
-                    "type": "integer"
-                },
-                "amountWater": {
-                    "type": "integer"
-                },
-                "savedMoney": {
-                    "type": "number"
-                },
-                "savedTrash": {
-                    "type": "number"
-                }
-            }
-        },
-        "api.ContributionKLResponse": {
-            "type": "object",
-            "properties": {
-                "amountRefillStationManual": {
-                    "type": "integer"
-                },
-                "amountRefillStationSmart": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.ContributionUserResponse": {
-            "type": "object",
-            "properties": {
-                "amountFillings": {
-                    "type": "integer"
-                },
-                "amountWater": {
-                    "type": "integer"
-                },
-                "savedMoney": {
-                    "type": "number"
-                },
-                "savedTrash": {
-                    "type": "number"
-                }
-            }
-        },
-        "api.CreateBottleRequest": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "fill_volume": {
-                    "type": "integer"
-                },
-                "nfc_id": {
-                    "type": "string"
-                },
-                "path_image": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "water_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.CreateConsumerTestAnswerRequest": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "number"
-                },
-                "question_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.CreateConsumerTestQuestionRequest": {
-            "type": "object",
-            "properties": {
-                "max_value": {
-                    "type": "number"
-                },
-                "min_value": {
-                    "type": "number"
-                },
-                "test_id": {
-                    "type": "integer"
-                },
-                "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.CreateConsumerTestRequest": {
-            "type": "object",
-            "properties": {
-                "questions": {
+                "bottle_image": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/database.ConsumerTestQuestion"
+                        "type": "integer"
                     }
-                }
-            }
-        },
-        "api.CreateLikeRequest": {
-            "type": "object",
-            "properties": {
-                "station_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.CreateRefillStationProblemRequest": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "link_to_media": {
-                    "type": "string"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.CreateRefillStationRequest": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "image_path": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "offered_water_types": {
-                    "type": "string"
-                },
-                "opening_times": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "water_source": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.CreateRefillStationReviewRequest": {
-            "type": "object",
-            "properties": {
-                "accessibility": {
-                    "type": "integer"
-                },
-                "cleanness": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "water_quality": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.CreateUserRequest": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.CreateWaterTransactionRequest": {
-            "type": "object",
-            "properties": {
-                "bottle_id": {
-                    "type": "integer"
-                },
-                "guest": {
-                    "type": "boolean"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "volume": {
-                    "type": "integer"
-                },
-                "water_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.IsLikedResponse": {
-            "type": "object",
-            "properties": {
-                "isLiked": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "api.LikeResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.RefillStationMarkerResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "status": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "api.RefillStationProblemResponse": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "link_to_media": {
-                    "type": "string"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.RefillStationResponse": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "image_path": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "offered_water_types": {
-                    "type": "string"
-                },
-                "opening_times": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "water_source": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.RefillStationReviewResponse": {
-            "type": "object",
-            "properties": {
-                "accessibility": {
-                    "type": "integer"
-                },
-                "cleanness": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "water_quality": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.UpdateBottleRequest": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
                 },
                 "fill_volume": {
                     "type": "integer"
@@ -1938,9 +1513,6 @@ const docTemplate = `{
                 "nfc_id": {
                     "type": "string"
                 },
-                "path_image": {
-                    "type": "string"
-                },
                 "title": {
                     "type": "string"
                 },
@@ -1952,253 +1524,11 @@ const docTemplate = `{
                 }
             }
         },
-        "api.UpdateConsumerTestAnswerRequest": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "number"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "question_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.UpdateConsumerTestQuestionRequest": {
+        "database.ConsumerTest": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "integer"
-                },
-                "max_value": {
-                    "type": "number"
-                },
-                "min_value": {
-                    "type": "number"
-                },
-                "test_id": {
-                    "type": "integer"
-                },
-                "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.UpdateConsumerTestRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "questions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/database.ConsumerTestQuestion"
-                    }
-                }
-            }
-        },
-        "api.UpdateLikeRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.UpdateRefillStationProblemRequest": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "link_to_media": {
-                    "type": "string"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.UpdateRefillStationRequest": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "image_path": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "offered_water_types": {
-                    "type": "string"
-                },
-                "opening_times": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "water_source": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.UpdateRefillStationReviewRequest": {
-            "type": "object",
-            "properties": {
-                "accessibility": {
-                    "type": "integer"
-                },
-                "cleanness": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "water_quality": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.UpdateUserRequest": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.UpdateWaterTransactionRequest": {
-            "type": "object",
-            "properties": {
-                "bottle_id": {
-                    "type": "integer"
-                },
-                "guest": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "volume": {
-                    "type": "integer"
-                },
-                "water_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.UserResponse": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.WaterTransactionResponse": {
-            "type": "object",
-            "properties": {
-                "bottle_id": {
-                    "type": "integer"
-                },
-                "guest": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "station_id": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "volume": {
-                    "type": "integer"
-                },
-                "water_type": {
-                    "type": "string"
                 }
             }
         },
@@ -2211,13 +1541,13 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "questionID": {
+                "question_id": {
                     "type": "integer"
                 },
                 "timestamp": {
                     "type": "string"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -2225,25 +1555,178 @@ const docTemplate = `{
         "database.ConsumerTestQuestion": {
             "type": "object",
             "properties": {
-                "answers": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/database.ConsumerTestAnswer"
-                    }
+                "id": {
+                    "type": "integer"
+                },
+                "max_value": {
+                    "type": "number"
+                },
+                "min_value": {
+                    "type": "number"
+                },
+                "test_id": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.Like": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "database.RefillStation": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "maxValue": {
+                "latitude": {
                     "type": "number"
                 },
-                "minValue": {
+                "longitude": {
                     "type": "number"
                 },
-                "testID": {
+                "name": {
+                    "type": "string"
+                },
+                "offered_water_types": {
+                    "type": "string"
+                },
+                "opening_times": {
+                    "type": "string"
+                },
+                "refill_station_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "water_source": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.RefillStationProblem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "integer"
                 },
-                "text": {
+                "refill_station_problem_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.RefillStationReview": {
+            "type": "object",
+            "properties": {
+                "accessibility": {
+                    "type": "integer"
+                },
+                "cleanness": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "water_quality": {
+                    "type": "integer"
+                }
+            }
+        },
+        "database.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.WaterTransaction": {
+            "type": "object",
+            "properties": {
+                "bottle_id": {
+                    "type": "integer"
+                },
+                "guest": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "volume": {
+                    "type": "integer"
+                },
+                "water_type": {
                     "type": "string"
                 }
             }

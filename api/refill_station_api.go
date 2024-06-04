@@ -9,67 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RefillStationResponse represents a refill station in the response
-type RefillStationResponse struct {
-	ID                uint    `json:"id"`
-	Name              string  `json:"name"`
-	Description       string  `json:"description"`
-	Latitude          float64 `json:"latitude"`
-	Longitude         float64 `json:"longitude"`
-	Address           string  `json:"address"`
-	WaterSource       string  `json:"water_source"`
-	OpeningTimes      string  `json:"opening_times"`
-	Active            bool    `json:"active"`
-	Type              string  `json:"type"`
-	OfferedWaterTypes string  `json:"offered_water_types"`
-	ImagePath         *string `json:"image_path"`
-}
-
-// RefillStationMarkerResponse represents a refill station marker in the response
-type RefillStationMarkerResponse struct {
-	ID        uint    `json:"id"`
-	Longitude float64 `json:"longitude"`
-	Latitude  float64 `json:"latitude"`
-	Status    bool    `json:"status"`
-}
-
-// CreateRefillStationRequest represents a request to create a refill station
-type CreateRefillStationRequest struct {
-	Name              string  `json:"name"`
-	Description       string  `json:"description"`
-	Latitude          float64 `json:"latitude"`
-	Longitude         float64 `json:"longitude"`
-	Address           string  `json:"address"`
-	WaterSource       string  `json:"water_source"`
-	OpeningTimes      string  `json:"opening_times"`
-	Active            bool    `json:"active"`
-	Type              string  `json:"type"`
-	OfferedWaterTypes string  `json:"offered_water_types"`
-	ImagePath         *string `json:"image_path"`
-}
-
-// UpdateRefillStationRequest represents a request to update a refill station
-type UpdateRefillStationRequest struct {
-	ID                uint    `json:"id"`
-	Name              string  `json:"name"`
-	Description       string  `json:"description"`
-	Latitude          float64 `json:"latitude"`
-	Longitude         float64 `json:"longitude"`
-	Address           string  `json:"address"`
-	WaterSource       string  `json:"water_source"`
-	OpeningTimes      string  `json:"opening_times"`
-	Active            bool    `json:"active"`
-	Type              string  `json:"type"`
-	OfferedWaterTypes string  `json:"offered_water_types"`
-	ImagePath         *string `json:"image_path"`
-}
-
 // @Summary Show all refill stations
 // @Description Get all refill stations
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} RefillStationResponse
+// @Success 200 {array} database.RefillStation
 // @Router /refill_stations [get]
 func GetRefillStations(c *gin.Context) {
 	idStr := c.Query("id")
@@ -80,7 +25,7 @@ func GetRefillStations(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, stations)
+		c.JSON(http.StatusOK, stations)
 	} else {
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
@@ -93,7 +38,7 @@ func GetRefillStations(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 			return
 		}
-		respondWithJSON(c, http.StatusOK, station)
+		c.JSON(http.StatusOK, station)
 	}
 }
 
@@ -102,7 +47,7 @@ func GetRefillStations(c *gin.Context) {
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} RefillStationMarkerResponse
+// @Success 200 {array} map[string]interface{}
 // @Router /refill_stations/markers [get]
 func GetAllRefillstationMarker(c *gin.Context) {
 	var stations []database.RefillStation
@@ -112,17 +57,17 @@ func GetAllRefillstationMarker(c *gin.Context) {
 		return
 	}
 
-	var markers []RefillStationMarkerResponse
+	var markers []map[string]interface{}
 	for _, station := range stations {
-		markers = append(markers, RefillStationMarkerResponse{
-			ID:        station.ID,
-			Longitude: station.Longitude,
-			Latitude:  station.Latitude,
-			Status:    station.Active,
+		markers = append(markers, map[string]interface{}{
+			"id":        station.ID,
+			"longitude": station.Longitude,
+			"latitude":  station.Latitude,
+			"status":    station.Active,
 		})
 	}
 
-	respondWithJSON(c, http.StatusOK, markers)
+	c.JSON(http.StatusOK, markers)
 }
 
 // @Summary Get a refill station by ID
@@ -131,7 +76,7 @@ func GetAllRefillstationMarker(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id path int true "Refill Station ID"
-// @Success 200 {object} RefillStationResponse
+// @Success 200 {object} database.RefillStation
 // @Router /refill_stations/{id} [get]
 func GetRefillStationById(c *gin.Context) {
 	idStr := c.Param("id")
@@ -146,7 +91,7 @@ func GetRefillStationById(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, station)
+	c.JSON(http.StatusOK, station)
 }
 
 // @Summary Get the average review score for a refill station
@@ -199,8 +144,8 @@ func GetRefillStationReviewByID(c *gin.Context) {
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Param station body CreateRefillStationRequest true "Refill Station"
-// @Success 201 {object} RefillStationResponse
+// @Param station body database.RefillStation true "Refill Station"
+// @Success 201 {object} database.RefillStation
 // @Router /refill_stations [post]
 func CreateRefillStation(c *gin.Context) {
 	var station database.RefillStation
@@ -213,7 +158,7 @@ func CreateRefillStation(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusCreated, station)
+	c.JSON(http.StatusCreated, station)
 }
 
 // @Summary Update a refill station
@@ -221,8 +166,8 @@ func CreateRefillStation(c *gin.Context) {
 // @Tags refill_stations
 // @Accept  json
 // @Produce  json
-// @Param station body UpdateRefillStationRequest true "Refill Station"
-// @Success 200 {object} RefillStationResponse
+// @Param station body database.RefillStation true "Refill Station"
+// @Success 200 {object} database.RefillStation
 // @Router /refill_stations [put]
 func UpdateRefillStation(c *gin.Context) {
 	var station database.RefillStation
@@ -235,7 +180,7 @@ func UpdateRefillStation(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
-	respondWithJSON(c, http.StatusOK, station)
+	c.JSON(http.StatusOK, station)
 }
 
 // @Summary Delete a refill station
