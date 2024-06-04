@@ -202,6 +202,18 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Type:              "Smart",
 			OfferedWaterTypes: "Tap",
 		},
+		{
+			Name:              "Wochenmarkt",
+			Description:       "Frische Lebensmittel von Obst über Käse, Gemüse und Wurstwaren, bis hin zu Fisch und Backwaren, sowie Blumen und Pflanzen",
+			Latitude:          49.44025,
+			Longitude:         7.75878,
+			Address:           "Königstraße 68 67655 Kaiserslautern",
+			WaterSource:       "Stadtwerke",
+			OpeningTimes:      "Do / 07:00 AM - 13:59 PM",
+			Active:            false,
+			Type:              "Smart",
+			OfferedWaterTypes: "Tap",
+		},
 	}
 
 	for _, station := range refillStations {
