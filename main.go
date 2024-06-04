@@ -85,7 +85,7 @@ func main() {
 	r.DELETE("/users", api.DeleteUser)
 
 	r.GET("/bottles", api.GetBottles)
-	r.GET("/bottles/preferences/:id", api.GetBottlePreferencesByNFCId)
+	r.GET("/bottles/preferences/:nfcId", api.GetBottlePreferencesByNFCId)
 	r.POST("/bottles", api.CreateBottle)
 	r.PUT("/bottles", api.UpdateBottle)
 	r.DELETE("/bottles", api.DeleteBottle)
