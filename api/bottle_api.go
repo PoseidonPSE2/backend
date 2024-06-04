@@ -73,10 +73,15 @@ func GetBottles(c *gin.Context) {
 // @Produce json
 // @Param nfc_id path string true "NFC ID"
 // @Success 200 {object} database.Bottle
-// @Router /bottles/preferences/{nfc-id} [get]
+// @Router /bottles/preferences/{nfcId} [get]
 func GetBottlePreferencesByNFCId(c *gin.Context) {
-	nfcID := c.Param("nfc-id")
+	nfcID := c.Param("nfcId")
 	var bottle database.Bottle
+
+	if nfcID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "nfcID cannot be empty"})
+		return
+	}
 
 	if err := db.Where("nfc_id = ?", nfcID).First(&bottle).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Row not found for NFC ID"})
