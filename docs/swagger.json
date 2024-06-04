@@ -1,0 +1,1777 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server for a water station.",
+        "title": "Swagger Example API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "https://poseidon-backend.fly.dev/",
+    "basePath": "/",
+    "paths": {
+        "/bottles": {
+            "get": {
+                "description": "Get all bottles",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Show all bottles",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Bottle"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Update a bottle",
+                "parameters": [
+                    {
+                        "description": "Bottle",
+                        "name": "bottle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Create a bottle",
+                "parameters": [
+                    {
+                        "description": "Bottle",
+                        "name": "bottle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Delete a bottle",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bottle ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/bottles/preferences/{nfcId}": {
+            "get": {
+                "description": "Get bottle preferences by the NFC ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Get bottle preferences by the NFC ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "NFC ID",
+                        "name": "nfc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            }
+        },
+        "/consumer_test_answers": {
+            "get": {
+                "description": "Get all consumer test answers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_answers"
+                ],
+                "summary": "Show all consumer test answers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.ConsumerTestAnswer"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing consumer test answer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_answers"
+                ],
+                "summary": "Update a consumer test answer",
+                "parameters": [
+                    {
+                        "description": "Consumer Test Answer",
+                        "name": "answer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new consumer test answer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_answers"
+                ],
+                "summary": "Create a consumer test answer",
+                "parameters": [
+                    {
+                        "description": "Consumer Test Answer",
+                        "name": "answer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestAnswer"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing consumer test answer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_answers"
+                ],
+                "summary": "Delete a consumer test answer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Consumer Test Answer ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/consumer_test_questions": {
+            "get": {
+                "description": "Get all consumer test questions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_questions"
+                ],
+                "summary": "Show all consumer test questions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.ConsumerTestQuestion"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing consumer test question",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_questions"
+                ],
+                "summary": "Update a consumer test question",
+                "parameters": [
+                    {
+                        "description": "Consumer Test Question",
+                        "name": "question",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new consumer test question",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_questions"
+                ],
+                "summary": "Create a consumer test question",
+                "parameters": [
+                    {
+                        "description": "Consumer Test Question",
+                        "name": "question",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTestQuestion"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing consumer test question",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_test_questions"
+                ],
+                "summary": "Delete a consumer test question",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Consumer Test Question ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/consumer_tests": {
+            "get": {
+                "description": "Get all consumer tests",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_tests"
+                ],
+                "summary": "Show all consumer tests",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.ConsumerTest"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing consumer test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_tests"
+                ],
+                "summary": "Update a consumer test",
+                "parameters": [
+                    {
+                        "description": "Consumer Test",
+                        "name": "test",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTest"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new consumer test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_tests"
+                ],
+                "summary": "Create a consumer test",
+                "parameters": [
+                    {
+                        "description": "Consumer Test",
+                        "name": "test",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.ConsumerTest"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing consumer test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consumer_tests"
+                ],
+                "summary": "Delete a consumer test",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Consumer Test ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/contribution/community": {
+            "get": {
+                "description": "Get the total water amount and savings for the community",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contribution"
+                ],
+                "summary": "Get community contribution",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ContributionCommunityResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/contribution/kl": {
+            "get": {
+                "description": "Get the number of smart and manual refill stations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contribution"
+                ],
+                "summary": "Get contribution by station type",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ContributionKLResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/contribution/user": {
+            "get": {
+                "description": "Get the total water amount and savings for a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contribution"
+                ],
+                "summary": "Get user contribution",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ContributionUserResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/likes": {
+            "get": {
+                "description": "Get all likes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Show all likes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Like"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing like",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Update a like",
+                "parameters": [
+                    {
+                        "description": "Like",
+                        "name": "like",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Like"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Like"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new like",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Create a like",
+                "parameters": [
+                    {
+                        "description": "Like",
+                        "name": "like",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Like"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.Like"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing like",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Delete a like",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Like ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/refill_station_problems": {
+            "get": {
+                "description": "Get all refill station problems",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_problems"
+                ],
+                "summary": "Show all refill station problems",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.RefillStationProblem"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing refill station problem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_problems"
+                ],
+                "summary": "Update a refill station problem",
+                "parameters": [
+                    {
+                        "description": "Refill Station Problem",
+                        "name": "problem",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationProblem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationProblem"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new refill station problem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_problems"
+                ],
+                "summary": "Create a refill station problem",
+                "parameters": [
+                    {
+                        "description": "Refill Station Problem",
+                        "name": "problem",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationProblem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationProblem"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing refill station problem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_problems"
+                ],
+                "summary": "Delete a refill station problem",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station Problem ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/refill_station_reviews": {
+            "get": {
+                "description": "Get all refill station reviews",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Show all refill station reviews",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.RefillStationReview"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing refill station review",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Update a refill station review",
+                "parameters": [
+                    {
+                        "description": "Refill Station Review",
+                        "name": "review",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationReview"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationReview"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new refill station review",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Create a refill station review",
+                "parameters": [
+                    {
+                        "description": "Refill Station Review",
+                        "name": "review",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationReview"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationReview"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing refill station review",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Delete a refill station review",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station Review ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/refill_stations": {
+            "get": {
+                "description": "Get all refill stations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Show all refill stations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.RefillStation"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Update a refill station",
+                "parameters": [
+                    {
+                        "description": "Refill Station",
+                        "name": "station",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStation"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Create a refill station",
+                "parameters": [
+                    {
+                        "description": "Refill Station",
+                        "name": "station",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStation"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Delete a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/refill_stations/markers": {
+            "get": {
+                "description": "Get all refill station markers with specific attributes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Get all refill station markers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/refill_stations/{id}": {
+            "get": {
+                "description": "Get a refill station by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_stations"
+                ],
+                "summary": "Get a refill station by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStation"
+                        }
+                    }
+                }
+            }
+        },
+        "/refill_stations/{id}/reviews": {
+            "get": {
+                "description": "Get the average review score for a refill station by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Get the average review score for a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "/refillstation_like": {
+            "get": {
+                "description": "Check if a specific user likes a specific refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Check if a user likes a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "refillstationId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Get all users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Show all users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.User"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update a user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.User"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create a user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.User"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete a user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/users/{userId}/bottles": {
+            "get": {
+                "description": "Get all bottles associated with a specific user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bottles"
+                ],
+                "summary": "Get all bottles by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Bottle"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/water_transactions": {
+            "get": {
+                "description": "Get all water transactions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "water_transactions"
+                ],
+                "summary": "Show all water transactions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.WaterTransaction"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing water transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "water_transactions"
+                ],
+                "summary": "Update a water transaction",
+                "parameters": [
+                    {
+                        "description": "Water Transaction",
+                        "name": "transaction",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.WaterTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.WaterTransaction"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new water transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "water_transactions"
+                ],
+                "summary": "Create a water transaction",
+                "parameters": [
+                    {
+                        "description": "Water Transaction",
+                        "name": "transaction",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.WaterTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/database.WaterTransaction"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing water transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "water_transactions"
+                ],
+                "summary": "Delete a water transaction",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Water Transaction ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.ContributionCommunityResponse": {
+            "type": "object",
+            "properties": {
+                "amountFillings": {
+                    "type": "integer"
+                },
+                "amountUser": {
+                    "type": "integer"
+                },
+                "amountWater": {
+                    "type": "integer"
+                },
+                "savedMoney": {
+                    "type": "number"
+                },
+                "savedTrash": {
+                    "type": "number"
+                }
+            }
+        },
+        "api.ContributionKLResponse": {
+            "type": "object",
+            "properties": {
+                "amountRefillStationManual": {
+                    "type": "integer"
+                },
+                "amountRefillStationSmart": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.ContributionUserResponse": {
+            "type": "object",
+            "properties": {
+                "amountFillings": {
+                    "type": "integer"
+                },
+                "amountWater": {
+                    "type": "integer"
+                },
+                "savedMoney": {
+                    "type": "number"
+                },
+                "savedTrash": {
+                    "type": "number"
+                }
+            }
+        },
+        "database.Bottle": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "bottle_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "fill_volume": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nfc_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "water_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.ConsumerTest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "database.ConsumerTestAnswer": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "question_id": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "database.ConsumerTestQuestion": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "max_value": {
+                    "type": "number"
+                },
+                "min_value": {
+                    "type": "number"
+                },
+                "test_id": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.Like": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "database.RefillStation": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "offered_water_types": {
+                    "type": "string"
+                },
+                "opening_times": {
+                    "type": "string"
+                },
+                "refill_station_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "water_source": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.RefillStationProblem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "refill_station_problem_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.RefillStationReview": {
+            "type": "object",
+            "properties": {
+                "accessibility": {
+                    "type": "integer"
+                },
+                "cleanness": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "water_quality": {
+                    "type": "integer"
+                }
+            }
+        },
+        "database.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "database.WaterTransaction": {
+            "type": "object",
+            "properties": {
+                "bottle_id": {
+                    "type": "integer"
+                },
+                "guest": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "volume": {
+                    "type": "integer"
+                },
+                "water_type": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

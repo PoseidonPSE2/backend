@@ -1,0 +1,1169 @@
+basePath: /
+definitions:
+  api.ContributionCommunityResponse:
+    properties:
+      amountFillings:
+        type: integer
+      amountUser:
+        type: integer
+      amountWater:
+        type: integer
+      savedMoney:
+        type: number
+      savedTrash:
+        type: number
+    type: object
+  api.ContributionKLResponse:
+    properties:
+      amountRefillStationManual:
+        type: integer
+      amountRefillStationSmart:
+        type: integer
+    type: object
+  api.ContributionUserResponse:
+    properties:
+      amountFillings:
+        type: integer
+      amountWater:
+        type: integer
+      savedMoney:
+        type: number
+      savedTrash:
+        type: number
+    type: object
+  database.Bottle:
+    properties:
+      active:
+        type: boolean
+      bottle_image:
+        items:
+          type: integer
+        type: array
+      fill_volume:
+        type: integer
+      id:
+        type: integer
+      nfc_id:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+      water_type:
+        type: string
+    type: object
+  database.ConsumerTest:
+    properties:
+      id:
+        type: integer
+    type: object
+  database.ConsumerTestAnswer:
+    properties:
+      answer:
+        type: number
+      id:
+        type: integer
+      question_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  database.ConsumerTestQuestion:
+    properties:
+      id:
+        type: integer
+      max_value:
+        type: number
+      min_value:
+        type: number
+      test_id:
+        type: integer
+      text:
+        type: string
+    type: object
+  database.Like:
+    properties:
+      id:
+        type: integer
+      station_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  database.RefillStation:
+    properties:
+      active:
+        type: boolean
+      address:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      offered_water_types:
+        type: string
+      opening_times:
+        type: string
+      refill_station_image:
+        items:
+          type: integer
+        type: array
+      type:
+        type: string
+      water_source:
+        type: string
+    type: object
+  database.RefillStationProblem:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      refill_station_problem_image:
+        items:
+          type: integer
+        type: array
+      station_id:
+        type: integer
+      status:
+        type: string
+      timestamp:
+        type: string
+      title:
+        type: string
+    type: object
+  database.RefillStationReview:
+    properties:
+      accessibility:
+        type: integer
+      cleanness:
+        type: integer
+      id:
+        type: integer
+      station_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+      water_quality:
+        type: integer
+    type: object
+  database.User:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+    type: object
+  database.WaterTransaction:
+    properties:
+      bottle_id:
+        type: integer
+      guest:
+        type: boolean
+      id:
+        type: integer
+      station_id:
+        type: integer
+      timestamp:
+        type: string
+      user_id:
+        type: integer
+      volume:
+        type: integer
+      water_type:
+        type: string
+    type: object
+host: https://poseidon-backend.fly.dev/
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for a water station.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /bottles:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing bottle
+      parameters:
+      - description: Bottle ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a bottle
+      tags:
+      - bottles
+    get:
+      consumes:
+      - application/json
+      description: Get all bottles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Bottle'
+            type: array
+      summary: Show all bottles
+      tags:
+      - bottles
+    post:
+      consumes:
+      - application/json
+      description: Create a new bottle
+      parameters:
+      - description: Bottle
+        in: body
+        name: bottle
+        required: true
+        schema:
+          $ref: '#/definitions/database.Bottle'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.Bottle'
+      summary: Create a bottle
+      tags:
+      - bottles
+    put:
+      consumes:
+      - application/json
+      description: Update an existing bottle
+      parameters:
+      - description: Bottle
+        in: body
+        name: bottle
+        required: true
+        schema:
+          $ref: '#/definitions/database.Bottle'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Bottle'
+      summary: Update a bottle
+      tags:
+      - bottles
+  /bottles/preferences/{nfcId}:
+    get:
+      consumes:
+      - application/json
+      description: Get bottle preferences by the NFC ID
+      parameters:
+      - description: NFC ID
+        in: path
+        name: nfc_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Bottle'
+      summary: Get bottle preferences by the NFC ID
+      tags:
+      - bottles
+  /consumer_test_answers:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing consumer test answer
+      parameters:
+      - description: Consumer Test Answer ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a consumer test answer
+      tags:
+      - consumer_test_answers
+    get:
+      consumes:
+      - application/json
+      description: Get all consumer test answers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.ConsumerTestAnswer'
+            type: array
+      summary: Show all consumer test answers
+      tags:
+      - consumer_test_answers
+    post:
+      consumes:
+      - application/json
+      description: Create a new consumer test answer
+      parameters:
+      - description: Consumer Test Answer
+        in: body
+        name: answer
+        required: true
+        schema:
+          $ref: '#/definitions/database.ConsumerTestAnswer'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.ConsumerTestAnswer'
+      summary: Create a consumer test answer
+      tags:
+      - consumer_test_answers
+    put:
+      consumes:
+      - application/json
+      description: Update an existing consumer test answer
+      parameters:
+      - description: Consumer Test Answer
+        in: body
+        name: answer
+        required: true
+        schema:
+          $ref: '#/definitions/database.ConsumerTestAnswer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.ConsumerTestAnswer'
+      summary: Update a consumer test answer
+      tags:
+      - consumer_test_answers
+  /consumer_test_questions:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing consumer test question
+      parameters:
+      - description: Consumer Test Question ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a consumer test question
+      tags:
+      - consumer_test_questions
+    get:
+      consumes:
+      - application/json
+      description: Get all consumer test questions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.ConsumerTestQuestion'
+            type: array
+      summary: Show all consumer test questions
+      tags:
+      - consumer_test_questions
+    post:
+      consumes:
+      - application/json
+      description: Create a new consumer test question
+      parameters:
+      - description: Consumer Test Question
+        in: body
+        name: question
+        required: true
+        schema:
+          $ref: '#/definitions/database.ConsumerTestQuestion'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.ConsumerTestQuestion'
+      summary: Create a consumer test question
+      tags:
+      - consumer_test_questions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing consumer test question
+      parameters:
+      - description: Consumer Test Question
+        in: body
+        name: question
+        required: true
+        schema:
+          $ref: '#/definitions/database.ConsumerTestQuestion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.ConsumerTestQuestion'
+      summary: Update a consumer test question
+      tags:
+      - consumer_test_questions
+  /consumer_tests:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing consumer test
+      parameters:
+      - description: Consumer Test ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a consumer test
+      tags:
+      - consumer_tests
+    get:
+      consumes:
+      - application/json
+      description: Get all consumer tests
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.ConsumerTest'
+            type: array
+      summary: Show all consumer tests
+      tags:
+      - consumer_tests
+    post:
+      consumes:
+      - application/json
+      description: Create a new consumer test
+      parameters:
+      - description: Consumer Test
+        in: body
+        name: test
+        required: true
+        schema:
+          $ref: '#/definitions/database.ConsumerTest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.ConsumerTest'
+      summary: Create a consumer test
+      tags:
+      - consumer_tests
+    put:
+      consumes:
+      - application/json
+      description: Update an existing consumer test
+      parameters:
+      - description: Consumer Test
+        in: body
+        name: test
+        required: true
+        schema:
+          $ref: '#/definitions/database.ConsumerTest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.ConsumerTest'
+      summary: Update a consumer test
+      tags:
+      - consumer_tests
+  /contribution/community:
+    get:
+      consumes:
+      - application/json
+      description: Get the total water amount and savings for the community
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ContributionCommunityResponse'
+      summary: Get community contribution
+      tags:
+      - contribution
+  /contribution/kl:
+    get:
+      consumes:
+      - application/json
+      description: Get the number of smart and manual refill stations
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ContributionKLResponse'
+      summary: Get contribution by station type
+      tags:
+      - contribution
+  /contribution/user:
+    get:
+      consumes:
+      - application/json
+      description: Get the total water amount and savings for a user
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ContributionUserResponse'
+      summary: Get user contribution
+      tags:
+      - contribution
+  /likes:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing like
+      parameters:
+      - description: Like ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a like
+      tags:
+      - likes
+    get:
+      consumes:
+      - application/json
+      description: Get all likes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Like'
+            type: array
+      summary: Show all likes
+      tags:
+      - likes
+    post:
+      consumes:
+      - application/json
+      description: Create a new like
+      parameters:
+      - description: Like
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/database.Like'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.Like'
+      summary: Create a like
+      tags:
+      - likes
+    put:
+      consumes:
+      - application/json
+      description: Update an existing like
+      parameters:
+      - description: Like
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/database.Like'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Like'
+      summary: Update a like
+      tags:
+      - likes
+  /refill_station_problems:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing refill station problem
+      parameters:
+      - description: Refill Station Problem ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a refill station problem
+      tags:
+      - refill_station_problems
+    get:
+      consumes:
+      - application/json
+      description: Get all refill station problems
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.RefillStationProblem'
+            type: array
+      summary: Show all refill station problems
+      tags:
+      - refill_station_problems
+    post:
+      consumes:
+      - application/json
+      description: Create a new refill station problem
+      parameters:
+      - description: Refill Station Problem
+        in: body
+        name: problem
+        required: true
+        schema:
+          $ref: '#/definitions/database.RefillStationProblem'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.RefillStationProblem'
+      summary: Create a refill station problem
+      tags:
+      - refill_station_problems
+    put:
+      consumes:
+      - application/json
+      description: Update an existing refill station problem
+      parameters:
+      - description: Refill Station Problem
+        in: body
+        name: problem
+        required: true
+        schema:
+          $ref: '#/definitions/database.RefillStationProblem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.RefillStationProblem'
+      summary: Update a refill station problem
+      tags:
+      - refill_station_problems
+  /refill_station_reviews:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing refill station review
+      parameters:
+      - description: Refill Station Review ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a refill station review
+      tags:
+      - refill_station_reviews
+    get:
+      consumes:
+      - application/json
+      description: Get all refill station reviews
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.RefillStationReview'
+            type: array
+      summary: Show all refill station reviews
+      tags:
+      - refill_station_reviews
+    post:
+      consumes:
+      - application/json
+      description: Create a new refill station review
+      parameters:
+      - description: Refill Station Review
+        in: body
+        name: review
+        required: true
+        schema:
+          $ref: '#/definitions/database.RefillStationReview'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.RefillStationReview'
+      summary: Create a refill station review
+      tags:
+      - refill_station_reviews
+    put:
+      consumes:
+      - application/json
+      description: Update an existing refill station review
+      parameters:
+      - description: Refill Station Review
+        in: body
+        name: review
+        required: true
+        schema:
+          $ref: '#/definitions/database.RefillStationReview'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.RefillStationReview'
+      summary: Update a refill station review
+      tags:
+      - refill_station_reviews
+  /refill_stations:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing refill station
+      parameters:
+      - description: Refill Station ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a refill station
+      tags:
+      - refill_stations
+    get:
+      consumes:
+      - application/json
+      description: Get all refill stations
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.RefillStation'
+            type: array
+      summary: Show all refill stations
+      tags:
+      - refill_stations
+    post:
+      consumes:
+      - application/json
+      description: Create a new refill station
+      parameters:
+      - description: Refill Station
+        in: body
+        name: station
+        required: true
+        schema:
+          $ref: '#/definitions/database.RefillStation'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.RefillStation'
+      summary: Create a refill station
+      tags:
+      - refill_stations
+    put:
+      consumes:
+      - application/json
+      description: Update an existing refill station
+      parameters:
+      - description: Refill Station
+        in: body
+        name: station
+        required: true
+        schema:
+          $ref: '#/definitions/database.RefillStation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.RefillStation'
+      summary: Update a refill station
+      tags:
+      - refill_stations
+  /refill_stations/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a refill station by its ID
+      parameters:
+      - description: Refill Station ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.RefillStation'
+      summary: Get a refill station by ID
+      tags:
+      - refill_stations
+  /refill_stations/{id}/reviews:
+    get:
+      consumes:
+      - application/json
+      description: Get the average review score for a refill station by its ID
+      parameters:
+      - description: Refill Station ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+      summary: Get the average review score for a refill station
+      tags:
+      - refill_station_reviews
+  /refill_stations/markers:
+    get:
+      consumes:
+      - application/json
+      description: Get all refill station markers with specific attributes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+      summary: Get all refill station markers
+      tags:
+      - refill_stations
+  /refillstation_like:
+    get:
+      consumes:
+      - application/json
+      description: Check if a specific user likes a specific refill station
+      parameters:
+      - description: Refill Station ID
+        in: query
+        name: refillstationId
+        required: true
+        type: integer
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Check if a user likes a refill station
+      tags:
+      - likes
+  /users:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing user
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.User'
+            type: array
+      summary: Show all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/database.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.User'
+      summary: Create a user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/database.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.User'
+      summary: Update a user
+      tags:
+      - users
+  /users/{userId}/bottles:
+    get:
+      consumes:
+      - application/json
+      description: Get all bottles associated with a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Bottle'
+            type: array
+      summary: Get all bottles by user ID
+      tags:
+      - bottles
+  /water_transactions:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing water transaction
+      parameters:
+      - description: Water Transaction ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a water transaction
+      tags:
+      - water_transactions
+    get:
+      consumes:
+      - application/json
+      description: Get all water transactions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.WaterTransaction'
+            type: array
+      summary: Show all water transactions
+      tags:
+      - water_transactions
+    post:
+      consumes:
+      - application/json
+      description: Create a new water transaction
+      parameters:
+      - description: Water Transaction
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/database.WaterTransaction'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.WaterTransaction'
+      summary: Create a water transaction
+      tags:
+      - water_transactions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing water transaction
+      parameters:
+      - description: Water Transaction
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/database.WaterTransaction'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.WaterTransaction'
+      summary: Update a water transaction
+      tags:
+      - water_transactions
+swagger: "2.0"
