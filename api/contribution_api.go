@@ -8,6 +8,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ContributionUserResponse represents the user contribution response
+type ContributionUserResponse struct {
+	AmountFillings int64   `json:"amountFillings"`
+	AmountWater    int64   `json:"amountWater"`
+	SavedMoney     float64 `json:"savedMoney"`
+	SavedTrash     float64 `json:"savedTrash"`
+}
+
+// ContributionCommunityResponse represents the community contribution response
+type ContributionCommunityResponse struct {
+	AmountFillings int64   `json:"amountFillings"`
+	AmountWater    int64   `json:"amountWater"`
+	SavedMoney     float64 `json:"savedMoney"`
+	SavedTrash     float64 `json:"savedTrash"`
+	AmountUser     int64   `json:"amountUser"`
+}
+
+// ContributionKLResponse represents the contribution by station type response
+type ContributionKLResponse struct {
+	AmountRefillStationSmart  int64 `json:"amountRefillStationSmart"`
+	AmountRefillStationManual int64 `json:"amountRefillStationManual"`
+}
+
 func calculateSavings(volume int) (float64, float64) {
 	const moneyFactor = 0.50
 	const trashFactor = 0.10
@@ -24,7 +47,7 @@ func calculateSavings(volume int) (float64, float64) {
 // @Accept  json
 // @Produce  json
 // @Param userId query int true "User ID"
-// @Success 200 {object} database.WaterTransaction
+// @Success 200 {object} ContributionUserResponse
 // @Router /contribution/user [get]
 func GetContributionByUser(c *gin.Context) {
 	userIdStr := c.Query("userId")
@@ -42,14 +65,14 @@ func GetContributionByUser(c *gin.Context) {
 
 	savedMoney, savedTrash := calculateSavings(int(totalVolume))
 
-	response := gin.H{
-		"amountFillings": totalFillings,
-		"amountWater":    totalVolume,
-		"savedMoney":     savedMoney,
-		"savedTrash":     savedTrash,
+	response := ContributionUserResponse{
+		AmountFillings: totalFillings,
+		AmountWater:    totalVolume,
+		SavedMoney:     savedMoney,
+		SavedTrash:     savedTrash,
 	}
 
-	c.JSON(http.StatusOK, response)
+	respondWithJSON(c, http.StatusOK, response)
 }
 
 // @Summary Get community contribution
@@ -57,7 +80,7 @@ func GetContributionByUser(c *gin.Context) {
 // @Tags contribution
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} database.WaterTransaction
+// @Success 200 {object} ContributionCommunityResponse
 // @Router /contribution/community [get]
 func GetContributionCommunity(c *gin.Context) {
 	var totalVolume int64
@@ -70,15 +93,15 @@ func GetContributionCommunity(c *gin.Context) {
 
 	savedMoney, savedTrash := calculateSavings(int(totalVolume))
 
-	response := gin.H{
-		"amountFillings": totalFillings,
-		"amountWater":    totalVolume,
-		"savedMoney":     savedMoney,
-		"savedTrash":     savedTrash,
-		"amountUser":     totalUsers,
+	response := ContributionCommunityResponse{
+		AmountFillings: totalFillings,
+		AmountWater:    totalVolume,
+		SavedMoney:     savedMoney,
+		SavedTrash:     savedTrash,
+		AmountUser:     totalUsers,
 	}
 
-	c.JSON(http.StatusOK, response)
+	respondWithJSON(c, http.StatusOK, response)
 }
 
 // @Summary Get contribution by station type
@@ -86,7 +109,7 @@ func GetContributionCommunity(c *gin.Context) {
 // @Tags contribution
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} database.RefillStation
+// @Success 200 {object} ContributionKLResponse
 // @Router /contribution/kl [get]
 func GetContributionKL(c *gin.Context) {
 	var smartStations int64
@@ -95,10 +118,10 @@ func GetContributionKL(c *gin.Context) {
 	db.Model(&database.RefillStation{}).Where("type = ?", "Smart").Count(&smartStations)
 	db.Model(&database.RefillStation{}).Where("type = ?", "Manual").Count(&manualStations)
 
-	response := gin.H{
-		"amountRefillStationSmart":  smartStations,
-		"amountRefillStationManual": manualStations,
+	response := ContributionKLResponse{
+		AmountRefillStationSmart:  smartStations,
+		AmountRefillStationManual: manualStations,
 	}
 
-	c.JSON(http.StatusOK, response)
+	respondWithJSON(c, http.StatusOK, response)
 }
