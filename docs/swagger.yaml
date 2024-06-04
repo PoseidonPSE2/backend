@@ -57,6 +57,29 @@ definitions:
       id:
         type: integer
     type: object
+    database.Bottle:
+     properties:
+       active:
+         type: boolean
+       fillVolume:
+         type: integer
+       id:
+         type: integer
+       nfcid:
+         type: string
+       pathImage:
+         type: string
+       title:
+         type: string
+       userID:
+         type: integer
+       waterTransactions:
+         items:
+           $ref: '#/definitions/database.WaterTransaction'
+         type: array
+       waterType:
+         type: string
+     type: object
   database.ConsumerTestAnswer:
     properties:
       answer:
@@ -187,6 +210,25 @@ definitions:
       water_type:
         type: string
     type: object
+  database.WaterTransaction:
+     properties:
+       bottleID:
+         type: integer
+       guest:
+         type: boolean
+       id:
+         type: integer
+       stationID:
+         type: integer
+       timestamp:
+         type: string
+       userID:
+         type: integer
+       volume:
+         type: integer
+       waterType:
+         type: string
+     type: object
 host: https://poseidon-backend.fly.dev/
 info:
   contact:
@@ -1089,6 +1131,29 @@ paths:
       summary: Get all bottles by user ID
       tags:
       - bottles
+   /users/{userId}/bottles:
+     get:
+       consumes:
+       - application/json
+       description: Get all bottles associated with a specific user
+       parameters:
+       - description: User ID
+         in: path
+         name: userId
+         required: true
+         type: integer
+       produces:
+       - application/json
+       responses:
+         "200":
+           description: OK
+           schema:
+             items:
+               $ref: '#/definitions/database.Bottle'
+             type: array
+       summary: Get all bottles by user ID
+       tags:
+       - bottles
   /water_transactions:
     delete:
       consumes:

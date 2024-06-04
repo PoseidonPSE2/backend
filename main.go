@@ -89,6 +89,7 @@ func main() {
 	r.POST("/bottles", api.CreateBottle)
 	r.PUT("/bottles", api.UpdateBottle)
 	r.DELETE("/bottles", api.DeleteBottle)
+	r.GET("/bottles/users/:userId", api.GetBottlesByUserID)
 
 	r.GET("/consumer_tests", api.GetConsumerTests)
 	r.POST("/consumer_tests", api.CreateConsumerTest)

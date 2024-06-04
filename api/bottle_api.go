@@ -161,3 +161,28 @@ func DeleteBottle(c *gin.Context) {
 	}
 	c.Status(http.StatusNoContent)
 }
+
+//@Summary Get all bottles by user ID
+// @Description Get all bottles associated with a specific user
+// @Tags bottles
+// @Accept  json
+// @Produce  json
+// @Param userId path int true "User ID"
+// @Success 200 {array} database.Bottle
+// @Router /users/{userId}/bottles [get]
+func GetBottlesByUserID(c *gin.Context) {
+	userIDStr := c.Param("userId")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid User ID"})
+		return
+	}
+
+	var bottles []database.Bottle
+	result := db.Where("user_id = ?", userID).Find(&bottles)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+	respondWithJSON(c, http.StatusOK, bottles)
+}
