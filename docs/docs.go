@@ -141,7 +141,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/bottles/preferences/{nfc-id}": {
+        "/bottles/preferences/{nfcId}": {
             "get": {
                 "description": "Get bottle preferences by the NFC ID",
                 "consumes": [
