@@ -1338,7 +1338,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{userId}/bottles": {
+        "/users/{userId}": {
             "get": {
                 "description": "Get all bottles associated with a specific user",
                 "consumes": [
@@ -1547,10 +1547,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "bottle_image": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
+                    "type": "string"
                 },
                 "fill_volume": {
                     "type": "integer"
@@ -1634,11 +1631,22 @@ const docTemplate = `{
                 }
             }
         },
+        "database.NullBool": {
+            "type": "object",
+            "properties": {
+                "bool": {
+                    "type": "boolean"
+                },
+                "valid": {
+                    "type": "boolean"
+                }
+            }
+        },
         "database.RefillStation": {
             "type": "object",
             "properties": {
                 "active": {
-                    "type": "boolean"
+                    "$ref": "#/definitions/database.NullBool"
                 },
                 "address": {
                     "type": "string"
@@ -1665,10 +1673,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "refill_station_image": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
+                    "type": "string"
                 },
                 "type": {
                     "type": "string"
@@ -1688,10 +1693,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "refill_station_problem_image": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
+                    "type": "string"
                 },
                 "station_id": {
                     "type": "integer"

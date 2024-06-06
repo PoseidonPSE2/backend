@@ -1,7 +1,6 @@
 package database
 
 import (
-	"database/sql"
 	"log"
 	"math/rand"
 
@@ -68,14 +67,14 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 			UserID:     1,
 			NFCID:      "13:E0:0B:35",
 			FillVolume: 500,
-			WaterType:  "tap",
+			WaterType:  "TAP",
 			Title:      "First Bottle",
 		},
 		{
 			UserID:     1,
 			NFCID:      "",
 			FillVolume: 1000,
-			WaterType:  "mineral",
+			WaterType:  "MINERAL",
 			Title:      "Second Bottle",
 		},
 	}
@@ -177,8 +176,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Fruchthallstraße 29, 67655 Kaiserslautern",
 			WaterSource:       "Spitzrainbrunnen",
 			OpeningTimes:      "Mon - Sam / 7:00 AM - 10:00 PM",
-			Type:              "Manual",
-			OfferedWaterTypes: "Tap",
+			Type:              "MANUAL",
+			OfferedWaterTypes: "TAP",
 		},
 		{
 			Name:              "Stadtpark KL",
@@ -188,8 +187,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Trippstadter Str. 2, 67663 Kaiserslautern",
 			WaterSource:       "Spitzrainbrunnen",
 			OpeningTimes:      "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:              "Smart",
-			OfferedWaterTypes: "Mineral, Tap",
+			Type:              "SMART",
+			OfferedWaterTypes: "MINERALTAP",
 		},
 		{
 			Name:              "Gartenschau KL",
@@ -199,8 +198,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Lauterstraße 51, 67659 Kaiserslautern",
 			WaterSource:       "St. Georgsbrunnen",
 			OpeningTimes:      "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:              "Smart",
-			OfferedWaterTypes: "Tap",
+			Type:              "SMART",
+			OfferedWaterTypes: "TAP",
 		},
 		{
 			Name:              "Wochenmarkt",
@@ -210,9 +209,9 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Königstraße 68, 67655 Kaiserslautern",
 			WaterSource:       "Stadtwerke",
 			OpeningTimes:      "Do / 07:00 AM - 1:59 PM",
-			Active:            sql.NullBool{Valid: true, Bool: false},
-			Type:              "Smart",
-			OfferedWaterTypes: "Tap",
+			Active:            NullBool{Valid: true, Bool: false},
+			Type:              "SMART",
+			OfferedWaterTypes: "TAP",
 		},
 	}
 
@@ -301,7 +300,7 @@ func CreateWaterTransactions(db *gorm.DB) *gorm.DB {
 		randomStationID := uint(rand.Intn(3) + 1) // Random station ID between 1 and 3
 		randomBottleID := uint(rand.Intn(2) + 1)  // Random Bottle ID between 1 and 2
 		randomVolume := rand.Intn(1500) + 500     // Random volume between 500 and 2000
-		randomWaterType := []string{"Tap", "Mineral"}[rand.Intn(2)]
+		randomWaterType := []string{"TAP", "MINERAL"}[rand.Intn(2)]
 		userID := uint(1)
 
 		transaction := WaterTransaction{

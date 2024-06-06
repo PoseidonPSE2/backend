@@ -36,9 +36,7 @@ definitions:
       active:
         type: boolean
       bottle_image:
-        items:
-          type: integer
-        type: array
+        type: string
       fill_volume:
         type: integer
       id:
@@ -92,10 +90,17 @@ definitions:
       user_id:
         type: integer
     type: object
+  database.NullBool:
+    properties:
+      bool:
+        type: boolean
+      valid:
+        type: boolean
+    type: object
   database.RefillStation:
     properties:
       active:
-        type: boolean
+        $ref: '#/definitions/database.NullBool'
       address:
         type: string
       description:
@@ -113,9 +118,7 @@ definitions:
       opening_times:
         type: string
       refill_station_image:
-        items:
-          type: integer
-        type: array
+        type: string
       type:
         type: string
       water_source:
@@ -128,9 +131,7 @@ definitions:
       id:
         type: integer
       refill_station_problem_image:
-        items:
-          type: integer
-        type: array
+        type: string
       station_id:
         type: integer
       status:
@@ -1066,7 +1067,7 @@ paths:
       summary: Update a user
       tags:
       - users
-  /users/{userId}/bottles:
+  /users/{userId}:
     get:
       consumes:
       - application/json

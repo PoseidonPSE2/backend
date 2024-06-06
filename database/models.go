@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"database/sql/driver"
 	"fmt"
 	"strings"
 	"time"
@@ -20,6 +21,32 @@ type User struct {
 	Answers   []ConsumerTestAnswer  `gorm:"foreignKey:UserID" json:"-"`
 	Reviews   []RefillStationReview `gorm:"foreignKey:UserID" json:"-"`
 	Likes     []Like                `gorm:"foreignKey:UserID" json:"-"`
+}
+
+// NullBool is a custom struct for handling sql.NullBool in Swagger
+// @swagger:model
+type NullBool struct {
+	Bool  bool `json:"bool"`
+	Valid bool `json:"valid"`
+}
+
+// Implementing the Scanner and Valuer interfaces for NullBool
+func (nb *NullBool) Scan(value interface{}) error {
+	sqlBool := sql.NullBool{}
+	err := sqlBool.Scan(value)
+	if err != nil {
+		return err
+	}
+	nb.Bool = sqlBool.Bool
+	nb.Valid = sqlBool.Valid
+	return nil
+}
+
+func (nb NullBool) Value() (driver.Value, error) {
+	if !nb.Valid {
+		return nil, nil
+	}
+	return nb.Bool, nil
 }
 
 // ConsumerTest Model
@@ -59,7 +86,7 @@ type Bottle struct {
 	FillVolume        int                `gorm:"not null" json:"fill_volume"`
 	WaterType         string             `gorm:"size:16;not null" json:"water_type"`
 	Title             string             `gorm:"size:16;not null" json:"title"`
-	BottleImage       *string            `gorm:"type:varchar(max);default:null" json:"bottle_image,omitempty"`
+	BottleImage       *string            `gorm:"type:TEXT;default:null" json:"bottle_image,omitempty"`
 	Active            bool               `gorm:"default:true" json:"active"`
 	WaterTransactions []WaterTransaction `gorm:"foreignKey:BottleID" json:"-"`
 }
@@ -75,10 +102,10 @@ type RefillStation struct {
 	Address            string                 `gorm:"size:255;not null" json:"address"`
 	WaterSource        string                 `gorm:"size:50;not null" json:"water_source"`
 	OpeningTimes       string                 `gorm:"size:100;not null" json:"opening_times"`
-	Active             sql.NullBool           `gorm:"default:true" json:"active"`
+	Active             NullBool               `gorm:"default:true" json:"active"`
 	Type               string                 `gorm:"size:16;not null" json:"type"`
 	OfferedWaterTypes  string                 `gorm:"size:32;not null" json:"offered_water_types"`
-	RefillStationImage *string                `gorm:"type:varchar(max);default:null" json:"refill_station_image,omitempty"`
+	RefillStationImage *string                `gorm:"type:TEXT;default:null" json:"refill_station_image,omitempty"`
 	Reviews            []RefillStationReview  `gorm:"foreignKey:StationID" json:"-"`
 	Problems           []RefillStationProblem `gorm:"foreignKey:StationID" json:"-"`
 	WaterTransactions  []WaterTransaction     `gorm:"foreignKey:StationID" json:"-"`
@@ -123,7 +150,7 @@ type RefillStationProblem struct {
 	Title                     string    `gorm:"size:100;not null" json:"title"`
 	Description               string    `gorm:"size:255;not null" json:"description"`
 	Status                    string    `gorm:"size:16;not null" json:"status"`
-	RefillStationProblemImage *string   `gorm:"type:varchar(max);default:null" json:"refill_station_problem_image,omitempty"`
+	RefillStationProblemImage *string   `gorm:"type:TEXT;default:null" json:"refill_station_problem_image,omitempty"`
 	Timestamp                 time.Time `gorm:"autoCreateTime" json:"timestamp"`
 }
 
@@ -168,8 +195,8 @@ func (bottle *Bottle) BeforeCreate(tx *gorm.DB) (err error) {
 }
 
 func (station *RefillStation) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedTypes := []string{"Manual", "Smart"}
-	allowedWaterTypes := []string{"Mineral", "Tap", "Mineral, Tap"}
+	allowedTypes := []string{"MANUAL", "SMART"}
+	allowedWaterTypes := []string{"MINERAL", "TAP", "MINERALTAP"}
 
 	if !contains(allowedTypes, station.Type) {
 		return fmt.Errorf("invalid station type: %s", station.Type)
