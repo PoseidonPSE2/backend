@@ -56,13 +56,31 @@ func CreateRefillStationReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	review.Timestamp = time.Now()
-	result := db.Create(&review)
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
-		return
+
+	// Check if the user has already reviewed this station
+	var existingReview database.RefillStationReview
+	result := db.Where("user_id = ? AND station_id = ?", review.UserID, review.StationID).First(&existingReview)
+	if result.Error == nil {
+		// User has already reviewed this station, update the existing review
+		existingReview.Cleanness = review.Cleanness
+		existingReview.Accessibility = review.Accessibility
+		existingReview.WaterQuality = review.WaterQuality
+		existingReview.Timestamp = time.Now()
+
+		if err := db.Save(&existingReview).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, existingReview)
+	} else {
+		// No existing review found, create a new one
+		review.Timestamp = time.Now()
+		if err := db.Create(&review).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusCreated, review)
 	}
-	c.JSON(http.StatusCreated, review)
 }
 
 // @Summary Update a refill station review
