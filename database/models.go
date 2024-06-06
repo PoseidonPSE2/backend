@@ -59,7 +59,7 @@ type Bottle struct {
 	FillVolume        int                `gorm:"not null" json:"fill_volume"`
 	WaterType         string             `gorm:"size:16;not null" json:"water_type"`
 	Title             string             `gorm:"size:16;not null" json:"title"`
-	BottleImage       *[]byte            `gorm:"type:BYTEA;default:null" json:"bottle_image,omitempty"`
+	BottleImage       *string            `gorm:"type:varchar(max);default:null" json:"bottle_image,omitempty"`
 	Active            bool               `gorm:"default:true" json:"active"`
 	WaterTransactions []WaterTransaction `gorm:"foreignKey:BottleID" json:"-"`
 }
@@ -78,7 +78,7 @@ type RefillStation struct {
 	Active             sql.NullBool           `gorm:"default:true" json:"active"`
 	Type               string                 `gorm:"size:16;not null" json:"type"`
 	OfferedWaterTypes  string                 `gorm:"size:32;not null" json:"offered_water_types"`
-	RefillStationImage *[]byte                `gorm:"type:BYTEA;default:null" json:"refill_station_image,omitempty"`
+	RefillStationImage *string                `gorm:"type:varchar(max);default:null" json:"refill_station_image,omitempty"`
 	Reviews            []RefillStationReview  `gorm:"foreignKey:StationID" json:"-"`
 	Problems           []RefillStationProblem `gorm:"foreignKey:StationID" json:"-"`
 	WaterTransactions  []WaterTransaction     `gorm:"foreignKey:StationID" json:"-"`
@@ -123,7 +123,7 @@ type RefillStationProblem struct {
 	Title                     string    `gorm:"size:100;not null" json:"title"`
 	Description               string    `gorm:"size:255;not null" json:"description"`
 	Status                    string    `gorm:"size:16;not null" json:"status"`
-	RefillStationProblemImage *[]byte   `gorm:"type:BYTEA;default:null" json:"refill_station_problem_image,omitempty"`
+	RefillStationProblemImage *string   `gorm:"type:varchar(max);default:null" json:"refill_station_problem_image,omitempty"`
 	Timestamp                 time.Time `gorm:"autoCreateTime" json:"timestamp"`
 }
 
