@@ -19,6 +19,10 @@ import (
 // Database connection
 var db *gorm.DB
 
+// Flog for database
+var shouldRecreateDatabase = true
+var shouldImportTestData = true
+
 // Database configuration variables
 var (
 	dbHost     = "poseidon-database.fly.dev"
@@ -38,9 +42,11 @@ func init() {
 	// Construct the DSN for the target database connection
 	targetDsn := fmt.Sprintf("host=%s user=%s password=%s port=%s sslmode=disable dbname=%s", dbHost, dbUser, dbPassword, dbPort, dbName)
 
-	// Recreate the target database
-	if err = database.RecreateDatabase(adminDsn, dbName, db); err != nil {
-		log.Fatalf("Failed to recreate database: %v", err)
+	if shouldRecreateDatabase {
+		// Recreate the target database
+		if err = database.RecreateDatabase(adminDsn, dbName, db); err != nil {
+			log.Fatalf("Failed to recreate database: %v", err)
+		}
 	}
 
 	// Connect to the new database
@@ -58,7 +64,9 @@ func init() {
 
 	log.Print("Schema migration done")
 
-	db = database.CreateTestData(db)
+	if shouldImportTestData {
+		db = database.CreateTestData(db)
+	}
 }
 
 // @title Swagger Example API
@@ -109,7 +117,7 @@ func main() {
 	r.GET("/refill_stations", api.GetRefillStations)
 	r.GET("/refill_stations/markers", api.GetAllRefillstationMarker)
 	r.GET("/refill_stations/:id", api.GetRefillStationById)
-	r.GET("/refill_stations/:id/reviews", api.GetRefillStationReviewByID)
+	r.GET("/refill_stations/:id/reviews", api.GetRefillStationReviewsAverageByID)
 	r.POST("/refill_stations", api.CreateRefillStation)
 	r.PUT("/refill_stations", api.UpdateRefillStation)
 	r.DELETE("/refill_stations", api.DeleteRefillStation)

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"math"
 	"net/http"
 	"strconv"
 
@@ -102,8 +101,8 @@ func GetRefillStationById(c *gin.Context) {
 // @Param id query int true "Refill Station ID"
 // @Success 200 {number} float64
 // @Router /refill_stations/{id}/reviews [get]
-func GetRefillStationReviewByID(c *gin.Context) {
-	idStr := c.Query("id")
+func GetRefillStationReviewsAverageByID(c *gin.Context) {
+	idStr := c.Param("id")
 	if idStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
 		return
@@ -133,10 +132,13 @@ func GetRefillStationReviewByID(c *gin.Context) {
 		totalWaterQuality += float64(review.WaterQuality)
 	}
 
-	average := (totalCleanness + totalAccessibility + totalWaterQuality) / (float64(len(reviews)) * 3)
-	average = math.Round(average*10) / 10 // Round to 1 decimal place
+	amountReviews := (len(reviews))
 
-	c.JSON(http.StatusOK, gin.H{"average": average})
+	cleannessAverage := totalCleanness / float64(amountReviews)
+	accessibilityAverage := totalAccessibility / float64(amountReviews)
+	waterQualityAverage := totalWaterQuality / float64(amountReviews)
+
+	c.JSON(http.StatusOK, gin.H{"cleanness": cleannessAverage, "accesibility": accessibilityAverage, "waterQuality": waterQualityAverage})
 }
 
 // @Summary Create a refill station
