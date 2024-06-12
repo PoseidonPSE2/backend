@@ -169,20 +169,26 @@ func DeleteBottle(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
 		return
 	}
+
+	// Convert to interger
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-	var count int64
-	if db.Where("id = ?", id).Count(&count); count <= 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-		return
+
+	// Check for record not found error
+	var tempBottle database.Bottle
+	result := db.First(&tempBottle, id)
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "bottle with ID not found"})
 	}
-	result := db.Delete(&database.Bottle{}, id)
+
+	result = db.Delete(&database.Bottle{}, id)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
+
 	c.Status(http.StatusNoContent)
 }
