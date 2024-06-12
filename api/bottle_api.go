@@ -1,13 +1,11 @@
 package api
 
 import (
-	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/PoseidonPSE2/code_backend/database"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 // @Summary Show all bottles
@@ -134,32 +132,21 @@ func CreateBottle(c *gin.Context) {
 // @Success 200 {object} database.Bottle
 // @Router /bottles [put]
 func UpdateBottle(c *gin.Context) {
+	// Get model if exist
 	var bottle database.Bottle
-	if err := c.ShouldBindJSON(&bottle); err != nil {
+	if err := db.Where("id = ?", c.Param("id")).First(&bottle).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	// Validate input
+	var newBottle database.Bottle
+	if err := c.ShouldBindJSON(&newBottle); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	// Find the existing bottle by ID
-	result := db.First(&bottle, bottle.ID)
 
-	// Check for record not found error
-	if result.Error != nil {
-		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			// Respond with error for non-existent ID
-			c.JSON(http.StatusNotFound, gin.H{"error": "bottle with ID not found"})
-			return
-		}
-		// Handle other potential errors from First
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
-		return
-	}
-
-	// Update the existing bottle record
-	result = db.Save(&bottle)
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
-		return
-	}
+	db.Model(&bottle).Updates(newBottle)
 
 	// Respond with the updated bottle data
 	c.JSON(http.StatusOK, bottle)
