@@ -170,8 +170,8 @@ func DeleteBottle(c *gin.Context) {
 		return
 	}
 	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+	if err = db.Where("id = ?", id).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
 	result := db.Delete(&database.Bottle{}, id)
