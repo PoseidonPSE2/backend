@@ -115,8 +115,8 @@ func GetContributionKL(c *gin.Context) {
 	var smartStations int64
 	var manualStations int64
 
-	db.Model(&database.RefillStation{}).Where("type = ?", "Smart").Count(&smartStations)
-	db.Model(&database.RefillStation{}).Where("type = ?", "Manual").Count(&manualStations)
+	db.Model(&database.RefillStation{}).Where("type = ?", "smart").Count(&smartStations)
+	db.Model(&database.RefillStation{}).Where("type = ?", "manual").Count(&manualStations)
 
 	response := ContributionKLResponse{
 		AmountRefillStationSmart:  smartStations,
