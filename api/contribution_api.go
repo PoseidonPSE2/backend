@@ -43,14 +43,14 @@ func calculateSavings(volume int) (float64, float64) {
 
 // @Summary Get user contribution
 // @Description Get the total water amount and savings for a user
-// @Tags contribution
-// @Accept  json
-// @Produce  json
-// @Param userId query int true "User ID"
+// @Tags Contribution
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID"
 // @Success 200 {object} ContributionUserResponse
-// @Router /contribution/user [get]
+// @Router /contribution/user/{id} [get]
 func GetContributionByUser(c *gin.Context) {
-	userIdStr := c.Query("userId")
+	userIdStr := c.Param("id")
 	userId, err := strconv.Atoi(userIdStr)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid User ID"})
@@ -77,9 +77,9 @@ func GetContributionByUser(c *gin.Context) {
 
 // @Summary Get community contribution
 // @Description Get the total water amount and savings for the community
-// @Tags contribution
-// @Accept  json
-// @Produce  json
+// @Tags Contribution
+// @Accept json
+// @Produce json
 // @Success 200 {object} ContributionCommunityResponse
 // @Router /contribution/community [get]
 func GetContributionCommunity(c *gin.Context) {
@@ -106,17 +106,25 @@ func GetContributionCommunity(c *gin.Context) {
 
 // @Summary Get contribution by station type
 // @Description Get the number of smart and manual refill stations
-// @Tags contribution
-// @Accept  json
-// @Produce  json
+// @Tags Contribution
+// @Accept json
+// @Produce json
 // @Success 200 {object} ContributionKLResponse
 // @Router /contribution/kl [get]
 func GetContributionKL(c *gin.Context) {
 	var smartStations int64
 	var manualStations int64
 
-	db.Model(&database.RefillStation{}).Where("type = ?", "smart").Count(&smartStations)
-	db.Model(&database.RefillStation{}).Where("type = ?", "manual").Count(&manualStations)
+	err := db.Model(&database.RefillStation{}).Where("type = ?", database.StationTypes[0]).Count(&manualStations).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	err = db.Model(&database.RefillStation{}).Where("type = ?", database.StationTypes[1]).Count(&smartStations).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
 
 	response := ContributionKLResponse{
 		AmountRefillStationSmart:  smartStations,

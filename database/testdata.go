@@ -67,14 +67,14 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 			UserID:     1,
 			NFCID:      "13:E0:0B:35",
 			FillVolume: 500,
-			WaterType:  "TAP",
+			WaterType:  "tap",
 			Title:      "First Bottle",
 		},
 		{
 			UserID:     2,
 			NFCID:      "",
 			FillVolume: 1000,
-			WaterType:  "MINERAL",
+			WaterType:  "mineral",
 			Title:      "Second Bottle",
 		},
 	}
@@ -176,8 +176,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Fruchthallstraße 29, 67655 Kaiserslautern",
 			WaterSource:       "Spitzrainbrunnen",
 			OpeningTimes:      "Mon - Sam / 7:00 AM - 10:00 PM",
-			Type:              "MANUAL",
-			OfferedWaterTypes: "TAP",
+			Type:              "manual",
+			OfferedWaterTypes: "tap",
 		},
 		{
 			Name:              "Stadtpark KL",
@@ -187,8 +187,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Trippstadter Str. 2, 67663 Kaiserslautern",
 			WaterSource:       "Spitzrainbrunnen",
 			OpeningTimes:      "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:              "SMART",
-			OfferedWaterTypes: "MINERALTAP",
+			Type:              "smart",
+			OfferedWaterTypes: "both",
 		},
 		{
 			Name:              "Gartenschau KL",
@@ -198,8 +198,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			Address:           "Lauterstraße 51, 67659 Kaiserslautern",
 			WaterSource:       "St. Georgsbrunnen",
 			OpeningTimes:      "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:              "SMART",
-			OfferedWaterTypes: "TAP",
+			Type:              "smart",
+			OfferedWaterTypes: "tap",
 		},
 		{
 			Name:              "Wochenmarkt",
@@ -210,8 +210,8 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			WaterSource:       "Stadtwerke",
 			OpeningTimes:      "Do / 07:00 AM - 1:59 PM",
 			Active:            NullBool{Valid: true, Bool: false},
-			Type:              "SMART",
-			OfferedWaterTypes: "TAP",
+			Type:              "smart",
+			OfferedWaterTypes: "tap",
 		},
 	}
 

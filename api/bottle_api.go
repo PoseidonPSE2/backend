@@ -160,7 +160,7 @@ func UpdateBottle(c *gin.Context) {
 // @Tags Bottles
 // @Accept  json
 // @Produce  json
-// @Param id query int true "Bottle ID"
+// @Param id path int true "Bottle ID"
 // @Success 204
 // @Router /bottles/{id} [delete]
 func DeleteBottle(c *gin.Context) {

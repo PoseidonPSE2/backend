@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var BottleWaterTypes []string = []string{"tap", "mineral"}
+
 // Bottle Model (previously NFCChip)
 // @swagger:model
 type Bottle struct {
@@ -27,9 +29,8 @@ func (Bottle) TableName() string {
 }
 
 func (bottle *Bottle) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedWaterTypes := []string{"tap", "mineral"}
 	waterType := strings.ToLower(bottle.WaterType)
-	if !contains(allowedWaterTypes, waterType) {
+	if !contains(BottleWaterTypes, waterType) {
 		return fmt.Errorf("invalid water type: %s", bottle.WaterType)
 	}
 	bottle.WaterType = waterType

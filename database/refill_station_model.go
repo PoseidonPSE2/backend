@@ -2,9 +2,13 @@ package database
 
 import (
 	"fmt"
+	"strings"
 
 	"gorm.io/gorm"
 )
+
+var StationTypes []string = []string{"manual", "smart"}
+var StationOfferedWaterTypes []string = []string{"mineral", "tap", "both"}
 
 // RefillStation Model
 // @swagger:model
@@ -28,14 +32,15 @@ type RefillStation struct {
 }
 
 func (station *RefillStation) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedTypes := []string{"MANUAL", "SMART"}
-	allowedWaterTypes := []string{"MINERAL", "TAP", "MINERALTAP"}
 
-	if !contains(allowedTypes, station.Type) {
-		return fmt.Errorf("invalid station type: %s", station.Type)
+	stationType := strings.ToLower(station.Type)
+	stationOfferedWaterTypes := strings.ToLower(station.OfferedWaterTypes)
+
+	if !contains(StationTypes, stationType) {
+		return fmt.Errorf("invalid station type: %s, allowed types: %s, %s", station.Type, StationTypes[0], StationTypes[1])
 	}
-	if !contains(allowedWaterTypes, station.OfferedWaterTypes) {
-		return fmt.Errorf("invalid water types: %s", station.OfferedWaterTypes)
+	if !contains(StationOfferedWaterTypes, stationOfferedWaterTypes) {
+		return fmt.Errorf("invalid water types: %s, possible valules: %s, %s, %s", station.OfferedWaterTypes, StationOfferedWaterTypes[0], StationOfferedWaterTypes[1], StationOfferedWaterTypes[2])
 	}
 	return nil
 }

@@ -268,7 +268,7 @@ paths:
       description: Delete an existing bottle
       parameters:
       - description: Bottle ID
-        in: query
+        in: path
         name: id
         required: true
         type: integer
@@ -589,7 +589,7 @@ paths:
             $ref: '#/definitions/api.ContributionCommunityResponse'
       summary: Get community contribution
       tags:
-      - contribution
+      - Contribution
   /contribution/kl:
     get:
       consumes:
@@ -604,16 +604,16 @@ paths:
             $ref: '#/definitions/api.ContributionKLResponse'
       summary: Get contribution by station type
       tags:
-      - contribution
-  /contribution/user:
+      - Contribution
+  /contribution/user/{id}:
     get:
       consumes:
       - application/json
       description: Get the total water amount and savings for a user
       parameters:
       - description: User ID
-        in: query
-        name: userId
+        in: path
+        name: id
         required: true
         type: integer
       produces:
@@ -625,7 +625,7 @@ paths:
             $ref: '#/definitions/api.ContributionUserResponse'
       summary: Get user contribution
       tags:
-      - contribution
+      - Contribution
   /likes:
     delete:
       consumes:

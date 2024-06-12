@@ -144,7 +144,7 @@ func main() {
 	r.PUT("/likes", api.UpdateLike)
 	r.DELETE("/likes", api.DeleteLike)
 
-	r.GET("/contribution/user", api.GetContributionByUser)
+	r.GET("/contribution/user/:id", api.GetContributionByUser)
 	r.GET("/contribution/community", api.GetContributionCommunity)
 	r.GET("/contribution/kl", api.GetContributionKL)
 

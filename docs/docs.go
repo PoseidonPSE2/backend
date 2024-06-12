@@ -229,7 +229,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Bottle ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -601,7 +601,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "contribution"
+                    "Contribution"
                 ],
                 "summary": "Get community contribution",
                 "responses": {
@@ -624,7 +624,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "contribution"
+                    "Contribution"
                 ],
                 "summary": "Get contribution by station type",
                 "responses": {
@@ -637,7 +637,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/contribution/user": {
+        "/contribution/user/{id}": {
             "get": {
                 "description": "Get the total water amount and savings for a user",
                 "consumes": [
@@ -647,15 +647,15 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "contribution"
+                    "Contribution"
                 ],
                 "summary": "Get user contribution",
                 "parameters": [
                     {
                         "type": "integer",
                         "description": "User ID",
-                        "name": "userId",
-                        "in": "query",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
