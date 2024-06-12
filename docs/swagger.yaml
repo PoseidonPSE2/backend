@@ -41,7 +41,7 @@ definitions:
         type: integer
       id:
         type: integer
-      nfc_id:
+      nfcid:
         type: string
       title:
         type: string
@@ -188,7 +188,7 @@ definitions:
       water_type:
         type: string
     type: object
-host: https://poseidon-backend.fly.dev/
+host: poseidon-backend.fly.dev
 info:
   contact:
     email: support@swagger.io
@@ -220,7 +220,7 @@ paths:
           description: No Content
       summary: Delete a bottle
       tags:
-      - bottles
+      - Bottles
     get:
       consumes:
       - application/json
@@ -236,7 +236,7 @@ paths:
             type: array
       summary: Show all bottles
       tags:
-      - bottles
+      - Bottles
     post:
       consumes:
       - application/json
@@ -257,7 +257,7 @@ paths:
             $ref: '#/definitions/database.Bottle'
       summary: Create a bottle
       tags:
-      - bottles
+      - Bottles
     put:
       consumes:
       - application/json
@@ -278,7 +278,28 @@ paths:
             $ref: '#/definitions/database.Bottle'
       summary: Update a bottle
       tags:
-      - bottles
+      - Bottles
+  /bottles/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one bottle with the given ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Bottle'
+      summary: Get bottle by bottle ID
+      tags:
+      - Bottles
   /bottles/preferences/{nfcId}:
     get:
       consumes:
@@ -299,7 +320,30 @@ paths:
             $ref: '#/definitions/database.Bottle'
       summary: Get bottle preferences by the NFC ID
       tags:
-      - bottles
+      - Bottles
+  /bottles/users/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get all bottles associated with a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Bottle'
+            type: array
+      summary: Get all bottles by user ID
+      tags:
+      - Bottles
   /consumer_test_answers:
     delete:
       consumes:
@@ -1067,29 +1111,6 @@ paths:
       summary: Update a user
       tags:
       - users
-  /users/{userId}:
-    get:
-      consumes:
-      - application/json
-      description: Get all bottles associated with a specific user
-      parameters:
-      - description: User ID
-        in: path
-        name: userId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/database.Bottle'
-            type: array
-      summary: Get all bottles by user ID
-      tags:
-      - bottles
   /water_transactions:
     delete:
       consumes:

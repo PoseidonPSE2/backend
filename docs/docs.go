@@ -34,7 +34,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Show all bottles",
                 "responses": {
@@ -58,7 +58,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Update a bottle",
                 "parameters": [
@@ -90,7 +90,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Create a bottle",
                 "parameters": [
@@ -122,7 +122,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Delete a bottle",
                 "parameters": [
@@ -151,7 +151,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Get bottle preferences by the NFC ID",
                 "parameters": [
@@ -159,6 +159,73 @@ const docTemplate = `{
                         "type": "string",
                         "description": "NFC ID",
                         "name": "nfc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            }
+        },
+        "/bottles/users/{userId}": {
+            "get": {
+                "description": "Get all bottles associated with a specific user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Get all bottles by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Bottle"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bottles/{id}": {
+            "get": {
+                "description": "Get one bottle with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Get bottle by bottle ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -1338,41 +1405,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{userId}": {
-            "get": {
-                "description": "Get all bottles associated with a specific user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "bottles"
-                ],
-                "summary": "Get all bottles by user ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.Bottle"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/water_transactions": {
             "get": {
                 "description": "Get all water transactions",
@@ -1555,7 +1587,7 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "nfc_id": {
+                "nfcid": {
                     "type": "string"
                 },
                 "title": {
@@ -1787,7 +1819,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "https://poseidon-backend.fly.dev/",
+	Host:             "poseidon-backend.fly.dev",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",

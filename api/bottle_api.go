@@ -1,21 +1,66 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/PoseidonPSE2/code_backend/database"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
+
+// @Summary Show all bottles
+// @Description Get all bottles
+// @Tags Bottles
+// @Accept json
+// @Produce json
+// @Success 200 {array} database.Bottle
+// @Router /bottles [get]
+func GetBottles(c *gin.Context) {
+	var bottles []database.Bottle
+	result := db.Find(&bottles)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, bottles)
+}
+
+// @Summary Get bottle by bottle ID
+// @Description Get one bottle with the given ID
+// @Tags Bottles
+// @Accept json
+// @Produce json
+// @Param id path int true "id"
+// @Success 200 {object} database.Bottle
+// @Router /bottles/{id} [get]
+func GetBottleById(c *gin.Context) {
+	idStr := c.Param("id")
+	if idStr != "" {
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+			return
+		}
+		var bottle database.Bottle
+		result := db.First(&bottle, id)
+		if result.Error != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, bottle)
+	}
+}
 
 // @Summary Get all bottles by user ID
 // @Description Get all bottles associated with a specific user
-// @Tags bottles
-// @Accept  json
-// @Produce  json
+// @Tags Bottles
+// @Accept json
+// @Produce json
 // @Param userId path int true "User ID"
 // @Success 200 {array} database.Bottle
-// @Router /users/{userId} [get]
+// @Router /bottles/users/{userId} [get]
 func GetBottlesByUserID(c *gin.Context) {
 	userIDStr := c.Param("userId")
 	userID, err := strconv.Atoi(userIDStr)
@@ -33,42 +78,9 @@ func GetBottlesByUserID(c *gin.Context) {
 	c.JSON(http.StatusOK, bottles)
 }
 
-// @Summary Show all bottles
-// @Description Get all bottles
-// @Tags bottles
-// @Accept  json
-// @Produce  json
-// @Success 200 {array} database.Bottle
-// @Router /bottles [get]
-func GetBottles(c *gin.Context) {
-	idStr := c.Query("id")
-	if idStr == "" {
-		var bottles []database.Bottle
-		result := db.Find(&bottles)
-		if result.Error != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
-			return
-		}
-		c.JSON(http.StatusOK, bottles)
-	} else {
-		id, err := strconv.Atoi(idStr)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
-		}
-		var bottle database.Bottle
-		result := db.First(&bottle, id)
-		if result.Error != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
-			return
-		}
-		c.JSON(http.StatusOK, bottle)
-	}
-}
-
 // @Summary Get bottle preferences by the NFC ID
 // @Description Get bottle preferences by the NFC ID
-// @Tags bottles
+// @Tags Bottles
 // @Accept json
 // @Produce json
 // @Param nfc_id path string true "NFC ID"
@@ -93,7 +105,7 @@ func GetBottlePreferencesByNFCId(c *gin.Context) {
 
 // @Summary Create a bottle
 // @Description Create a new bottle
-// @Tags bottles
+// @Tags Bottles
 // @Accept  json
 // @Produce  json
 // @Param bottle body database.Bottle true "Bottle"
@@ -115,7 +127,7 @@ func CreateBottle(c *gin.Context) {
 
 // @Summary Update a bottle
 // @Description Update an existing bottle
-// @Tags bottles
+// @Tags Bottles
 // @Accept  json
 // @Produce  json
 // @Param bottle body database.Bottle true "Bottle"
@@ -127,17 +139,35 @@ func UpdateBottle(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	result := db.Save(&bottle)
+	// Find the existing bottle by ID
+	result := db.First(&bottle, bottle.ID)
+
+	// Check for record not found error
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			// Respond with error for non-existent ID
+			c.JSON(http.StatusNotFound, gin.H{"error": "bottle with ID not found"})
+			return
+		}
+		// Handle other potential errors from First
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	// Update the existing bottle record
+	result = db.Save(&bottle)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return
 	}
+
+	// Respond with the updated bottle data
 	c.JSON(http.StatusOK, bottle)
 }
 
 // @Summary Delete a bottle
 // @Description Delete an existing bottle
-// @Tags bottles
+// @Tags Bottles
 // @Accept  json
 // @Produce  json
 // @Param id query int true "Bottle ID"

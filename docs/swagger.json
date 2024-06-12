@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "https://poseidon-backend.fly.dev/",
+    "host": "poseidon-backend.fly.dev",
     "basePath": "/",
     "paths": {
         "/bottles": {
@@ -28,7 +28,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Show all bottles",
                 "responses": {
@@ -52,7 +52,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Update a bottle",
                 "parameters": [
@@ -84,7 +84,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Create a bottle",
                 "parameters": [
@@ -116,7 +116,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Delete a bottle",
                 "parameters": [
@@ -145,7 +145,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "bottles"
+                    "Bottles"
                 ],
                 "summary": "Get bottle preferences by the NFC ID",
                 "parameters": [
@@ -153,6 +153,73 @@
                         "type": "string",
                         "description": "NFC ID",
                         "name": "nfc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            }
+        },
+        "/bottles/users/{userId}": {
+            "get": {
+                "description": "Get all bottles associated with a specific user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Get all bottles by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.Bottle"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bottles/{id}": {
+            "get": {
+                "description": "Get one bottle with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Get bottle by bottle ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -1332,41 +1399,6 @@
                 }
             }
         },
-        "/users/{userId}": {
-            "get": {
-                "description": "Get all bottles associated with a specific user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "bottles"
-                ],
-                "summary": "Get all bottles by user ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.Bottle"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/water_transactions": {
             "get": {
                 "description": "Get all water transactions",
@@ -1549,7 +1581,7 @@
                 "id": {
                     "type": "integer"
                 },
-                "nfc_id": {
+                "nfcid": {
                     "type": "string"
                 },
                 "title": {

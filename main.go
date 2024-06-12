@@ -81,7 +81,7 @@ func init() {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host https://poseidon-backend.fly.dev/
+// @host poseidon-backend.fly.dev
 // @BasePath /
 func main() {
 	api.SetDB(db)
@@ -93,11 +93,12 @@ func main() {
 	r.DELETE("/users", api.DeleteUser)
 
 	r.GET("/bottles", api.GetBottles)
+	r.GET("/bottles/:id", api.GetBottleById)
+	r.GET("/bottles/users/:userId", api.GetBottlesByUserID)
 	r.GET("/bottles/preferences/:nfcId", api.GetBottlePreferencesByNFCId)
 	r.POST("/bottles", api.CreateBottle)
 	r.PUT("/bottles", api.UpdateBottle)
 	r.DELETE("/bottles", api.DeleteBottle)
-	r.GET("/bottles/users/:userId", api.GetBottlesByUserID)
 
 	r.GET("/consumer_tests", api.GetConsumerTests)
 	r.POST("/consumer_tests", api.CreateConsumerTest)
