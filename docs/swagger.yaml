@@ -203,24 +203,6 @@ info:
   version: "1.0"
 paths:
   /bottles:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing bottle
-      parameters:
-      - description: Bottle ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a bottle
-      tags:
-      - Bottles
     get:
       consumes:
       - application/json
@@ -280,6 +262,24 @@ paths:
       tags:
       - Bottles
   /bottles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing bottle
+      parameters:
+      - description: Bottle ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a bottle
+      tags:
+      - Bottles
     get:
       consumes:
       - application/json

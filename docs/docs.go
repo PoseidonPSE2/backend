@@ -112,33 +112,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Delete an existing bottle",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Bottles"
-                ],
-                "summary": "Delete a bottle",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Bottle ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
             }
         },
         "/bottles/preferences/{nfcId}": {
@@ -236,6 +209,33 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/database.Bottle"
                         }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Delete a bottle",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bottle ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }

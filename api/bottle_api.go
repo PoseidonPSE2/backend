@@ -132,21 +132,24 @@ func CreateBottle(c *gin.Context) {
 // @Success 200 {object} database.Bottle
 // @Router /bottles [put]
 func UpdateBottle(c *gin.Context) {
-	// Get model if exist
-	var bottle database.Bottle
-	if err := db.Where("id = ?", c.Param("id")).First(&bottle).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-		return
-	}
-
-	// Validate input
 	var newBottle database.Bottle
 	if err := c.ShouldBindJSON(&newBottle); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	var bottle database.Bottle
+	if err := db.Where("id = ?", newBottle.ID).First(&bottle).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
 	db.Model(&bottle).Updates(newBottle)
+
+	// Workaround to ensure saving of an empty nfc-id
+	if newBottle.NFCID == "" {
+		db.Model(&bottle).Select("NFCID").Updates(map[string]interface{}{"NFCID": ""})
+	}
 
 	// Respond with the updated bottle data
 	c.JSON(http.StatusOK, bottle)
@@ -159,9 +162,9 @@ func UpdateBottle(c *gin.Context) {
 // @Produce  json
 // @Param id query int true "Bottle ID"
 // @Success 204
-// @Router /bottles [delete]
+// @Router /bottles/{id} [delete]
 func DeleteBottle(c *gin.Context) {
-	idStr := c.Query("id")
+	idStr := c.Param("id")
 	if idStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
 		return
