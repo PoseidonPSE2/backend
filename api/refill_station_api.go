@@ -102,37 +102,45 @@ func GetRefillStationById(c *gin.Context) {
 // @Success 200 {number} float64
 // @Router /refill_stations/{id}/reviews [get]
 func GetRefillStationReviewsAverageByID(c *gin.Context) {
+	var station database.RefillStation
+	var stationReviews []database.RefillStationReview
 	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+
 	if idStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
 		return
 	}
-	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 		return
 	}
 
-	var reviews []database.RefillStationReview
-	result := db.Where("station_id = ?", id).Find(&reviews)
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+	stationQueryResult := db.First(&station, id)
+	if stationQueryResult.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": stationQueryResult.Error.Error()})
 		return
 	}
 
-	if len(reviews) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "No reviews found"})
+	reviewsQueryResult := db.Where("station_id = ?", id).Find(&stationReviews)
+	if reviewsQueryResult.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": reviewsQueryResult.Error.Error()})
+		return
+	}
+
+	if len(stationReviews) == 0 {
+		c.JSON(http.StatusOK, gin.H{"cleanness": 0.0, "accesibility": 0.0, "waterQuality": 0.0})
 		return
 	}
 
 	var totalCleanness, totalAccessibility, totalWaterQuality float64
-	for _, review := range reviews {
+	for _, review := range stationReviews {
 		totalCleanness += float64(review.Cleanness)
 		totalAccessibility += float64(review.Accessibility)
 		totalWaterQuality += float64(review.WaterQuality)
 	}
 
-	amountReviews := (len(reviews))
+	amountReviews := (len(stationReviews))
 
 	cleannessAverage := totalCleanness / float64(amountReviews)
 	accessibilityAverage := totalAccessibility / float64(amountReviews)
