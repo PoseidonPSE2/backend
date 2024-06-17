@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   api.ContributionCommunityResponse:
     properties:
@@ -887,24 +886,6 @@ paths:
       tags:
       - refill_station_reviews
   /refill_stations:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing refill station
-      parameters:
-      - description: Refill Station ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a refill station
-      tags:
-      - refill_stations
     get:
       consumes:
       - application/json
@@ -920,7 +901,7 @@ paths:
             type: array
       summary: Show all refill stations
       tags:
-      - refill_stations
+      - Refill Stations
     post:
       consumes:
       - application/json
@@ -941,7 +922,7 @@ paths:
             $ref: '#/definitions/database.RefillStation'
       summary: Create a refill station
       tags:
-      - refill_stations
+      - Refill Stations
     put:
       consumes:
       - application/json
@@ -962,8 +943,26 @@ paths:
             $ref: '#/definitions/database.RefillStation'
       summary: Update a refill station
       tags:
-      - refill_stations
+      - Refill Stations
   /refill_stations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing refill station
+      parameters:
+      - description: Refill Station ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a refill station
+      tags:
+      - Refill Stations
     get:
       consumes:
       - application/json
@@ -983,7 +982,7 @@ paths:
             $ref: '#/definitions/database.RefillStation'
       summary: Get a refill station by ID
       tags:
-      - refill_stations
+      - Refill Stations
   /refill_stations/{id}/reviews:
     get:
       consumes:
@@ -991,7 +990,7 @@ paths:
       description: Get the average review score for a refill station by its ID
       parameters:
       - description: Refill Station ID
-        in: query
+        in: path
         name: id
         required: true
         type: integer
@@ -1004,7 +1003,7 @@ paths:
             type: number
       summary: Get the average review score for a refill station
       tags:
-      - refill_station_reviews
+      - Refill Stations
   /refill_stations/markers:
     get:
       consumes:
@@ -1022,7 +1021,7 @@ paths:
             type: array
       summary: Get all refill station markers
       tags:
-      - refill_stations
+      - Refill Stations
   /users:
     delete:
       consumes:

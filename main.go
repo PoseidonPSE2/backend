@@ -20,8 +20,8 @@ import (
 var db *gorm.DB
 
 // Flog for database
-var shouldRecreateDatabase = true
-var shouldImportTestData = true
+var shouldRecreateDatabase = false
+var shouldImportTestData = false
 
 // Database configuration variables
 var (
@@ -82,7 +82,7 @@ func init() {
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host poseidon-backend.fly.dev
-// @BasePath /
+// @BasePath
 func main() {
 	api.SetDB(db)
 	r := gin.Default()
@@ -121,7 +121,7 @@ func main() {
 	r.GET("/refill_stations/:id/reviews", api.GetRefillStationReviewsAverageByID)
 	r.POST("/refill_stations", api.CreateRefillStation)
 	r.PUT("/refill_stations", api.UpdateRefillStation)
-	r.DELETE("/refill_stations", api.DeleteRefillStation)
+	r.DELETE("/refill_stations/:id", api.DeleteRefillStation)
 
 	r.GET("/refill_station_reviews", api.GetRefillStationReviews)
 	r.POST("/refill_station_reviews", api.CreateRefillStationReview)

@@ -10,42 +10,26 @@ import (
 
 // @Summary Show all refill stations
 // @Description Get all refill stations
-// @Tags refill_stations
-// @Accept  json
-// @Produce  json
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
 // @Success 200 {array} database.RefillStation
 // @Router /refill_stations [get]
 func GetRefillStations(c *gin.Context) {
-	idStr := c.Query("id")
-	if idStr == "" {
-		var stations []database.RefillStation
-		result := db.Find(&stations)
-		if result.Error != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
-			return
-		}
-		c.JSON(http.StatusOK, stations)
-	} else {
-		id, err := strconv.Atoi(idStr)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-			return
-		}
-		var station database.RefillStation
-		result := db.First(&station, id)
-		if result.Error != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
-			return
-		}
-		c.JSON(http.StatusOK, station)
+	var stations []database.RefillStation
+	result := db.Find(&stations)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
 	}
+	c.JSON(http.StatusOK, stations)
 }
 
 // @Summary Get all refill station markers
 // @Description Get all refill station markers with specific attributes
-// @Tags refill_stations
-// @Accept  json
-// @Produce  json
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
 // @Success 200 {array} map[string]interface{}
 // @Router /refill_stations/markers [get]
 func GetAllRefillstationMarker(c *gin.Context) {
@@ -71,9 +55,9 @@ func GetAllRefillstationMarker(c *gin.Context) {
 
 // @Summary Get a refill station by ID
 // @Description Get a refill station by its ID
-// @Tags refill_stations
-// @Accept  json
-// @Produce  json
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
 // @Param id path int true "Refill Station ID"
 // @Success 200 {object} database.RefillStation
 // @Router /refill_stations/{id} [get]
@@ -95,10 +79,10 @@ func GetRefillStationById(c *gin.Context) {
 
 // @Summary Get the average review score for a refill station
 // @Description Get the average review score for a refill station by its ID
-// @Tags refill_station_reviews
-// @Accept  json
-// @Produce  json
-// @Param id query int true "Refill Station ID"
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
+// @Param id path int true "Refill Station ID"
 // @Success 200 {number} float64
 // @Router /refill_stations/{id}/reviews [get]
 func GetRefillStationReviewsAverageByID(c *gin.Context) {
@@ -151,9 +135,9 @@ func GetRefillStationReviewsAverageByID(c *gin.Context) {
 
 // @Summary Create a refill station
 // @Description Create a new refill station
-// @Tags refill_stations
-// @Accept  json
-// @Produce  json
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
 // @Param station body database.RefillStation true "Refill Station"
 // @Success 201 {object} database.RefillStation
 // @Router /refill_stations [post]
@@ -173,36 +157,37 @@ func CreateRefillStation(c *gin.Context) {
 
 // @Summary Update a refill station
 // @Description Update an existing refill station
-// @Tags refill_stations
+// @Tags Refill Stations
 // @Accept  json
 // @Produce  json
 // @Param station body database.RefillStation true "Refill Station"
 // @Success 200 {object} database.RefillStation
 // @Router /refill_stations [put]
 func UpdateRefillStation(c *gin.Context) {
-	var station database.RefillStation
-	if err := c.ShouldBindJSON(&station); err != nil {
+	var requestStation database.RefillStation
+	if err := c.ShouldBindJSON(&requestStation); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	result := db.Save(&station)
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+	var helpStation database.RefillStation
+	if result := db.First(&helpStation, requestStation.ID); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Refill Station with ID not found"})
 		return
 	}
-	c.JSON(http.StatusOK, station)
+	db.Model(&helpStation).Updates(requestStation)
+	c.JSON(http.StatusOK, requestStation)
 }
 
 // @Summary Delete a refill station
 // @Description Delete an existing refill station
-// @Tags refill_stations
-// @Accept  json
-// @Produce  json
-// @Param id query int true "Refill Station ID"
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
+// @Param id path int true "Refill Station ID"
 // @Success 204
-// @Router /refill_stations [delete]
+// @Router /refill_stations/{id} [delete]
 func DeleteRefillStation(c *gin.Context) {
-	idStr := c.Query("id")
+	idStr := c.Param("id")
 	if idStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
 		return
@@ -212,6 +197,13 @@ func DeleteRefillStation(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 		return
 	}
+
+	var station database.RefillStation
+	if result := db.First(&station, id); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Refill Station with ID not found"})
+		return
+	}
+
 	result := db.Delete(&database.RefillStation{}, id)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})

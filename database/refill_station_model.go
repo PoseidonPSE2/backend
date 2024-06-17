@@ -32,7 +32,6 @@ type RefillStation struct {
 }
 
 func (station *RefillStation) BeforeCreate(tx *gorm.DB) (err error) {
-
 	stationType := strings.ToLower(station.Type)
 	stationOfferedWaterTypes := strings.ToLower(station.OfferedWaterTypes)
 

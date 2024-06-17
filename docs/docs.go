@@ -1074,7 +1074,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_stations"
+                    "Refill Stations"
                 ],
                 "summary": "Show all refill stations",
                 "responses": {
@@ -1098,7 +1098,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_stations"
+                    "Refill Stations"
                 ],
                 "summary": "Update a refill station",
                 "parameters": [
@@ -1130,7 +1130,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_stations"
+                    "Refill Stations"
                 ],
                 "summary": "Create a refill station",
                 "parameters": [
@@ -1152,33 +1152,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Delete an existing refill station",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "refill_stations"
-                ],
-                "summary": "Delete a refill station",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Refill Station ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
             }
         },
         "/refill_stations/markers": {
@@ -1191,7 +1164,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_stations"
+                    "Refill Stations"
                 ],
                 "summary": "Get all refill station markers",
                 "responses": {
@@ -1218,7 +1191,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_stations"
+                    "Refill Stations"
                 ],
                 "summary": "Get a refill station by ID",
                 "parameters": [
@@ -1238,6 +1211,33 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete an existing refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Refill Stations"
+                ],
+                "summary": "Delete a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
             }
         },
         "/refill_stations/{id}/reviews": {
@@ -1250,7 +1250,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_reviews"
+                    "Refill Stations"
                 ],
                 "summary": "Get the average review score for a refill station",
                 "parameters": [
@@ -1258,7 +1258,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Refill Station ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -1804,7 +1804,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "poseidon-backend.fly.dev",
-	BasePath:         "/",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
 	Description:      "This is a sample server for a water station.",
