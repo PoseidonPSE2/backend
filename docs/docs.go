@@ -679,7 +679,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "likes"
+                    "Likes"
                 ],
                 "summary": "Show all likes",
                 "responses": {
@@ -703,7 +703,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "likes"
+                    "Likes"
                 ],
                 "summary": "Update a like",
                 "parameters": [
@@ -735,7 +735,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "likes"
+                    "Likes"
                 ],
                 "summary": "Create a like",
                 "parameters": [
@@ -757,7 +757,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/likes/{id}": {
             "delete": {
                 "description": "Delete an existing like",
                 "consumes": [
@@ -767,7 +769,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "likes"
+                    "Likes"
                 ],
                 "summary": "Delete a like",
                 "parameters": [
@@ -775,13 +777,55 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Like ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "204": {
                         "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/likes/{refillstationId}/{usedId}": {
+            "get": {
+                "description": "Check if a specific user likes a specific refill station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Check if a user likes a refill station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "refillstationId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
                     }
                 }
             }
@@ -1223,66 +1267,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "number"
-                        }
-                    }
-                }
-            }
-        },
-        "/refillstation_like": {
-            "get": {
-                "description": "Check if a specific user likes a specific refill station",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "likes"
-                ],
-                "summary": "Check if a user likes a refill station",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Refill Station ID",
-                        "name": "refillstationId",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
                         }
                     }
                 }

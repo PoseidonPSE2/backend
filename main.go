@@ -20,8 +20,8 @@ import (
 var db *gorm.DB
 
 // Flog for database
-var shouldRecreateDatabase = false
-var shouldImportTestData = false
+var shouldRecreateDatabase = true
+var shouldImportTestData = true
 
 // Database configuration variables
 var (
@@ -139,10 +139,10 @@ func main() {
 	r.DELETE("/water_transactions", api.DeleteWaterTransaction)
 
 	r.GET("/likes", api.GetLikes)
-	r.GET("/likes/:refillstationId/:usedId", api.GetLikeByUserIdAndStationID)
+	r.GET("/likes/:refillstationId/:userId", api.GetLikeByUserIdAndStationID)
 	r.POST("/likes", api.CreateLike)
 	r.PUT("/likes", api.UpdateLike)
-	r.DELETE("/likes", api.DeleteLike)
+	r.DELETE("/likes/:id", api.DeleteLike)
 
 	r.GET("/contribution/user/:id", api.GetContributionByUser)
 	r.GET("/contribution/community", api.GetContributionCommunity)

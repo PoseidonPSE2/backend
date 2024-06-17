@@ -48,6 +48,9 @@ func GetBottleById(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusOK, bottle)
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing ID"})
+		return
 	}
 }
 
