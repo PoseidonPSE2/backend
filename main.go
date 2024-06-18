@@ -20,8 +20,8 @@ import (
 var db *gorm.DB
 
 // Flog for database
-var shouldRecreateDatabase = false
-var shouldImportTestData = false
+var shouldRecreateDatabase = true
+var shouldImportTestData = true
 
 // Database configuration variables
 var (
@@ -58,8 +58,7 @@ func init() {
 	log.Print("Schema migration starting")
 
 	// Migrate the schema
-	db.AutoMigrate(&database.User{}, &database.Bottle{}, &database.ConsumerTest{}, &database.ConsumerTestQuestion{},
-		&database.ConsumerTestAnswer{}, &database.RefillStation{}, &database.RefillStationReview{},
+	db.AutoMigrate(&database.User{}, &database.Bottle{}, &database.RefillStation{}, &database.RefillStationReview{},
 		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
 
 	log.Print("Schema migration done")
@@ -99,21 +98,6 @@ func main() {
 	r.POST("/bottles", api.CreateBottle)
 	r.PUT("/bottles", api.UpdateBottle)
 	r.DELETE("/bottles/:id", api.DeleteBottle)
-
-	r.GET("/consumer_tests", api.GetConsumerTests)
-	r.POST("/consumer_tests", api.CreateConsumerTest)
-	r.PUT("/consumer_tests", api.UpdateConsumerTest)
-	r.DELETE("/consumer_tests", api.DeleteConsumerTest)
-
-	r.GET("/consumer_test_questions", api.GetConsumerTestQuestions)
-	r.POST("/consumer_test_questions", api.CreateConsumerTestQuestion)
-	r.PUT("/consumer_test_questions", api.UpdateConsumerTestQuestion)
-	r.DELETE("/consumer_test_questions", api.DeleteConsumerTestQuestion)
-
-	r.GET("/consumer_test_answers", api.GetConsumerTestAnswers)
-	r.POST("/consumer_test_answers", api.CreateConsumerTestAnswer)
-	r.PUT("/consumer_test_answers", api.UpdateConsumerTestAnswer)
-	r.DELETE("/consumer_test_answers", api.DeleteConsumerTestAnswer)
 
 	r.GET("/refill_stations", api.GetRefillStations)
 	r.GET("/refill_stations/markers", api.GetAllRefillstationMarker)

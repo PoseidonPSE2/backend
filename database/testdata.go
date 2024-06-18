@@ -12,9 +12,6 @@ func CreateTestData(db *gorm.DB) *gorm.DB {
 
 	db = CreateUsers(db)
 	db = CreateBottles(db)
-	db = CreateConsumerTests(db)
-	db = CreateConsumerTestsQuestions(db)
-	db = CreateConsumerTestsAnswers(db)
 	db = CreateRefillStations(db)
 	db = CreateRefillStationReviews(db)
 	db = CreateRefillStationProblems(db)
@@ -86,82 +83,6 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 	}
 
 	log.Print("Created bottles successfully")
-
-	return db
-}
-
-func CreateConsumerTests(db *gorm.DB) *gorm.DB {
-	// Test are only a logical container, no parameters
-	tests := []ConsumerTest{
-		{},
-		{},
-	}
-
-	for _, test := range tests {
-		if err := db.Create(&test).Error; err != nil {
-			log.Fatalf("failed to create consumer test: %v", err)
-		}
-	}
-
-	log.Print("Created consumer tests successfully")
-
-	return db
-}
-
-func CreateConsumerTestsQuestions(db *gorm.DB) *gorm.DB {
-	// Test are only a logical container, no parameters
-	testQuestions := []ConsumerTestQuestion{
-		{
-			Text:   "Is this a Question?",
-			TestID: 1,
-		},
-		{
-			Text:   "An this one?",
-			TestID: 1,
-		},
-		{
-			Text:   "How many?",
-			TestID: 2,
-		},
-	}
-
-	for _, testQuestion := range testQuestions {
-		if err := db.Create(&testQuestion).Error; err != nil {
-			log.Fatalf("failed to create consumer test question: %v", err)
-		}
-	}
-
-	log.Print("Created consumer tests questions successfully")
-
-	return db
-}
-
-func CreateConsumerTestsAnswers(db *gorm.DB) *gorm.DB {
-	testAnswers := []ConsumerTestAnswer{
-		{
-			UserID:     1,
-			QuestionID: 1,
-			Answer:     5.0,
-		},
-		{
-			UserID:     1,
-			QuestionID: 2,
-			Answer:     1.0,
-		},
-		{
-			UserID:     2,
-			QuestionID: 3,
-			Answer:     4.20,
-		},
-	}
-
-	for _, testAnswer := range testAnswers {
-		if err := db.Create(&testAnswer).Error; err != nil {
-			log.Fatalf("failed to create consumer test answer: %v", err)
-		}
-	}
-
-	log.Print("Created consumer tests answers successfully")
 
 	return db
 }
