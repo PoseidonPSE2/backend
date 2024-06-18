@@ -30,6 +30,22 @@ definitions:
       savedTrash:
         type: number
     type: object
+  api.StationLikeCounter:
+    properties:
+      like_counter:
+        type: integer
+      station_id:
+        type: integer
+    type: object
+  api.StationReviewAverage:
+    properties:
+      accesibility:
+        type: number
+      cleanness:
+        type: number
+      waterQuality:
+        type: number
+    type: object
   database.Bottle:
     properties:
       active:
@@ -47,37 +63,6 @@ definitions:
       user_id:
         type: integer
       water_type:
-        type: string
-    type: object
-  database.ConsumerTest:
-    properties:
-      id:
-        type: integer
-    type: object
-  database.ConsumerTestAnswer:
-    properties:
-      answer:
-        type: number
-      id:
-        type: integer
-      question_id:
-        type: integer
-      timestamp:
-        type: string
-      user_id:
-        type: integer
-    type: object
-  database.ConsumerTestQuestion:
-    properties:
-      id:
-        type: integer
-      max_value:
-        type: number
-      min_value:
-        type: number
-      test_id:
-        type: integer
-      text:
         type: string
     type: object
   database.Like:
@@ -343,237 +328,6 @@ paths:
       summary: Get all bottles by user ID
       tags:
       - Bottles
-  /consumer_test_answers:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing consumer test answer
-      parameters:
-      - description: Consumer Test Answer ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a consumer test answer
-      tags:
-      - consumer_test_answers
-    get:
-      consumes:
-      - application/json
-      description: Get all consumer test answers
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/database.ConsumerTestAnswer'
-            type: array
-      summary: Show all consumer test answers
-      tags:
-      - consumer_test_answers
-    post:
-      consumes:
-      - application/json
-      description: Create a new consumer test answer
-      parameters:
-      - description: Consumer Test Answer
-        in: body
-        name: answer
-        required: true
-        schema:
-          $ref: '#/definitions/database.ConsumerTestAnswer'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/database.ConsumerTestAnswer'
-      summary: Create a consumer test answer
-      tags:
-      - consumer_test_answers
-    put:
-      consumes:
-      - application/json
-      description: Update an existing consumer test answer
-      parameters:
-      - description: Consumer Test Answer
-        in: body
-        name: answer
-        required: true
-        schema:
-          $ref: '#/definitions/database.ConsumerTestAnswer'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/database.ConsumerTestAnswer'
-      summary: Update a consumer test answer
-      tags:
-      - consumer_test_answers
-  /consumer_test_questions:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing consumer test question
-      parameters:
-      - description: Consumer Test Question ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a consumer test question
-      tags:
-      - consumer_test_questions
-    get:
-      consumes:
-      - application/json
-      description: Get all consumer test questions
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/database.ConsumerTestQuestion'
-            type: array
-      summary: Show all consumer test questions
-      tags:
-      - consumer_test_questions
-    post:
-      consumes:
-      - application/json
-      description: Create a new consumer test question
-      parameters:
-      - description: Consumer Test Question
-        in: body
-        name: question
-        required: true
-        schema:
-          $ref: '#/definitions/database.ConsumerTestQuestion'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/database.ConsumerTestQuestion'
-      summary: Create a consumer test question
-      tags:
-      - consumer_test_questions
-    put:
-      consumes:
-      - application/json
-      description: Update an existing consumer test question
-      parameters:
-      - description: Consumer Test Question
-        in: body
-        name: question
-        required: true
-        schema:
-          $ref: '#/definitions/database.ConsumerTestQuestion'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/database.ConsumerTestQuestion'
-      summary: Update a consumer test question
-      tags:
-      - consumer_test_questions
-  /consumer_tests:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing consumer test
-      parameters:
-      - description: Consumer Test ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a consumer test
-      tags:
-      - consumer_tests
-    get:
-      consumes:
-      - application/json
-      description: Get all consumer tests
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/database.ConsumerTest'
-            type: array
-      summary: Show all consumer tests
-      tags:
-      - consumer_tests
-    post:
-      consumes:
-      - application/json
-      description: Create a new consumer test
-      parameters:
-      - description: Consumer Test
-        in: body
-        name: test
-        required: true
-        schema:
-          $ref: '#/definitions/database.ConsumerTest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/database.ConsumerTest'
-      summary: Create a consumer test
-      tags:
-      - consumer_tests
-    put:
-      consumes:
-      - application/json
-      description: Update an existing consumer test
-      parameters:
-      - description: Consumer Test
-        in: body
-        name: test
-        required: true
-        schema:
-          $ref: '#/definitions/database.ConsumerTest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/database.ConsumerTest'
-      summary: Update a consumer test
-      tags:
-      - consumer_tests
   /contribution/community:
     get:
       consumes:
@@ -731,6 +485,27 @@ paths:
       summary: Check if a user likes a refill station
       tags:
       - Likes
+  /likes/{refillstationId}/count:
+    get:
+      consumes:
+      - application/json
+      description: Get counter like for station
+      parameters:
+      - description: Refill Station ID
+        in: path
+        name: refillstationId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.StationLikeCounter'
+      summary: Return a like counter fo a given station id
+      tags:
+      - Likes
   /refill_station_problems:
     delete:
       consumes:
@@ -830,13 +605,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get all refill station reviews by user ID
-      parameters:
-      - description: User ID
-        in: query
-        name: userId
-        required: true
-        type: integer
+      description: Get all refill station reviews
       produces:
       - application/json
       responses:
@@ -846,7 +615,7 @@ paths:
             items:
               $ref: '#/definitions/database.RefillStationReview'
             type: array
-      summary: Show all refill station reviews by user ID
+      summary: Show all refill station reviews
       tags:
       - refill_station_reviews
     post:
@@ -889,6 +658,34 @@ paths:
           schema:
             $ref: '#/definitions/database.RefillStationReview'
       summary: Update a refill station review
+      tags:
+      - refill_station_reviews
+  /refill_station_reviews/{userId}/{stationId}:
+    get:
+      consumes:
+      - application/json
+      description: Get all refill station reviews by user ID and station ID
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: Station ID
+        in: path
+        name: stationId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.RefillStationReview'
+            type: array
+      summary: Show all refill station reviews by user ID and station ID
       tags:
       - refill_station_reviews
   /refill_stations:
@@ -1006,7 +803,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: number
+            $ref: '#/definitions/api.StationReviewAverage'
       summary: Get the average review score for a refill station
       tags:
       - Refill Stations

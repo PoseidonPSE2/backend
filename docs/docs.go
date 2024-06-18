@@ -240,357 +240,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/consumer_test_answers": {
-            "get": {
-                "description": "Get all consumer test answers",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_answers"
-                ],
-                "summary": "Show all consumer test answers",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.ConsumerTestAnswer"
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update an existing consumer test answer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_answers"
-                ],
-                "summary": "Update a consumer test answer",
-                "parameters": [
-                    {
-                        "description": "Consumer Test Answer",
-                        "name": "answer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestAnswer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestAnswer"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new consumer test answer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_answers"
-                ],
-                "summary": "Create a consumer test answer",
-                "parameters": [
-                    {
-                        "description": "Consumer Test Answer",
-                        "name": "answer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestAnswer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestAnswer"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete an existing consumer test answer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_answers"
-                ],
-                "summary": "Delete a consumer test answer",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Consumer Test Answer ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
-        "/consumer_test_questions": {
-            "get": {
-                "description": "Get all consumer test questions",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_questions"
-                ],
-                "summary": "Show all consumer test questions",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.ConsumerTestQuestion"
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update an existing consumer test question",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_questions"
-                ],
-                "summary": "Update a consumer test question",
-                "parameters": [
-                    {
-                        "description": "Consumer Test Question",
-                        "name": "question",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestQuestion"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestQuestion"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new consumer test question",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_questions"
-                ],
-                "summary": "Create a consumer test question",
-                "parameters": [
-                    {
-                        "description": "Consumer Test Question",
-                        "name": "question",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestQuestion"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTestQuestion"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete an existing consumer test question",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_test_questions"
-                ],
-                "summary": "Delete a consumer test question",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Consumer Test Question ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
-        "/consumer_tests": {
-            "get": {
-                "description": "Get all consumer tests",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_tests"
-                ],
-                "summary": "Show all consumer tests",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.ConsumerTest"
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update an existing consumer test",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_tests"
-                ],
-                "summary": "Update a consumer test",
-                "parameters": [
-                    {
-                        "description": "Consumer Test",
-                        "name": "test",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTest"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new consumer test",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_tests"
-                ],
-                "summary": "Create a consumer test",
-                "parameters": [
-                    {
-                        "description": "Consumer Test",
-                        "name": "test",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/database.ConsumerTest"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete an existing consumer test",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "consumer_tests"
-                ],
-                "summary": "Delete a consumer test",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Consumer Test ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
         "/contribution/community": {
             "get": {
                 "description": "Get the total water amount and savings for the community",
@@ -788,6 +437,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/likes/{refillstationId}/count": {
+            "get": {
+                "description": "Get counter like for station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Return a like counter fo a given station id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "refillstationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.StationLikeCounter"
+                        }
+                    }
+                }
+            }
+        },
         "/likes/{refillstationId}/{usedId}": {
             "get": {
                 "description": "Check if a specific user likes a specific refill station",
@@ -949,7 +630,7 @@ const docTemplate = `{
         },
         "/refill_station_reviews": {
             "get": {
-                "description": "Get all refill station reviews by user ID",
+                "description": "Get all refill station reviews",
                 "consumes": [
                     "application/json"
                 ],
@@ -959,16 +640,7 @@ const docTemplate = `{
                 "tags": [
                     "refill_station_reviews"
                 ],
-                "summary": "Show all refill station reviews by user ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
+                "summary": "Show all refill station reviews",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1069,6 +741,48 @@ const docTemplate = `{
                 "responses": {
                     "204": {
                         "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/refill_station_reviews/{userId}/{stationId}": {
+            "get": {
+                "description": "Get all refill station reviews by user ID and station ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "refill_station_reviews"
+                ],
+                "summary": "Show all refill station reviews by user ID and station ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Station ID",
+                        "name": "stationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.RefillStationReview"
+                            }
+                        }
                     }
                 }
             }
@@ -1275,7 +989,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "number"
+                            "$ref": "#/definitions/api.StationReviewAverage"
                         }
                     }
                 }
@@ -1565,6 +1279,31 @@ const docTemplate = `{
                 }
             }
         },
+        "api.StationLikeCounter": {
+            "type": "object",
+            "properties": {
+                "like_counter": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.StationReviewAverage": {
+            "type": "object",
+            "properties": {
+                "accesibility": {
+                    "type": "number"
+                },
+                "cleanness": {
+                    "type": "number"
+                },
+                "waterQuality": {
+                    "type": "number"
+                }
+            }
+        },
         "database.Bottle": {
             "type": "object",
             "properties": {
@@ -1590,54 +1329,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "water_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "database.ConsumerTest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "database.ConsumerTestAnswer": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "number"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "question_id": {
-                    "type": "integer"
-                },
-                "timestamp": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "database.ConsumerTestQuestion": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "max_value": {
-                    "type": "number"
-                },
-                "min_value": {
-                    "type": "number"
-                },
-                "test_id": {
-                    "type": "integer"
-                },
-                "text": {
                     "type": "string"
                 }
             }

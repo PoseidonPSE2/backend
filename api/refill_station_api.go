@@ -8,6 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type StationReviewAverage struct {
+	Cleanness    float64 `json:"cleanness"`
+	Accesibility float64 `json:"accesibility"`
+	WaterQuality float64 `json:"waterQuality"`
+}
+
 // @Summary Show all refill stations
 // @Description Get all refill stations
 // @Tags Refill Stations
@@ -83,7 +89,7 @@ func GetRefillStationById(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Refill Station ID"
-// @Success 200 {number} float64
+// @Success 200 {object} StationReviewAverage
 // @Router /refill_stations/{id}/reviews [get]
 func GetRefillStationReviewsAverageByID(c *gin.Context) {
 	var station database.RefillStation
@@ -130,7 +136,13 @@ func GetRefillStationReviewsAverageByID(c *gin.Context) {
 	accessibilityAverage := totalAccessibility / float64(amountReviews)
 	waterQualityAverage := totalWaterQuality / float64(amountReviews)
 
-	c.JSON(http.StatusOK, gin.H{"cleanness": cleannessAverage, "accesibility": accessibilityAverage, "waterQuality": waterQualityAverage})
+	response := StationReviewAverage{
+		Cleanness:    cleannessAverage,
+		Accesibility: accessibilityAverage,
+		WaterQuality: waterQualityAverage,
+	}
+
+	respondWithJSON(c, http.StatusOK, response)
 }
 
 // @Summary Create a refill station

@@ -9,6 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
+type StationLikeCounter struct {
+	StationID   int `json:"station_id"`
+	LikeCounter int `json:"like_counter"`
+}
+
 // @Summary Show all likes
 // @Description Get all likes
 // @Tags Likes
@@ -24,6 +29,46 @@ func GetLikes(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, likes)
+}
+
+// @Summary Return a like counter fo a given station id
+// @Description Get counter like for station
+// @Tags Likes
+// @Accept json
+// @Produce json
+// @Param refillstationId path int true "Refill Station ID"
+// @Success 200 {object} StationLikeCounter
+// @Router /likes/{refillstationId}/count [get]
+func GetLikesCounterForStation(c *gin.Context) {
+	refillstationIdStr := c.Param("refillstationId")
+
+	if refillstationIdStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "refillstationId and userId are required"})
+		return
+	}
+
+	refillstationId, err := strconv.Atoi(refillstationIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid refillstationId"})
+		return
+	}
+
+	// Check for if record exists
+	var tempStation database.RefillStation
+	if result := db.First(&tempStation, refillstationId); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Refill Station with ID not found"})
+		return
+	}
+
+	var likeCounter int64
+	db.Model(&database.Like{}).Where("station_id = ?", refillstationId).Count(&likeCounter)
+
+	response := StationLikeCounter{
+		StationID:   refillstationId,
+		LikeCounter: int(likeCounter),
+	}
+
+	respondWithJSON(c, http.StatusOK, response)
 }
 
 // @Summary Check if a user likes a refill station

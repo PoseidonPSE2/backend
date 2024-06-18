@@ -124,6 +124,7 @@ func main() {
 	r.DELETE("/water_transactions", api.DeleteWaterTransaction)
 
 	r.GET("/likes", api.GetLikes)
+	r.GET("/likes/:refillstationId/count", api.GetLikesCounterForStation)
 	r.GET("/likes/:refillstationId/:userId", api.GetLikeByUserIdAndStationID)
 	r.POST("/likes", api.CreateLike)
 	r.PUT("/likes", api.UpdateLike)
