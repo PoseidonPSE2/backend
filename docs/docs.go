@@ -949,7 +949,7 @@ const docTemplate = `{
         },
         "/refill_station_reviews": {
             "get": {
-                "description": "Get all refill station reviews",
+                "description": "Get all refill station reviews by user ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -959,7 +959,16 @@ const docTemplate = `{
                 "tags": [
                     "refill_station_reviews"
                 ],
-                "summary": "Show all refill station reviews",
+                "summary": "Show all refill station reviews by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

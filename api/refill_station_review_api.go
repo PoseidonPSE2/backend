@@ -42,6 +42,45 @@ func GetRefillStationReviews(c *gin.Context) {
 	}
 }
 
+// @Summary Show all refill station reviews by user ID and station ID
+// @Description Get all refill station reviews by user ID and station ID
+// @Tags refill_station_reviews
+// @Accept  json
+// @Produce  json
+// @Param userId path int true "User ID"
+// @Param stationId path int true "Station ID"
+// @Success 200 {array} database.RefillStationReview
+// @Router /refill_station_reviews/{userId}/{stationId} [get]
+func GetRefillStationReviewsByUserId(c *gin.Context) {
+	userIdStr := c.Param("userId")
+	userId, err := strconv.Atoi(userIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid User ID"})
+		return
+	}
+
+	stationIdStr := c.Param("stationId")
+	stationId, err := strconv.Atoi(stationIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Station ID"})
+		return
+	}
+
+	var reviews []database.RefillStationReview
+	result := db.Where("user_id = ? AND station_id = ?", userId, stationId).Find(&reviews)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	if len(reviews) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No reviews found for this user and station"})
+		return
+	}
+
+	c.JSON(http.StatusOK, reviews)
+}
+
 // @Summary Create a refill station review
 // @Description Create a new refill station review
 // @Tags refill_station_reviews

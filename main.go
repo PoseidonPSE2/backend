@@ -124,6 +124,7 @@ func main() {
 	r.DELETE("/refill_stations/:id", api.DeleteRefillStation)
 
 	r.GET("/refill_station_reviews", api.GetRefillStationReviews)
+	r.GET("/refill_station_reviews/:userId/:stationId", api.GetRefillStationReviewsByUserId)
 	r.POST("/refill_station_reviews", api.CreateRefillStationReview)
 	r.PUT("/refill_station_reviews", api.UpdateRefillStationReview)
 	r.DELETE("/refill_station_reviews", api.DeleteRefillStationReview)
