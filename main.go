@@ -111,7 +111,7 @@ func main() {
 	r.GET("/refill_station_reviews/:userId/:stationId", api.GetRefillStationReviewsByUserId)
 	r.POST("/refill_station_reviews", api.CreateRefillStationReview)
 	r.PUT("/refill_station_reviews", api.UpdateRefillStationReview)
-	r.DELETE("/refill_station_reviews", api.DeleteRefillStationReview)
+	r.DELETE("/refill_station_reviews/:id", api.DeleteRefillStationReview)
 
 	r.GET("/refill_station_problems", api.GetRefillStationProblems)
 	r.GET("/refill_station_problems/:id", api.GetRefillStationProblemById)

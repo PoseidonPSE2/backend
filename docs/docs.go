@@ -670,7 +670,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_reviews"
+                    "Refill Station Reviews"
                 ],
                 "summary": "Show all refill station reviews",
                 "responses": {
@@ -694,7 +694,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_reviews"
+                    "Refill Station Reviews"
                 ],
                 "summary": "Update a refill station review",
                 "parameters": [
@@ -726,7 +726,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_reviews"
+                    "Refill Station Reviews"
                 ],
                 "summary": "Create a refill station review",
                 "parameters": [
@@ -748,7 +748,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/refill_station_reviews/:id": {
             "delete": {
                 "description": "Delete an existing refill station review",
                 "consumes": [
@@ -758,7 +760,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_reviews"
+                    "Refill Station Reviews"
                 ],
                 "summary": "Delete a refill station review",
                 "parameters": [
@@ -766,7 +768,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Refill Station Review ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -787,7 +789,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_reviews"
+                    "Refill Station Reviews"
                 ],
                 "summary": "Show all refill station reviews by user ID and station ID",
                 "parameters": [
@@ -810,10 +812,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/database.RefillStationReview"
-                            }
+                            "$ref": "#/definitions/database.RefillStationReview"
                         }
                     }
                 }
