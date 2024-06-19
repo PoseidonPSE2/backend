@@ -73,11 +73,6 @@ func GetRefillStationReviewsByUserId(c *gin.Context) {
 		return
 	}
 
-	if len(reviews) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"message": "No reviews found for this user and station"})
-		return
-	}
-
 	c.JSON(http.StatusOK, reviews)
 }
 
