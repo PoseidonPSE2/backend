@@ -128,7 +128,7 @@ func main() {
 	r.GET("/likes/:refillstationId/:userId", api.GetLikeByUserIdAndStationID)
 	r.POST("/likes", api.CreateLike)
 	r.PUT("/likes", api.UpdateLike)
-	r.DELETE("/likes/:id", api.DeleteLike)
+	r.DELETE("/likes", api.DeleteLike)
 
 	r.GET("/contribution/user/:id", api.GetContributionByUser)
 	r.GET("/contribution/community", api.GetContributionCommunity)

@@ -177,26 +177,24 @@ func UpdateLike(c *gin.Context) {
 // @Tags Likes
 // @Accept json
 // @Produce json
-// @Param id path int true "Like ID"
+// @Param like body database.Like true "Like"
 // @Success 204
-// @Router /likes/{id} [delete]
+// @Router /likes [delete]
 func DeleteLike(c *gin.Context) {
-	idStr := c.Param("id")
-	if idStr == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "ID is required"})
+	var requestLike database.Like
+	if err := c.ShouldBindJSON(&requestLike); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-		return
-	}
+
 	var like database.Like
-	if result := db.First(&like, id); result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Like with ID not found"})
+	result := db.Where("station_id = ? AND user_id = ?", requestLike.StationID, requestLike.UserID).First(&like)
+	if result != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Like with given ids not existant"})
 		return
 	}
-	result := db.Delete(&database.Like{}, id)
+
+	result = db.Delete(&database.Like{}, like.ID)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return

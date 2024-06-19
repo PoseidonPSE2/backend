@@ -380,6 +380,25 @@ paths:
       tags:
       - Contribution
   /likes:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing like
+      parameters:
+      - description: Like
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/database.Like'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a like
+      tags:
+      - Likes
     get:
       consumes:
       - application/json
@@ -436,25 +455,6 @@ paths:
           schema:
             $ref: '#/definitions/database.Like'
       summary: Update a like
-      tags:
-      - Likes
-  /likes/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing like
-      parameters:
-      - description: Like ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a like
       tags:
       - Likes
   /likes/{refillstationId}/{usedId}:

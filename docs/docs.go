@@ -406,9 +406,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/likes/{id}": {
+            },
             "delete": {
                 "description": "Delete an existing like",
                 "consumes": [
@@ -423,11 +421,13 @@ const docTemplate = `{
                 "summary": "Delete a like",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Like ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "Like",
+                        "name": "like",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.Like"
+                        }
                     }
                 ],
                 "responses": {
