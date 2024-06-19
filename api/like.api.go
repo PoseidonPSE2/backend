@@ -189,7 +189,7 @@ func DeleteLike(c *gin.Context) {
 
 	var like database.Like
 	result := db.Where("station_id = ? AND user_id = ?", requestLike.StationID, requestLike.UserID).First(&like)
-	if result != nil {
+	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Like with given ids not existant"})
 		return
 	}
