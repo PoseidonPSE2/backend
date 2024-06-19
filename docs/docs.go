@@ -521,7 +521,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_problems"
+                    "Refill Station Problems"
                 ],
                 "summary": "Show all refill station problems",
                 "responses": {
@@ -545,7 +545,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_problems"
+                    "Refill Station Problems"
                 ],
                 "summary": "Update a refill station problem",
                 "parameters": [
@@ -577,7 +577,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_problems"
+                    "Refill Station Problems"
                 ],
                 "summary": "Create a refill station problem",
                 "parameters": [
@@ -599,6 +599,38 @@ const docTemplate = `{
                         }
                     }
                 }
+            }
+        },
+        "/refill_station_problems/{id}": {
+            "get": {
+                "description": "Get refill station problem",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Refill Station Problems"
+                ],
+                "summary": "Show refill station problem by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.RefillStationProblem"
+                        }
+                    }
+                }
             },
             "delete": {
                 "description": "Delete an existing refill station problem",
@@ -609,7 +641,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "refill_station_problems"
+                    "Refill Station Problems"
                 ],
                 "summary": "Delete a refill station problem",
                 "parameters": [
@@ -617,7 +649,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Refill Station Problem ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],

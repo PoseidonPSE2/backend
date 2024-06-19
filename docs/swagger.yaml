@@ -507,24 +507,6 @@ paths:
       tags:
       - Likes
   /refill_station_problems:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an existing refill station problem
-      parameters:
-      - description: Refill Station Problem ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete a refill station problem
-      tags:
-      - refill_station_problems
     get:
       consumes:
       - application/json
@@ -540,7 +522,7 @@ paths:
             type: array
       summary: Show all refill station problems
       tags:
-      - refill_station_problems
+      - Refill Station Problems
     post:
       consumes:
       - application/json
@@ -561,7 +543,7 @@ paths:
             $ref: '#/definitions/database.RefillStationProblem'
       summary: Create a refill station problem
       tags:
-      - refill_station_problems
+      - Refill Station Problems
     put:
       consumes:
       - application/json
@@ -582,7 +564,46 @@ paths:
             $ref: '#/definitions/database.RefillStationProblem'
       summary: Update a refill station problem
       tags:
-      - refill_station_problems
+      - Refill Station Problems
+  /refill_station_problems/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing refill station problem
+      parameters:
+      - description: Refill Station Problem ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a refill station problem
+      tags:
+      - Refill Station Problems
+    get:
+      consumes:
+      - application/json
+      description: Get refill station problem
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.RefillStationProblem'
+      summary: Show refill station problem by id
+      tags:
+      - Refill Station Problems
   /refill_station_reviews:
     delete:
       consumes:
