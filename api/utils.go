@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"net/http"
 
@@ -21,4 +22,14 @@ func respondWithJSON(c *gin.Context, status int, payload interface{}) {
 
 func SetDB(new_db *gorm.DB) {
 	db = new_db
+}
+
+// DecodeBase64ToBytes takes a base64 encoded string and returns a byte array
+func DecodeBase64ToBytes(encodedStr string) ([]byte, error) {
+	// Decode the base64 string
+	decodedBytes, err := base64.StdEncoding.DecodeString(encodedStr)
+	if err != nil {
+		return nil, err
+	}
+	return decodedBytes, nil
 }

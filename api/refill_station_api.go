@@ -14,6 +14,10 @@ type StationReviewAverage struct {
 	WaterQuality float64 `json:"waterQuality"`
 }
 
+type StationImage struct {
+	StationImage []byte `json:"station_image"`
+}
+
 // @Summary Show all refill stations
 // @Description Get all refill stations
 // @Tags Refill Stations
@@ -81,6 +85,40 @@ func GetRefillStationById(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, station)
+}
+
+// @Summary Get the image from a refill station by ID
+// @Description Get the image from a refill station by ID
+// @Tags Refill Stations
+// @Accept json
+// @Produce json
+// @Param id path int true "Refill Station ID"
+// @Success 200 {object} StationImage
+// @Router /refill_stations/image/{id} [get]
+func GetRefillStationImageById(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+	var station database.RefillStation
+	result := db.First(&station, id)
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
+		return
+	}
+	byteArray, err := DecodeBase64ToBytes(*station.RefillStationImage)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error decoding base64 string"})
+		return
+	}
+
+	response := StationImage{
+		StationImage: byteArray,
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Get the average review score for a refill station

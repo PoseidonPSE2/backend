@@ -30,6 +30,13 @@ definitions:
       savedTrash:
         type: number
     type: object
+  api.StationImage:
+    properties:
+      station_image:
+        items:
+          type: integer
+        type: array
+    type: object
   api.StationLikeCounter:
     properties:
       like_counter:
@@ -825,6 +832,27 @@ paths:
           schema:
             $ref: '#/definitions/api.StationReviewAverage'
       summary: Get the average review score for a refill station
+      tags:
+      - Refill Stations
+  /refill_stations/image/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get the image from a refill station by ID
+      parameters:
+      - description: Refill Station ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.StationImage'
+      summary: Get the image from a refill station by ID
       tags:
       - Refill Stations
   /refill_stations/markers:

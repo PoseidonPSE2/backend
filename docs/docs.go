@@ -908,6 +908,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/refill_stations/image/{id}": {
+            "get": {
+                "description": "Get the image from a refill station by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Refill Stations"
+                ],
+                "summary": "Get the image from a refill station by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Refill Station ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.StationImage"
+                        }
+                    }
+                }
+            }
+        },
         "/refill_stations/markers": {
             "get": {
                 "description": "Get all refill station markers with specific attributes",
@@ -1307,6 +1339,17 @@ const docTemplate = `{
                 },
                 "savedTrash": {
                     "type": "number"
+                }
+            }
+        },
+        "api.StationImage": {
+            "type": "object",
+            "properties": {
+                "station_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },

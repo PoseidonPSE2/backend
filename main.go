@@ -102,6 +102,7 @@ func main() {
 	r.GET("/refill_stations", api.GetRefillStations)
 	r.GET("/refill_stations/markers", api.GetAllRefillstationMarker)
 	r.GET("/refill_stations/:id", api.GetRefillStationById)
+	r.GET("/refill_stations/image/:id", api.GetRefillStationImageById)
 	r.GET("/refill_stations/:id/reviews", api.GetRefillStationReviewsAverageByID)
 	r.POST("/refill_stations", api.CreateRefillStation)
 	r.PUT("/refill_stations", api.UpdateRefillStation)

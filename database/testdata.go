@@ -90,7 +90,19 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 func CreateRefillStations(db *gorm.DB) *gorm.DB {
 	refillStations := []*RefillStation{
 		{
-			Name:              "Rewe Stations",
+			Name:               "Stadtpark KL",
+			Description:        "Irgendwas mit einem Schnitzeljagd?",
+			Latitude:           49.437551349217266,
+			Longitude:          7.761465081072085,
+			Address:            "Trippstadter Str. 2, 67663 Kaiserslautern",
+			WaterSource:        "Spitzrainbrunnen",
+			OpeningTimes:       "Mon - Son / 00:00 AM - 12:59 PM",
+			Type:               "smart",
+			OfferedWaterTypes:  "both",
+			RefillStationImage: &ImageStadtpark,
+		},
+		{
+			Name:              "Rewe Station",
 			Description:       "Wasserhahn REWE",
 			Latitude:          49.44490159879211,
 			Longitude:         7.767478778642334,
@@ -99,17 +111,6 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			OpeningTimes:      "Mon - Sam / 7:00 AM - 10:00 PM",
 			Type:              "manual",
 			OfferedWaterTypes: "tap",
-		},
-		{
-			Name:              "Stadtpark KL",
-			Description:       "Irgendwas mit einem Schnitzeljagd?",
-			Latitude:          49.437551349217266,
-			Longitude:         7.761465081072085,
-			Address:           "Trippstadter Str. 2, 67663 Kaiserslautern",
-			WaterSource:       "Spitzrainbrunnen",
-			OpeningTimes:      "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:              "smart",
-			OfferedWaterTypes: "both",
 		},
 		{
 			Name:              "Gartenschau KL",
