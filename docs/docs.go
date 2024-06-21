@@ -114,6 +114,72 @@ const docTemplate = `{
                 }
             }
         },
+        "/bottles/image": {
+            "put": {
+                "description": "Update the picture of a bottle",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Update a bottle image",
+                "parameters": [
+                    {
+                        "description": "Bottle",
+                        "name": "bottle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.UpdateBottleImageStruct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/database.Bottle"
+                        }
+                    }
+                }
+            }
+        },
+        "/bottles/image/{id}": {
+            "get": {
+                "description": "Get one bottle image with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bottles"
+                ],
+                "summary": "Get bottle image by bottle ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.BottleImage"
+                        }
+                    }
+                }
+            }
+        },
         "/bottles/preferences/{nfcId}": {
             "get": {
                 "description": "Get bottle preferences by the NFC ID",
@@ -587,7 +653,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/database.RefillStationProblem"
+                            "$ref": "#/definitions/api.PostRequestRefillStationProblem"
                         }
                     }
                 ],
@@ -1068,7 +1134,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "Users"
                 ],
                 "summary": "Show all users",
                 "responses": {
@@ -1092,7 +1158,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "Users"
                 ],
                 "summary": "Update a user",
                 "parameters": [
@@ -1124,7 +1190,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "Users"
                 ],
                 "summary": "Create a user",
                 "parameters": [
@@ -1156,7 +1222,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "Users"
                 ],
                 "summary": "Delete a user",
                 "parameters": [
@@ -1185,7 +1251,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "water_transactions"
+                    "Water Transactions"
                 ],
                 "summary": "Show all water transactions",
                 "responses": {
@@ -1209,7 +1275,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "water_transactions"
+                    "Water Transactions"
                 ],
                 "summary": "Update a water transaction",
                 "parameters": [
@@ -1241,7 +1307,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "water_transactions"
+                    "Water Transactions"
                 ],
                 "summary": "Create a water transaction",
                 "parameters": [
@@ -1273,7 +1339,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "water_transactions"
+                    "Water Transactions"
                 ],
                 "summary": "Delete a water transaction",
                 "parameters": [
@@ -1294,6 +1360,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.BottleImage": {
+            "type": "object",
+            "properties": {
+                "bottle_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "api.ContributionCommunityResponse": {
             "type": "object",
             "properties": {
@@ -1342,6 +1419,29 @@ const docTemplate = `{
                 }
             }
         },
+        "api.PostRequestRefillStationProblem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "problem_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "api.StationImage": {
             "type": "object",
             "properties": {
@@ -1378,14 +1478,25 @@ const docTemplate = `{
                 }
             }
         },
+        "api.UpdateBottleImageStruct": {
+            "type": "object",
+            "properties": {
+                "bottle_id": {
+                    "type": "integer"
+                },
+                "bottle_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "database.Bottle": {
             "type": "object",
             "properties": {
                 "active": {
                     "type": "boolean"
-                },
-                "bottle_image": {
-                    "type": "string"
                 },
                 "fill_volume": {
                     "type": "integer"
@@ -1462,9 +1573,6 @@ const docTemplate = `{
                 "opening_times": {
                     "type": "string"
                 },
-                "refill_station_image": {
-                    "type": "string"
-                },
                 "type": {
                     "type": "string"
                 },
@@ -1481,9 +1589,6 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
-                },
-                "refill_station_problem_image": {
-                    "type": "string"
                 },
                 "station_id": {
                     "type": "integer"

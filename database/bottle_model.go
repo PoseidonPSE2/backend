@@ -18,7 +18,7 @@ type Bottle struct {
 	FillVolume        int                `gorm:"not null" json:"fill_volume"`
 	WaterType         string             `gorm:"size:16;not null" json:"water_type"`
 	Title             string             `gorm:"size:16;not null" json:"title"`
-	BottleImage       *string            `gorm:"type:TEXT;default:null" json:"bottle_image,omitempty"`
+	BottleImage       *string            `gorm:"type:TEXT;default:null" json:"-"`
 	Active            bool               `gorm:"default:true" json:"active"`
 	WaterTransactions []WaterTransaction `gorm:"foreignKey:BottleID" json:"-"`
 }

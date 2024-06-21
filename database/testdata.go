@@ -47,10 +47,8 @@ func CreateUsers(db *gorm.DB) *gorm.DB {
 		},
 	}
 
-	for _, user := range users {
-		if err := db.Create(&user).Error; err != nil {
-			log.Fatalf("failed to create user: %v", err)
-		}
+	if err := db.Create(&users).Error; err != nil {
+		log.Fatalf("failed to create user: %v", err)
 	}
 
 	log.Print("Created users successfully")
@@ -59,27 +57,39 @@ func CreateUsers(db *gorm.DB) *gorm.DB {
 }
 
 func CreateBottles(db *gorm.DB) *gorm.DB {
+	bottle1 := ImageToBase64("./images/bottles/bottle1.jpg")
+	bottle2 := ImageToBase64("./images/bottles/bottle2.jpg")
+	bottle3 := ImageToBase64("./images/bottles/bottle3.jpg")
+
 	bottles := []Bottle{
 		{
-			UserID:     1,
-			NFCID:      "13:E0:0B:35",
-			FillVolume: 500,
-			WaterType:  "tap",
-			Title:      "First Bottle",
+			UserID:      5,
+			NFCID:       "13:E0:0B:35",
+			FillVolume:  500,
+			WaterType:   "tap",
+			Title:       "Daily Bottle",
+			BottleImage: &bottle1,
 		},
 		{
-			UserID:     2,
-			NFCID:      "",
-			FillVolume: 1000,
-			WaterType:  "mineral",
-			Title:      "Second Bottle",
+			UserID:      5,
+			NFCID:       "",
+			FillVolume:  750,
+			WaterType:   "mineral",
+			Title:       "Fancy Bottle",
+			BottleImage: &bottle2,
+		},
+		{
+			UserID:      3,
+			NFCID:       "",
+			FillVolume:  1000,
+			WaterType:   "mineral",
+			Title:       "Sports Bottle",
+			BottleImage: &bottle3,
 		},
 	}
 
-	for _, bottle := range bottles {
-		if err := db.Create(&bottle).Error; err != nil {
-			log.Fatalf("failed to create bottle: %v", err)
-		}
+	if err := db.Create(&bottles).Error; err != nil {
+		log.Fatalf("failed to create bottle: %v", err)
 	}
 
 	log.Print("Created bottles successfully")
@@ -88,6 +98,11 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 }
 
 func CreateRefillStations(db *gorm.DB) *gorm.DB {
+	stadtpark_picture := ImageToBase64("./images/refill_stations/stadtpark.jpg")
+	rewe_picture := ImageToBase64("./images/refill_stations/rewe.jpg")
+	gartenschau_picture := ImageToBase64("./images/refill_stations/gartenschau.jpeg")
+	wochenmarkt_picture := ImageToBase64("./images/refill_stations/wochenmarkt.jpg")
+
 	refillStations := []*RefillStation{
 		{
 			Name:               "Stadtpark KL",
@@ -99,41 +114,44 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 			OpeningTimes:       "Mon - Son / 00:00 AM - 12:59 PM",
 			Type:               "smart",
 			OfferedWaterTypes:  "both",
-			RefillStationImage: &ImageStadtpark,
+			RefillStationImage: &stadtpark_picture,
 		},
 		{
-			Name:              "Rewe Station",
-			Description:       "Wasserhahn REWE",
-			Latitude:          49.44490159879211,
-			Longitude:         7.767478778642334,
-			Address:           "Fruchthallstraße 29, 67655 Kaiserslautern",
-			WaterSource:       "Spitzrainbrunnen",
-			OpeningTimes:      "Mon - Sam / 7:00 AM - 10:00 PM",
-			Type:              "manual",
-			OfferedWaterTypes: "tap",
+			Name:               "Rewe Station",
+			Description:        "Wasserhahn REWE",
+			Latitude:           49.44490159879211,
+			Longitude:          7.767478778642334,
+			Address:            "Fruchthallstraße 29, 67655 Kaiserslautern",
+			WaterSource:        "Spitzrainbrunnen",
+			OpeningTimes:       "Mon - Sam / 7:00 AM - 10:00 PM",
+			Type:               "manual",
+			OfferedWaterTypes:  "tap",
+			RefillStationImage: &rewe_picture,
 		},
 		{
-			Name:              "Gartenschau KL",
-			Description:       "Die Gartenschau Kaiserslautern ist ein atemberaubendes jährliches Ereignis, das die Schönheit der Natur und die Freude am Gartenbau feiert.",
-			Latitude:          49.44694255672088,
-			Longitude:         7.751210803377673,
-			Address:           "Lauterstraße 51, 67659 Kaiserslautern",
-			WaterSource:       "St. Georgsbrunnen",
-			OpeningTimes:      "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:              "smart",
-			OfferedWaterTypes: "tap",
+			Name:               "Gartenschau KL",
+			Description:        "Die Gartenschau Kaiserslautern ist ein atemberaubendes jährliches Ereignis, das die Schönheit der Natur und die Freude am Gartenbau feiert.",
+			Latitude:           49.44694255672088,
+			Longitude:          7.751210803377673,
+			Address:            "Lauterstraße 51, 67659 Kaiserslautern",
+			WaterSource:        "St. Georgsbrunnen",
+			OpeningTimes:       "Mon - Son / 00:00 AM - 12:59 PM",
+			Type:               "smart",
+			OfferedWaterTypes:  "tap",
+			RefillStationImage: &gartenschau_picture,
 		},
 		{
-			Name:              "Wochenmarkt",
-			Description:       "Frische Lebensmittel von Obst über Käse, Gemüse und Wurstwaren, bis hin zu Fisch und Backwaren, sowie Blumen und Pflanzen",
-			Latitude:          49.44025,
-			Longitude:         7.75878,
-			Address:           "Königstraße 68, 67655 Kaiserslautern",
-			WaterSource:       "Stadtwerke",
-			OpeningTimes:      "Do / 07:00 AM - 1:59 PM",
-			Active:            NullBool{Valid: true, Bool: false},
-			Type:              "smart",
-			OfferedWaterTypes: "tap",
+			Name:               "Wochenmarkt",
+			Description:        "Frische Lebensmittel von Obst über Käse, Gemüse und Wurstwaren, bis hin zu Fisch und Backwaren, sowie Blumen und Pflanzen",
+			Latitude:           49.44025,
+			Longitude:          7.75878,
+			Address:            "Königstraße 68, 67655 Kaiserslautern",
+			WaterSource:        "Stadtwerke",
+			OpeningTimes:       "Do / 07:00 AM - 1:59 PM",
+			Active:             NullBool{Valid: true, Bool: false},
+			Type:               "smart",
+			OfferedWaterTypes:  "tap",
+			RefillStationImage: &wochenmarkt_picture,
 		},
 	}
 
@@ -169,12 +187,38 @@ func CreateRefillStationReviews(db *gorm.DB) *gorm.DB {
 			Accessibility: 3,
 			WaterQuality:  4,
 		},
+		{
+			StationID:     2,
+			UserID:        5,
+			Cleanness:     2,
+			Accessibility: 2,
+			WaterQuality:  5,
+		},
+		{
+			StationID:     3,
+			UserID:        1,
+			Cleanness:     3,
+			Accessibility: 3,
+			WaterQuality:  4,
+		},
+		{
+			StationID:     4,
+			UserID:        5,
+			Cleanness:     5,
+			Accessibility: 4,
+			WaterQuality:  5,
+		},
+		{
+			StationID:     4,
+			UserID:        3,
+			Cleanness:     1,
+			Accessibility: 1,
+			WaterQuality:  1,
+		},
 	}
 
-	for _, review := range reviews {
-		if err := db.Create(&review).Error; err != nil {
-			log.Fatalf("failed to create refill station review: %v", err)
-		}
+	if err := db.Create(&reviews).Error; err != nil {
+		log.Fatalf("failed to create refill station reviews: %v", err)
 	}
 
 	log.Print("Created refill station reviews successfully")
@@ -183,31 +227,35 @@ func CreateRefillStationReviews(db *gorm.DB) *gorm.DB {
 }
 
 func CreateRefillStationProblems(db *gorm.DB) *gorm.DB {
+	problem1 := ImageToBase64("./images/problems/dripping.jpg")
+	problem2 := ImageToBase64("./images/problems/broken.jpg")
+	problem3 := ImageToBase64("./images/problems/dirty.jpg")
 	problems := []RefillStationProblem{
 		{
-			StationID:   1,
-			Title:       "Undichte Wasserhähne",
-			Description: "Der Wasserhahn an der Nachfüllstation tropft kontinuierlich.",
-			Status:      "Active",
+			StationID:                 1,
+			Title:                     "Undichte Wasserhähne",
+			Description:               "Der Wasserhahn an der Nachfüllstation tropft kontinuierlich.",
+			Status:                    "OPEN",
+			RefillStationProblemImage: &problem1,
 		},
 		{
-			StationID:   2,
-			Title:       "Beschädigter Spender",
-			Description: "Der Wasserspender an der Nachfüllstation ist beschädigt und gibt kein Wasser ordnungsgemäß ab.",
-			Status:      "Active",
+			StationID:                 2,
+			Title:                     "Beschädigter Spender",
+			Description:               "Der Wasserspender an der Nachfüllstation ist beschädigt und gibt kein Wasser ordnungsgemäß ab.",
+			Status:                    "INPROGRESS",
+			RefillStationProblemImage: &problem2,
 		},
 		{
-			StationID:   3,
-			Title:       "Wasserkontamination",
-			Description: "Benutzer meldeten Probleme mit Wasserkontamination an dieser Nachfüllstation.",
-			Status:      "Active",
+			StationID:                 3,
+			Title:                     "Wasserkontamination",
+			Description:               "Benutzer meldeten Probleme mit Wasserkontamination an dieser Nachfüllstation.",
+			Status:                    "SOLVED",
+			RefillStationProblemImage: &problem3,
 		},
 	}
 
-	for _, problem := range problems {
-		if err := db.Create(&problem).Error; err != nil {
-			log.Fatalf("failed to create refill station problem: %v", err)
-		}
+	if err := db.Create(&problems).Error; err != nil {
+		log.Fatalf("failed to create refill station problems: %v", err)
 	}
 
 	log.Print("Created refill station problems successfully")
@@ -218,7 +266,7 @@ func CreateRefillStationProblems(db *gorm.DB) *gorm.DB {
 func CreateWaterTransactions(db *gorm.DB) *gorm.DB {
 	transactions := []WaterTransaction{}
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 50; i++ {
 		randomStationID := uint(rand.Intn(3) + 1) // Random station ID between 1 and 3
 		randomBottleID := uint(rand.Intn(2) + 1)  // Random Bottle ID between 1 and 2
 		randomVolume := rand.Intn(1500) + 500     // Random volume between 500 and 2000
@@ -236,10 +284,8 @@ func CreateWaterTransactions(db *gorm.DB) *gorm.DB {
 		transactions = append(transactions, transaction)
 	}
 
-	for _, transaction := range transactions {
-		if err := db.Create(&transaction).Error; err != nil {
-			log.Fatalf("failed to create water transaction: %v", err)
-		}
+	if err := db.Create(&transactions).Error; err != nil {
+		log.Fatalf("failed to create water transactions: %v", err)
 	}
 
 	log.Print("Created water transactions successfully")
@@ -283,10 +329,8 @@ func CreateLikes(db *gorm.DB) *gorm.DB {
 		},
 	}
 
-	for _, like := range likes {
-		if err := db.Create(&like).Error; err != nil {
-			log.Fatalf("failed to create like: %v", err)
-		}
+	if err := db.Create(&likes).Error; err != nil {
+		log.Fatalf("failed to create likes: %v", err)
 	}
 
 	log.Print("Created likes successfully")

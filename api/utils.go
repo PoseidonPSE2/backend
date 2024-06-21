@@ -33,3 +33,9 @@ func DecodeBase64ToBytes(encodedStr string) ([]byte, error) {
 	}
 	return decodedBytes, nil
 }
+
+// EncodeBytesToBase64 takes a byte array and returns a base64 encoded string
+func EncodeBytesToBase64(data []byte) string {
+	// Encode the byte array to a base64 string
+	return base64.StdEncoding.EncodeToString(data)
+}

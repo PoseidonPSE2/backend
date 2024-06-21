@@ -11,9 +11,9 @@ import (
 
 // @Summary Show all water transactions
 // @Description Get all water transactions
-// @Tags water_transactions
-// @Accept  json
-// @Produce  json
+// @Tags Water Transactions
+// @Accept json
+// @Produce json
 // @Success 200 {array} database.WaterTransaction
 // @Router /water_transactions [get]
 func GetWaterTransactions(c *gin.Context) {
@@ -44,9 +44,9 @@ func GetWaterTransactions(c *gin.Context) {
 
 // @Summary Create a water transaction
 // @Description Create a new water transaction
-// @Tags water_transactions
-// @Accept  json
-// @Produce  json
+// @Tags Water Transactions
+// @Accept json
+// @Produce json
 // @Param transaction body database.WaterTransaction true "Water Transaction"
 // @Success 201 {object} database.WaterTransaction
 // @Router /water_transactions [post]
@@ -67,9 +67,9 @@ func CreateWaterTransaction(c *gin.Context) {
 
 // @Summary Update a water transaction
 // @Description Update an existing water transaction
-// @Tags water_transactions
-// @Accept  json
-// @Produce  json
+// @Tags Water Transactions
+// @Accept json
+// @Produce json
 // @Param transaction body database.WaterTransaction true "Water Transaction"
 // @Success 200 {object} database.WaterTransaction
 // @Router /water_transactions [put]
@@ -90,9 +90,9 @@ func UpdateWaterTransaction(c *gin.Context) {
 
 // @Summary Delete a water transaction
 // @Description Delete an existing water transaction
-// @Tags water_transactions
-// @Accept  json
-// @Produce  json
+// @Tags Water Transactions
+// @Accept json
+// @Produce json
 // @Param id query int true "Water Transaction ID"
 // @Success 204
 // @Router /water_transactions [delete]

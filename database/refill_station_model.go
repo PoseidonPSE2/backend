@@ -24,7 +24,7 @@ type RefillStation struct {
 	Active             NullBool               `gorm:"default:true" json:"active"`
 	Type               string                 `gorm:"size:16;not null" json:"type"`
 	OfferedWaterTypes  string                 `gorm:"size:32;not null" json:"offered_water_types"`
-	RefillStationImage *string                `gorm:"type:TEXT;default:null" json:"refill_station_image,omitempty"`
+	RefillStationImage *string                `gorm:"type:TEXT;default:null" json:"-"`
 	Reviews            []RefillStationReview  `gorm:"foreignKey:StationID" json:"-"`
 	Problems           []RefillStationProblem `gorm:"foreignKey:StationID" json:"-"`
 	WaterTransactions  []WaterTransaction     `gorm:"foreignKey:StationID" json:"-"`

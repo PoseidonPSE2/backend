@@ -11,9 +11,9 @@ import (
 
 // @Summary Show all users
 // @Description Get all users
-// @Tags users
-// @Accept  json
-// @Produce  json
+// @Tags Users
+// @Accept json
+// @Produce json
 // @Success 200 {array} database.User
 // @Router /users [get]
 func GetUsers(c *gin.Context) {
@@ -45,9 +45,9 @@ func GetUsers(c *gin.Context) {
 
 // @Summary Create a user
 // @Description Create a new user
-// @Tags users
-// @Accept  json
-// @Produce  json
+// @Tags Users
+// @Accept json
+// @Produce json
 // @Param user body database.User true "User"
 // @Success 201 {object} database.User
 // @Router /users [post]
@@ -67,9 +67,9 @@ func CreateUser(c *gin.Context) {
 
 // @Summary Update a user
 // @Description Update an existing user
-// @Tags users
-// @Accept  json
-// @Produce  json
+// @Tags Users
+// @Accept json
+// @Produce json
 // @Param user body database.User true "User"
 // @Success 200 {object} database.User
 // @Router /users [put]
@@ -89,9 +89,9 @@ func UpdateUser(c *gin.Context) {
 
 // @Summary Delete a user
 // @Description Delete an existing user
-// @Tags users
-// @Accept  json
-// @Produce  json
+// @Tags Users
+// @Accept json
+// @Produce json
 // @Param id query int true "User ID"
 // @Success 204
 // @Router /users [delete]

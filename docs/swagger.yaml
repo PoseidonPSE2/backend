@@ -1,4 +1,11 @@
 definitions:
+  api.BottleImage:
+    properties:
+      bottle_image:
+        items:
+          type: integer
+        type: array
+    type: object
   api.ContributionCommunityResponse:
     properties:
       amountFillings:
@@ -30,6 +37,21 @@ definitions:
       savedTrash:
         type: number
     type: object
+  api.PostRequestRefillStationProblem:
+    properties:
+      description:
+        type: string
+      problem_image:
+        items:
+          type: integer
+        type: array
+      station_id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+    type: object
   api.StationImage:
     properties:
       station_image:
@@ -53,12 +75,19 @@ definitions:
       waterQuality:
         type: number
     type: object
+  api.UpdateBottleImageStruct:
+    properties:
+      bottle_id:
+        type: integer
+      bottle_image:
+        items:
+          type: integer
+        type: array
+    type: object
   database.Bottle:
     properties:
       active:
         type: boolean
-      bottle_image:
-        type: string
       fill_volume:
         type: integer
       id:
@@ -108,8 +137,6 @@ definitions:
         type: string
       opening_times:
         type: string
-      refill_station_image:
-        type: string
       type:
         type: string
       water_source:
@@ -121,8 +148,6 @@ definitions:
         type: string
       id:
         type: integer
-      refill_station_problem_image:
-        type: string
       station_id:
         type: integer
       status:
@@ -289,6 +314,49 @@ paths:
           schema:
             $ref: '#/definitions/database.Bottle'
       summary: Get bottle by bottle ID
+      tags:
+      - Bottles
+  /bottles/image:
+    put:
+      consumes:
+      - application/json
+      description: Update the picture of a bottle
+      parameters:
+      - description: Bottle
+        in: body
+        name: bottle
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdateBottleImageStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Bottle'
+      summary: Update a bottle image
+      tags:
+      - Bottles
+  /bottles/image/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one bottle image with the given ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.BottleImage'
+      summary: Get bottle image by bottle ID
       tags:
       - Bottles
   /bottles/preferences/{nfcId}:
@@ -540,7 +608,7 @@ paths:
         name: problem
         required: true
         schema:
-          $ref: '#/definitions/database.RefillStationProblem'
+          $ref: '#/definitions/api.PostRequestRefillStationProblem'
       produces:
       - application/json
       responses:
@@ -891,7 +959,7 @@ paths:
           description: No Content
       summary: Delete a user
       tags:
-      - users
+      - Users
     get:
       consumes:
       - application/json
@@ -907,7 +975,7 @@ paths:
             type: array
       summary: Show all users
       tags:
-      - users
+      - Users
     post:
       consumes:
       - application/json
@@ -928,7 +996,7 @@ paths:
             $ref: '#/definitions/database.User'
       summary: Create a user
       tags:
-      - users
+      - Users
     put:
       consumes:
       - application/json
@@ -949,7 +1017,7 @@ paths:
             $ref: '#/definitions/database.User'
       summary: Update a user
       tags:
-      - users
+      - Users
   /water_transactions:
     delete:
       consumes:
@@ -968,7 +1036,7 @@ paths:
           description: No Content
       summary: Delete a water transaction
       tags:
-      - water_transactions
+      - Water Transactions
     get:
       consumes:
       - application/json
@@ -984,7 +1052,7 @@ paths:
             type: array
       summary: Show all water transactions
       tags:
-      - water_transactions
+      - Water Transactions
     post:
       consumes:
       - application/json
@@ -1005,7 +1073,7 @@ paths:
             $ref: '#/definitions/database.WaterTransaction'
       summary: Create a water transaction
       tags:
-      - water_transactions
+      - Water Transactions
     put:
       consumes:
       - application/json
@@ -1026,5 +1094,5 @@ paths:
             $ref: '#/definitions/database.WaterTransaction'
       summary: Update a water transaction
       tags:
-      - water_transactions
+      - Water Transactions
 swagger: "2.0"

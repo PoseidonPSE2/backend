@@ -96,10 +96,12 @@ func main() {
 
 	r.GET("/bottles", api.GetBottles)
 	r.GET("/bottles/:id", api.GetBottleById)
+	r.GET("/bottles/image/:id", api.GetBottleImageById)
 	r.GET("/bottles/users/:userId", api.GetBottlesByUserID)
 	r.GET("/bottles/preferences/:nfcId", api.GetBottlePreferencesByNFCId)
 	r.POST("/bottles", api.CreateBottle)
 	r.PUT("/bottles", api.UpdateBottle)
+	r.PUT("/bottles/image", api.UpdateBottleImage)
 	r.DELETE("/bottles/:id", api.DeleteBottle)
 
 	r.GET("/refill_stations", api.GetRefillStations)

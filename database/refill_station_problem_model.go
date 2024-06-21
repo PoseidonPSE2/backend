@@ -15,7 +15,7 @@ type RefillStationProblem struct {
 	Title                     string    `gorm:"size:100;not null" json:"title"`
 	Description               string    `gorm:"size:255;not null" json:"description"`
 	Status                    string    `gorm:"size:16;not null" json:"status"`
-	RefillStationProblemImage *string   `gorm:"type:TEXT;default:null" json:"refill_station_problem_image,omitempty"`
+	RefillStationProblemImage *string   `gorm:"type:TEXT;default:null" json:"-"`
 	Timestamp                 time.Time `gorm:"autoCreateTime" json:"timestamp"`
 }
 
@@ -24,7 +24,7 @@ func (RefillStationProblem) TableName() string {
 }
 
 func (problem *RefillStationProblem) BeforeCreate(tx *gorm.DB) (err error) {
-	allowedStatuses := []string{"Inactive", "Active", "In Process"}
+	allowedStatuses := []string{"OPEN", "INPROGRESS", "CLOSED", "SOLVED"}
 	if !contains(allowedStatuses, problem.Status) {
 		return fmt.Errorf("invalid problem status: %s", problem.Status)
 	}
