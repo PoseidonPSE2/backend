@@ -22,6 +22,7 @@ var db *gorm.DB
 // Flog for database
 var shouldRecreateDatabase = false
 var shouldImportTestData = false
+var shouldMigrateSchema = false
 
 // Database configuration variables
 var (
@@ -57,11 +58,13 @@ func init() {
 
 	log.Print("Schema migration starting")
 
-	// Migrate the schema
-	db.AutoMigrate(&database.User{}, &database.Bottle{}, &database.RefillStation{}, &database.RefillStationReview{},
-		&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
+	if shouldMigrateSchema {
+		// Migrate the schema
+		db.AutoMigrate(&database.User{}, &database.Bottle{}, &database.RefillStation{}, &database.RefillStationReview{},
+			&database.RefillStationProblem{}, &database.WaterTransaction{}, &database.Like{})
 
-	log.Print("Schema migration done")
+		log.Print("Schema migration done")
+	}
 
 	if shouldImportTestData {
 		db = database.CreateTestData(db)

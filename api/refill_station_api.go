@@ -108,6 +108,12 @@ func GetRefillStationImageById(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": result.Error.Error()})
 		return
 	}
+
+	if station.RefillStationImage == nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Refill Station has no image"})
+		return
+	}
+
 	byteArray, err := DecodeBase64ToBytes(*station.RefillStationImage)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error decoding base64 string"})
