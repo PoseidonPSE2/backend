@@ -72,7 +72,7 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 		},
 		{
 			UserID:      5,
-			NFCID:       "13:8E:8D:0C",
+			NFCID:       "13:8E:BD:0C",
 			FillVolume:  250,
 			WaterType:   "mineral",
 			Title:       "Fancy Bottle",
