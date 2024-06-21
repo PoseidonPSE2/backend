@@ -12,11 +12,6 @@ type BottleImage struct {
 	BottleImage []byte `json:"bottle_image"`
 }
 
-type UpdateBottleImageStruct struct {
-	ID          uint   `json:"bottle_id"`
-	BottleImage []byte `json:"bottle_image"`
-}
-
 // @Summary Show all bottles
 // @Description Get all bottles
 // @Tags Bottles
@@ -206,38 +201,6 @@ func UpdateBottle(c *gin.Context) {
 	// Workaround to ensure saving of an empty nfc-id
 	if newBottle.NFCID == "" {
 		db.Model(&bottle).Select("NFCID").Updates(map[string]interface{}{"NFCID": ""})
-	}
-
-	// Respond with the updated bottle data
-	c.JSON(http.StatusOK, bottle)
-}
-
-// @Summary Update a bottle image
-// @Description Update the picture of a bottle
-// @Tags Bottles
-// @Accept json
-// @Produce json
-// @Param bottle body UpdateBottleImageStruct true "Bottle"
-// @Success 200 {object} database.Bottle
-// @Router /bottles/image [put]
-func UpdateBottleImage(c *gin.Context) {
-	var requestStruct UpdateBottleImageStruct
-	if err := c.ShouldBindJSON(&requestStruct); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	var bottle database.Bottle
-	if err := db.Where("id = ?", requestStruct.ID).First(&bottle).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	base64Image := EncodeBytesToBase64(requestStruct.BottleImage)
-
-	if err := db.Model(&bottle).Select("BottleImage").Updates(map[string]interface{}{"BottleImage": base64Image}).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
 	}
 
 	// Respond with the updated bottle data

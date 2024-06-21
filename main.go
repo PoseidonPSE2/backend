@@ -101,7 +101,6 @@ func main() {
 	r.GET("/bottles/preferences/:nfcId", api.GetBottlePreferencesByNFCId)
 	r.POST("/bottles", api.CreateBottle)
 	r.PUT("/bottles", api.UpdateBottle)
-	r.PUT("/bottles/image", api.UpdateBottleImage)
 	r.DELETE("/bottles/:id", api.DeleteBottle)
 
 	r.GET("/refill_stations", api.GetRefillStations)

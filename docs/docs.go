@@ -114,40 +114,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/bottles/image": {
-            "put": {
-                "description": "Update the picture of a bottle",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Bottles"
-                ],
-                "summary": "Update a bottle image",
-                "parameters": [
-                    {
-                        "description": "Bottle",
-                        "name": "bottle",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/api.UpdateBottleImageStruct"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/database.Bottle"
-                        }
-                    }
-                }
-            }
-        },
         "/bottles/image/{id}": {
             "get": {
                 "description": "Get one bottle image with the given ID",
@@ -1478,25 +1444,14 @@ const docTemplate = `{
                 }
             }
         },
-        "api.UpdateBottleImageStruct": {
-            "type": "object",
-            "properties": {
-                "bottle_id": {
-                    "type": "integer"
-                },
-                "bottle_image": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
         "database.Bottle": {
             "type": "object",
             "properties": {
                 "active": {
                     "type": "boolean"
+                },
+                "bottle_image": {
+                    "type": "string"
                 },
                 "fill_volume": {
                     "type": "integer"
