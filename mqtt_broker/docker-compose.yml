@@ -1,0 +1,9 @@
+services:
+  mqtt-broker:
+    build: .
+    ports:
+      - "1883:1883"
+    environment:
+      - USERNAME=poseidon
+      - PASSWORD=poseidon
+    restart: unless-stopped
