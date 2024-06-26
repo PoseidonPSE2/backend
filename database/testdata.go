@@ -57,11 +57,20 @@ func CreateUsers(db *gorm.DB) *gorm.DB {
 }
 
 func CreateBottles(db *gorm.DB) *gorm.DB {
+	bottle0 := ImageToBase64("./images/bottles/bottle0.png")
 	bottle1 := ImageToBase64("./images/bottles/bottle1.jpg")
 	bottle2 := ImageToBase64("./images/bottles/bottle2.jpg")
 	bottle3 := ImageToBase64("./images/bottles/bottle3.jpg")
 
 	bottles := []Bottle{
+		{
+			UserID:      4,
+			NFCID:       "04:72:52:1A:94:11:90",
+			FillVolume:  100,
+			WaterType:   "tap",
+			Title:       "Letzte App-Wahl",
+			BottleImage: &bottle0,
+		},
 		{
 			UserID:      5,
 			NFCID:       "13:E0:0B:35",
