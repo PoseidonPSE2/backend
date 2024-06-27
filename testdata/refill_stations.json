@@ -1,0 +1,51 @@
+[
+    {
+        "Name": "Stadtpark KL",
+        "Description": "Irgendwas mit einem Schnitzeljagd?",
+        "Latitude": 49.437551349217266,
+        "Longitude": 7.761465081072085,
+        "Address": "Trippstadter Str. 2, 67663 Kaiserslautern",
+        "WaterSource": "Spitzrainbrunnen",
+        "OpeningTimes": "Mon - Son / 00:00 AM - 12:59 PM",
+        "Type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/stadtpark.jpg"
+    },
+    {
+        "Name": "Rewe Station",
+        "Description": "Wasserhahn REWE",
+        "Latitude": 49.44490159879211,
+        "Longitude": 7.767478778642334,
+        "Address": "Fruchthallstraße 29, 67655 Kaiserslautern",
+        "WaterSource": "Spitzrainbrunnen",
+        "OpeningTimes": "Mon - Sam / 7:00 AM - 10:00 PM",
+        "Type": "manual",
+        "OfferedWaterTypes": "tap",
+        "ImagePath": "./images/refill_stations/rewe.jpg"
+    },
+    {
+        "Name": "Gartenschau KL",
+        "Description": "Die Gartenschau Kaiserslautern ist ein atemberaubendes jährliches Ereignis, das die Schönheit der Natur und die Freude am Gartenbau feiert.",
+        "Latitude": 49.44694255672088,
+        "Longitude": 7.751210803377673,
+        "Address": "Lauterstraße 51, 67659 Kaiserslautern",
+        "WaterSource": "St. Georgsbrunnen",
+        "OpeningTimes": "Mon - Son / 00:00 AM - 12:59 PM",
+        "Type": "smart",
+        "OfferedWaterTypes": "tap",
+        "ImagePath": "./images/refill_stations/gartenschau.jpeg"
+    },
+    {
+        "Name": "Wochenmarkt",
+        "Description": "Frische Lebensmittel von Obst über Käse, Gemüse und Wurstwaren, bis hin zu Fisch und Backwaren, sowie Blumen und Pflanzen",
+        "Latitude": 49.44025,
+        "Longitude": 7.75878,
+        "Address": "Königstraße 68, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Do / 07:00 AM - 1:59 PM",
+        "Active": false,
+        "Type": "smart",
+        "OfferedWaterTypes": "tap",
+        "ImagePath": "./images/refill_stations/wochenmarkt.jpg"
+    }
+]

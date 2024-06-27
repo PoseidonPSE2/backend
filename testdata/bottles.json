@@ -1,0 +1,50 @@
+[
+    {
+        "UserID": 5,
+        "NFCID": "04:72:52:1A:94:11:90",
+        "FillVolume": 100,
+        "WaterType": "tap",
+        "Title": "Letzte App-Wahl",
+        "ImagePath": "./images/bottles/bottle0.jpg"
+    },
+    {
+        "UserID": 5,
+        "NFCID": "13:E0:0B:35",
+        "FillVolume": 500,
+        "WaterType": "tap",
+        "Title": "Flasche",
+        "ImagePath": "./images/bottles/bottle1.jpg"
+    },
+    {
+        "UserID": 5,
+        "NFCID": "13:8E:BD:0C",
+        "FillVolume": 250,
+        "WaterType": "mineral",
+        "Title": "Fancy Flasche",
+        "ImagePath": "./images/bottles/bottle2.jpg"
+    },
+    {
+        "UserID": 5,
+        "NFCID": "",
+        "FillVolume": 1000,
+        "WaterType": "mineral",
+        "Title": "Sports Flasche",
+        "ImagePath": "./images/bottles/bottle3.jpg"
+    },
+    {
+        "UserID": 5,
+        "NFCID": "",
+        "FillVolume": 750,
+        "WaterType": "mineral",
+        "Title": "Airup Flasche",
+        "ImagePath": "./images/bottles/bottle4.jpg"
+    },
+    {
+        "UserID": 5,
+        "NFCID": "",
+        "FillVolume": 1500,
+        "WaterType": "mineral",
+        "Title": "Große Flasche",
+        "ImagePath": "./images/bottles/bottle5.jpg"
+    }
+]

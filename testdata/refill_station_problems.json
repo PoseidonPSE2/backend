@@ -1,0 +1,23 @@
+[
+    {
+        "StationID": 1,
+        "Title": "Undichte Wasserhähne",
+        "Description": "Der Wasserhahn an der Nachfüllstation tropft kontinuierlich.",
+        "Status": "OPEN",
+        "RefillStationProblemImage": "./images/problems/dripping.jpg"
+    },
+    {
+        "StationID": 2,
+        "Title": "Beschädigter Spender",
+        "Description": "Der Wasserspender an der Nachfüllstation ist beschädigt und gibt kein Wasser ordnungsgemäß ab.",
+        "Status": "INPROGRESS",
+        "RefillStationProblemImage": "./images/problems/broken.jpg"
+    },
+    {
+        "StationID": 3,
+        "Title": "Wasserkontamination",
+        "Description": "Benutzer meldeten Probleme mit Wasserkontamination an dieser Nachfüllstation.",
+        "Status": "SOLVED",
+        "RefillStationProblemImage": "./images/problems/dirty.jpg"
+    }
+]

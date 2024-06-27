@@ -1,0 +1,51 @@
+[
+    {
+        "StationID": 1,
+        "UserID": 1,
+        "Cleanness": 4,
+        "Accessibility": 5,
+        "WaterQuality": 3
+    },
+    {
+        "StationID": 1,
+        "UserID": 2,
+        "Cleanness": 5,
+        "Accessibility": 4,
+        "WaterQuality": 5
+    },
+    {
+        "StationID": 2,
+        "UserID": 1,
+        "Cleanness": 3,
+        "Accessibility": 3,
+        "WaterQuality": 4
+    },
+    {
+        "StationID": 2,
+        "UserID": 5,
+        "Cleanness": 2,
+        "Accessibility": 2,
+        "WaterQuality": 5
+    },
+    {
+        "StationID": 3,
+        "UserID": 1,
+        "Cleanness": 3,
+        "Accessibility": 3,
+        "WaterQuality": 4
+    },
+    {
+        "StationID": 4,
+        "UserID": 5,
+        "Cleanness": 5,
+        "Accessibility": 4,
+        "WaterQuality": 5
+    },
+    {
+        "StationID": 4,
+        "UserID": 3,
+        "Cleanness": 1,
+        "Accessibility": 1,
+        "WaterQuality": 1
+    }
+]

@@ -1,11 +1,67 @@
 package database
 
 import (
+	"encoding/json"
+	"io"
 	"log"
-	"math/rand"
+	"os"
+	"time"
 
 	"gorm.io/gorm"
 )
+
+type BottleJSON struct {
+	UserID     uint
+	NFCID      string
+	FillVolume int
+	WaterType  string
+	Title      string
+	ImagePath  string
+}
+
+type UsersJSON struct {
+	FirstName string
+	LastName  string
+}
+
+type RefillStationJSON struct {
+	Name              string
+	Description       string
+	Latitude          float64
+	Longitude         float64
+	Address           string
+	WaterSource       string
+	OpeningTimes      string
+	Type              string
+	OfferedWaterTypes string
+	ImagePath         string
+}
+
+type RefillStationProblemJSON struct {
+	StationID                 uint
+	Title                     string
+	Description               string
+	Status                    string
+	RefillStationProblemImage string
+}
+
+type RefillStationReviewJSON struct {
+	StationID     uint
+	UserID        uint
+	Cleanness     int
+	Accessibility int
+	WaterQuality  int
+}
+
+type WaterTransactionJSON struct {
+	StationID uint
+	BottleID  *uint
+	UserID    *uint
+	Volume    int
+	WaterType string
+	Timestamp time.Time
+	Guest     bool
+}
 
 func CreateTestData(db *gorm.DB) *gorm.DB {
 	log.Print("Test data creation started")
@@ -24,31 +80,38 @@ func CreateTestData(db *gorm.DB) *gorm.DB {
 }
 
 func CreateUsers(db *gorm.DB) *gorm.DB {
-	users := []User{
-		{
-			FirstName: "Jonas",
-			LastName:  "Blum",
-		},
-		{
-			FirstName: "Heiko",
-			LastName:  "Michel",
-		},
-		{
-			FirstName: "David",
-			LastName:  "Miller",
-		},
-		{
-			FirstName: "Yusuf Can",
-			LastName:  "Özdemirkan",
-		},
-		{
-			FirstName: "Alejandro",
-			LastName:  "Restrepo Klinge",
-		},
+	// Read the JSON file
+	file, err := os.Open("./testdata/users.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
+
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
 	}
 
+	// Unmarshal the JSON data into intermediate struct
+	var usersJson []UsersJSON
+	if err := json.Unmarshal(bytes, &usersJson); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Convert intermediate data to actual User structs
+	var users []User
+	for _, userData := range usersJson {
+		user := User{
+			FirstName: userData.FirstName,
+			LastName:  userData.LastName,
+		}
+		users = append(users, user)
+	}
+
+	// Create users in the database
 	if err := db.Create(&users).Error; err != nil {
-		log.Fatalf("failed to create user: %v", err)
+		log.Fatalf("failed to create users: %v", err)
 	}
 
 	log.Print("Created users successfully")
@@ -57,48 +120,42 @@ func CreateUsers(db *gorm.DB) *gorm.DB {
 }
 
 func CreateBottles(db *gorm.DB) *gorm.DB {
-	bottle0 := ImageToBase64("./images/bottles/bottle0.png")
-	bottle1 := ImageToBase64("./images/bottles/bottle1.jpg")
-	bottle2 := ImageToBase64("./images/bottles/bottle2.jpg")
-	bottle3 := ImageToBase64("./images/bottles/bottle3.jpg")
+	// Read the JSON file
+	file, err := os.Open("./testdata/bottles.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
 
-	bottles := []Bottle{
-		{
-			UserID:      4,
-			NFCID:       "04:72:52:1A:94:11:90",
-			FillVolume:  100,
-			WaterType:   "tap",
-			Title:       "Letzte App-Wahl",
-			BottleImage: &bottle0,
-		},
-		{
-			UserID:      5,
-			NFCID:       "13:E0:0B:35",
-			FillVolume:  500,
-			WaterType:   "tap",
-			Title:       "Daily Bottle",
-			BottleImage: &bottle1,
-		},
-		{
-			UserID:      5,
-			NFCID:       "13:8E:BD:0C",
-			FillVolume:  250,
-			WaterType:   "mineral",
-			Title:       "Fancy Bottle",
-			BottleImage: &bottle2,
-		},
-		{
-			UserID:      3,
-			NFCID:       "",
-			FillVolume:  1000,
-			WaterType:   "mineral",
-			Title:       "Sports Bottle",
-			BottleImage: &bottle3,
-		},
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
 	}
 
+	// Unmarshal the JSON data into a slice of BottleJSON
+	var bottlesJSON []BottleJSON
+	if err := json.Unmarshal(bytes, &bottlesJSON); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Convert image paths to base64 strings and create Bottle slice
+	var bottles []Bottle
+	for _, bottleJSON := range bottlesJSON {
+		bottleImage := ImageToBase64(bottleJSON.ImagePath)
+		bottles = append(bottles, Bottle{
+			UserID:      bottleJSON.UserID,
+			NFCID:       bottleJSON.NFCID,
+			FillVolume:  bottleJSON.FillVolume,
+			WaterType:   bottleJSON.WaterType,
+			Title:       bottleJSON.Title,
+			BottleImage: &bottleImage,
+		})
+	}
+
+	// Create bottles in the database
 	if err := db.Create(&bottles).Error; err != nil {
-		log.Fatalf("failed to create bottle: %v", err)
+		log.Fatalf("failed to create bottles: %v", err)
 	}
 
 	log.Print("Created bottles successfully")
@@ -107,65 +164,46 @@ func CreateBottles(db *gorm.DB) *gorm.DB {
 }
 
 func CreateRefillStations(db *gorm.DB) *gorm.DB {
-	stadtpark_picture := ImageToBase64("./images/refill_stations/stadtpark.jpg")
-	rewe_picture := ImageToBase64("./images/refill_stations/rewe.jpg")
-	gartenschau_picture := ImageToBase64("./images/refill_stations/gartenschau.jpeg")
-	wochenmarkt_picture := ImageToBase64("./images/refill_stations/wochenmarkt.jpg")
+	// Read the JSON file
+	file, err := os.Open("./testdata/refill_stations.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
 
-	refillStations := []*RefillStation{
-		{
-			Name:               "Stadtpark KL",
-			Description:        "Irgendwas mit einem Schnitzeljagd?",
-			Latitude:           49.437551349217266,
-			Longitude:          7.761465081072085,
-			Address:            "Trippstadter Str. 2, 67663 Kaiserslautern",
-			WaterSource:        "Spitzrainbrunnen",
-			OpeningTimes:       "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:               "smart",
-			OfferedWaterTypes:  "both",
-			RefillStationImage: &stadtpark_picture,
-		},
-		{
-			Name:               "Rewe Station",
-			Description:        "Wasserhahn REWE",
-			Latitude:           49.44490159879211,
-			Longitude:          7.767478778642334,
-			Address:            "Fruchthallstraße 29, 67655 Kaiserslautern",
-			WaterSource:        "Spitzrainbrunnen",
-			OpeningTimes:       "Mon - Sam / 7:00 AM - 10:00 PM",
-			Type:               "manual",
-			OfferedWaterTypes:  "tap",
-			RefillStationImage: &rewe_picture,
-		},
-		{
-			Name:               "Gartenschau KL",
-			Description:        "Die Gartenschau Kaiserslautern ist ein atemberaubendes jährliches Ereignis, das die Schönheit der Natur und die Freude am Gartenbau feiert.",
-			Latitude:           49.44694255672088,
-			Longitude:          7.751210803377673,
-			Address:            "Lauterstraße 51, 67659 Kaiserslautern",
-			WaterSource:        "St. Georgsbrunnen",
-			OpeningTimes:       "Mon - Son / 00:00 AM - 12:59 PM",
-			Type:               "smart",
-			OfferedWaterTypes:  "tap",
-			RefillStationImage: &gartenschau_picture,
-		},
-		{
-			Name:               "Wochenmarkt",
-			Description:        "Frische Lebensmittel von Obst über Käse, Gemüse und Wurstwaren, bis hin zu Fisch und Backwaren, sowie Blumen und Pflanzen",
-			Latitude:           49.44025,
-			Longitude:          7.75878,
-			Address:            "Königstraße 68, 67655 Kaiserslautern",
-			WaterSource:        "Stadtwerke",
-			OpeningTimes:       "Do / 07:00 AM - 1:59 PM",
-			Active:             NullBool{Valid: true, Bool: false},
-			Type:               "smart",
-			OfferedWaterTypes:  "tap",
-			RefillStationImage: &wochenmarkt_picture,
-		},
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
 	}
 
+	// Unmarshal the JSON data into a slice of RefillStationJSON
+	var refillStationsJSON []RefillStationJSON
+	if err := json.Unmarshal(bytes, &refillStationsJSON); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Convert image paths to base64 strings and create RefillStation slice
+	var refillStations []RefillStation
+	for _, stationJSON := range refillStationsJSON {
+		refillStationImage := ImageToBase64(stationJSON.ImagePath)
+		refillStations = append(refillStations, RefillStation{
+			Name:               stationJSON.Name,
+			Description:        stationJSON.Description,
+			Latitude:           stationJSON.Latitude,
+			Longitude:          stationJSON.Longitude,
+			Address:            stationJSON.Address,
+			WaterSource:        stationJSON.WaterSource,
+			OpeningTimes:       stationJSON.OpeningTimes,
+			Type:               stationJSON.Type,
+			OfferedWaterTypes:  stationJSON.OfferedWaterTypes,
+			RefillStationImage: &refillStationImage,
+		})
+	}
+
+	// Create refill stations in the database
 	if err := db.Create(&refillStations).Error; err != nil {
-		log.Fatalf("failed to create refill station: %v", err)
+		log.Fatalf("failed to create refill stations: %v", err)
 	}
 
 	log.Print("Created refill stations successfully")
@@ -174,58 +212,39 @@ func CreateRefillStations(db *gorm.DB) *gorm.DB {
 }
 
 func CreateRefillStationReviews(db *gorm.DB) *gorm.DB {
-	reviews := []RefillStationReview{
-		{
-			StationID:     1,
-			UserID:        1,
-			Cleanness:     4,
-			Accessibility: 5,
-			WaterQuality:  3,
-		},
-		{
-			StationID:     1,
-			UserID:        2,
-			Cleanness:     5,
-			Accessibility: 4,
-			WaterQuality:  5,
-		},
-		{
-			StationID:     2,
-			UserID:        1,
-			Cleanness:     3,
-			Accessibility: 3,
-			WaterQuality:  4,
-		},
-		{
-			StationID:     2,
-			UserID:        5,
-			Cleanness:     2,
-			Accessibility: 2,
-			WaterQuality:  5,
-		},
-		{
-			StationID:     3,
-			UserID:        1,
-			Cleanness:     3,
-			Accessibility: 3,
-			WaterQuality:  4,
-		},
-		{
-			StationID:     4,
-			UserID:        5,
-			Cleanness:     5,
-			Accessibility: 4,
-			WaterQuality:  5,
-		},
-		{
-			StationID:     4,
-			UserID:        3,
-			Cleanness:     1,
-			Accessibility: 1,
-			WaterQuality:  1,
-		},
+	// Read the JSON file
+	file, err := os.Open("./testdata/refill_station_reviews.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
+
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
 	}
 
+	// Unmarshal the JSON data into a slice of the temporary struct
+	var reviewsJSON []RefillStationReviewJSON
+	if err := json.Unmarshal(bytes, &reviewsJSON); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Convert the temporary struct to the actual model
+	var reviews []RefillStationReview
+	for _, problemJSON := range reviewsJSON {
+		problem := RefillStationReview{
+			StationID:     problemJSON.StationID,
+			UserID:        problemJSON.UserID,
+			Cleanness:     problemJSON.Cleanness,
+			WaterQuality:  problemJSON.WaterQuality,
+			Accessibility: problemJSON.Accessibility,
+		}
+		reviews = append(reviews, problem)
+	}
+
+	// Create refill station problems in the database
 	if err := db.Create(&reviews).Error; err != nil {
 		log.Fatalf("failed to create refill station reviews: %v", err)
 	}
@@ -236,33 +255,40 @@ func CreateRefillStationReviews(db *gorm.DB) *gorm.DB {
 }
 
 func CreateRefillStationProblems(db *gorm.DB) *gorm.DB {
-	problem1 := ImageToBase64("./images/problems/dripping.jpg")
-	problem2 := ImageToBase64("./images/problems/broken.jpg")
-	problem3 := ImageToBase64("./images/problems/dirty.jpg")
-	problems := []RefillStationProblem{
-		{
-			StationID:                 1,
-			Title:                     "Undichte Wasserhähne",
-			Description:               "Der Wasserhahn an der Nachfüllstation tropft kontinuierlich.",
-			Status:                    "OPEN",
-			RefillStationProblemImage: &problem1,
-		},
-		{
-			StationID:                 2,
-			Title:                     "Beschädigter Spender",
-			Description:               "Der Wasserspender an der Nachfüllstation ist beschädigt und gibt kein Wasser ordnungsgemäß ab.",
-			Status:                    "INPROGRESS",
-			RefillStationProblemImage: &problem2,
-		},
-		{
-			StationID:                 3,
-			Title:                     "Wasserkontamination",
-			Description:               "Benutzer meldeten Probleme mit Wasserkontamination an dieser Nachfüllstation.",
-			Status:                    "SOLVED",
-			RefillStationProblemImage: &problem3,
-		},
+	// Read the JSON file
+	file, err := os.Open("./testdata/refill_station_problems.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
+
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
 	}
 
+	// Unmarshal the JSON data into a slice of the temporary struct
+	var problemsJSON []RefillStationProblemJSON
+	if err := json.Unmarshal(bytes, &problemsJSON); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Convert the temporary struct to the actual model
+	var problems []RefillStationProblem
+	for _, problemJSON := range problemsJSON {
+		imageBase64 := ImageToBase64(problemJSON.RefillStationProblemImage)
+		problem := RefillStationProblem{
+			StationID:                 problemJSON.StationID,
+			Title:                     problemJSON.Title,
+			Description:               problemJSON.Description,
+			Status:                    problemJSON.Status,
+			RefillStationProblemImage: &imageBase64,
+		}
+		problems = append(problems, problem)
+	}
+
+	// Create refill station problems in the database
 	if err := db.Create(&problems).Error; err != nil {
 		log.Fatalf("failed to create refill station problems: %v", err)
 	}
@@ -273,26 +299,41 @@ func CreateRefillStationProblems(db *gorm.DB) *gorm.DB {
 }
 
 func CreateWaterTransactions(db *gorm.DB) *gorm.DB {
-	transactions := []WaterTransaction{}
+	// Read the JSON file
+	file, err := os.Open("./testdata/water_transactions.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
 
-	for i := 0; i < 50; i++ {
-		randomStationID := uint(rand.Intn(3) + 1) // Random station ID between 1 and 3
-		randomBottleID := uint(rand.Intn(2) + 1)  // Random Bottle ID between 1 and 2
-		randomVolume := rand.Intn(1500) + 500     // Random volume between 500 and 2000
-		randomWaterType := []string{"TAP", "MINERAL"}[rand.Intn(2)]
-		userID := uint(1)
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
+	}
 
+	// Unmarshal the JSON data into a slice of WaterTransaction
+	var json_transactions []WaterTransactionJSON
+	if err := json.Unmarshal(bytes, &json_transactions); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Convert the temporary struct to the actual model
+	var transactions []WaterTransaction
+	for _, transJSON := range json_transactions {
 		transaction := WaterTransaction{
-			StationID: randomStationID,
-			BottleID:  &randomBottleID,
-			UserID:    &userID,
-			Volume:    randomVolume,
-			WaterType: randomWaterType,
+			StationID: transJSON.StationID,
+			BottleID:  transJSON.BottleID,
+			UserID:    transJSON.UserID,
+			Volume:    transJSON.Volume,
+			WaterType: transJSON.WaterType,
+			Timestamp: transJSON.Timestamp,
+			Guest:     transJSON.Guest,
 		}
-
 		transactions = append(transactions, transaction)
 	}
 
+	// Create water transactions in the database
 	if err := db.Create(&transactions).Error; err != nil {
 		log.Fatalf("failed to create water transactions: %v", err)
 	}
@@ -303,41 +344,26 @@ func CreateWaterTransactions(db *gorm.DB) *gorm.DB {
 }
 
 func CreateLikes(db *gorm.DB) *gorm.DB {
-	likes := []Like{
-		{
-			StationID: 1,
-			UserID:    1,
-		},
-		{
-			StationID: 2,
-			UserID:    2,
-		},
-		{
-			StationID: 1,
-			UserID:    2,
-		},
-		{
-			StationID: 2,
-			UserID:    3,
-		},
-		{
-			StationID: 1,
-			UserID:    3,
-		},
-		{
-			StationID: 2,
-			UserID:    5,
-		},
-		{
-			StationID: 1,
-			UserID:    5,
-		},
-		{
-			StationID: 2,
-			UserID:    4,
-		},
+	// Read the JSON file
+	file, err := os.Open("./testdata/likes.json")
+	if err != nil {
+		log.Fatalf("failed to open JSON file: %v", err)
+	}
+	defer file.Close()
+
+	// Read the file content
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Fatalf("failed to read JSON file: %v", err)
 	}
 
+	// Unmarshal the JSON data into a slice of Like structs
+	var likes []Like
+	if err := json.Unmarshal(bytes, &likes); err != nil {
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
+	}
+
+	// Create likes in the database
 	if err := db.Create(&likes).Error; err != nil {
 		log.Fatalf("failed to create likes: %v", err)
 	}

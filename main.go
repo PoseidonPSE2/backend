@@ -20,9 +20,9 @@ import (
 var db *gorm.DB
 
 // Flog for database
-var shouldRecreateDatabase = false
-var shouldImportTestData = false
-var shouldMigrateSchema = false
+var shouldRecreateDatabase = true
+var shouldImportTestData = true
+var shouldMigrateSchema = true
 
 // Database configuration variables
 var (
