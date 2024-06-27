@@ -32,8 +32,8 @@ type ContributionKLResponse struct {
 }
 
 func calculateSavings(volume int) (float64, float64) {
-	const moneyFactor = 0.50
-	const trashFactor = 0.10
+	const moneyFactor = 0.40
+	const trashFactor = 0.03
 
 	savedMoney := float64(volume) * moneyFactor / 1000 // Convert volume to liters
 	savedTrash := float64(volume) * trashFactor / 1000
