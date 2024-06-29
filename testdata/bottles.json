@@ -2,7 +2,7 @@
     {
         "UserID": 4,
         "NFCID": "04:72:52:1A:94:11:90",
-        "FillVolume": 100,
+        "FillVolume": 250,
         "WaterType": "tap",
         "Title": "Letzte App-Wahl",
         "ImagePath": "./images/bottles/bottle0.jpg"

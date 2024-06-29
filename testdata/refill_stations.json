@@ -47,5 +47,29 @@
         "Type": "smart",
         "OfferedWaterTypes": "tap",
         "ImagePath": "./images/refill_stations/wochenmarkt.jpg"
+    },
+    {
+        "Name": "Tourist Information",
+        "Description": "Tourist-Informationszentrum in Kaiserslautern, Rheinland-Pfalz",
+        "Latitude": 49.44561654390808,
+        "Longitude": 7.769167427415588,
+        "Address": "Fruchthallstraße 14, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Di - Fr / 09:00 - 5:00 PM",
+        "Type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/tourist.jpg"
+    },
+    {
+        "Name": "Jack and Jones, K in Lautern",
+        "Description": "Jack and Jones Laden in K in Lautern",
+        "Latitude": 49.444486690663354,
+        "Longitude": 7.766194634603207,
+        "Address": "Fackelrondell 1, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Mo - Sa / 09:30 bis 8:00 PM",
+        "Type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/kinlautern.jpg"
     }
 ]
