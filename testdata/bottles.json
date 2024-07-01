@@ -8,8 +8,8 @@
         "ImagePath": "./images/bottles/bottle0.jpg"
     },
     {
-        "UserID": 4,
-        "NFCID": "13:E0:0B:35",
+        "UserID": 5,
+        "NFCID": "",
         "FillVolume": 500,
         "WaterType": "tap",
         "Title": "Flasche",
@@ -25,14 +25,14 @@
     },
     {
         "UserID": 4,
-        "NFCID": "",
+        "NFCID": "13:E0:0B:35",
         "FillVolume": 1000,
         "WaterType": "mineral",
         "Title": "Sports Flasche",
         "ImagePath": "./images/bottles/bottle3.jpg"
     },
     {
-        "UserID": 4,
+        "UserID": 5,
         "NFCID": "",
         "FillVolume": 750,
         "WaterType": "mineral",
@@ -40,7 +40,7 @@
         "ImagePath": "./images/bottles/bottle4.jpg"
     },
     {
-        "UserID": 4,
+        "UserID": 5,
         "NFCID": "",
         "FillVolume": 1500,
         "WaterType": "mineral",

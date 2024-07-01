@@ -6,7 +6,7 @@
         "Longitude": 7.761465081072085,
         "Address": "Trippstadter Str. 2, 67663 Kaiserslautern",
         "WaterSource": "Spitzrainbrunnen",
-        "OpeningTimes": "Mon - Son / 00:00 AM - 12:59 PM",
+        "OpeningTimes": "Mo - So / 00:00 - 23:59",
         "Type": "smart",
         "OfferedWaterTypes": "both",
         "ImagePath": "./images/refill_stations/stadtpark.jpg"
@@ -18,7 +18,7 @@
         "Longitude": 7.767478778642334,
         "Address": "Fruchthallstraße 29, 67655 Kaiserslautern",
         "WaterSource": "Spitzrainbrunnen",
-        "OpeningTimes": "Mon - Sam / 7:00 AM - 10:00 PM",
+        "OpeningTimes": "Mo - Sa / 7:00 - 22:00",
         "Type": "manual",
         "OfferedWaterTypes": "tap",
         "ImagePath": "./images/refill_stations/rewe.jpg"
@@ -30,7 +30,7 @@
         "Longitude": 7.751210803377673,
         "Address": "Lauterstraße 51, 67659 Kaiserslautern",
         "WaterSource": "St. Georgsbrunnen",
-        "OpeningTimes": "Mon - Son / 00:00 AM - 12:59 PM",
+        "OpeningTimes": "Mo - So / 00:00 - 23:59",
         "Type": "smart",
         "OfferedWaterTypes": "tap",
         "ImagePath": "./images/refill_stations/gartenschau.jpeg"
@@ -42,7 +42,7 @@
         "Longitude": 7.75878,
         "Address": "Königstraße 68, 67655 Kaiserslautern",
         "WaterSource": "Stadtwerke",
-        "OpeningTimes": "Do / 07:00 AM - 1:59 PM",
+        "OpeningTimes": "Do / 07:00 - 13:59",
         "Active": false,
         "Type": "smart",
         "OfferedWaterTypes": "tap",
@@ -55,7 +55,7 @@
         "Longitude": 7.769167427415588,
         "Address": "Fruchthallstraße 14, 67655 Kaiserslautern",
         "WaterSource": "Stadtwerke",
-        "OpeningTimes": "Di - Fr / 09:00 - 5:00 PM",
+        "OpeningTimes": "Di - Fr / 09:00 - 17:00",
         "Type": "smart",
         "OfferedWaterTypes": "both",
         "ImagePath": "./images/refill_stations/tourist.jpg"
@@ -67,9 +67,81 @@
         "Longitude": 7.766194634603207,
         "Address": "Fackelrondell 1, 67655 Kaiserslautern",
         "WaterSource": "Stadtwerke",
-        "OpeningTimes": "Mo - Sa / 09:30 bis 8:00 PM",
+        "OpeningTimes": "Mo - Sa / 09:30 bis 20:00",
         "Type": "smart",
         "OfferedWaterTypes": "both",
         "ImagePath": "./images/refill_stations/kinlautern.jpg"
+    },
+    {
+        "Name": "A&B Secondhand-Boutique",
+        "Description": "Der Laden führt eine große Auswahl modeischer. Preiswerter Second-Hand-Kleidung für Damen und Herren, meist Markenware.",
+        "Latitude": 49.443788191436354,
+        "Longitude": 7.766080083897033,
+        "Address": "Richard-Wagner-Straße 1, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Mo - Sa / 09:30 bis 20:00",
+        "Type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/base.jpg"
+    },
+    {
+        "Name": "Scheffelhof",
+        "Description": "Kusthandwerk und Genuss: Ein sehr schöner Ort mitten Kaiserslautern. Griechische Pivenöle direkt vom Erzeuger, regionale Öle, wie zum Beispiel Leindotteröl und sonstige regionale Erzeugnisse direkt vom Erzeuger.",
+        "Latitude": 49.44283201511664,
+        "Longitude": 7.778029853625653,
+        "Address": "Scheffelstraße 6, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Mo - Fr / 10:30 bis 18:00",
+        "Type": "smart",
+        "OfferedWaterTypes": "tap",
+        "ImagePath": "./images/refill_stations/base.jpg"
+    },
+    {
+        "Name": "Reformhaus Escher",
+        "Description": "Werte: Vertrayeb Qualität, Kompetenz und Verantwortung. Produkte für Gesundheit, Schönheit, Genuss. Lebensmittel und Arzneimittel.",
+        "Latitude": 49.44145189470786,
+        "Longitude": 7.771114443414881,
+        "Address": "Eisenbahnstraße 28, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Mo - Di / 10:30 bis 16:00",
+        "type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/base.jpg"
+    },
+    {
+        "Name": "Buchhandlung Blaue Blume",
+        "Description": "Setzt sich ein gegen Mainstream, gegen das Diktat der reinen Wirtschaftslehre und gegen Kulturpessimismus. Sie setzt sich ein für Vielfalt sowie intellektuellen und kulturellen Austausch.",
+        "Latitude": 49.44134515216639,
+        "Longitude": 7.765743093696319,
+        "Address": "Richard-Wagner-Straße 46, 67655 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Mo - Fr / 07:30 bis 18:00",
+        "Type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/base.jpg"
+    },
+    {
+        "Name": "Warenhaus Schatzkiste",
+        "Description": "Das sind Beispiele für Sachen, die Sie im Kaufhaust Schatzkisten kaufen können: Kleiderschrank, Tische, Stühle, Sessel, Betten, etc.",
+        "Latitude": 49.444846081927935,
+        "Longitude": 7.760236613108104,
+        "Address": "Pariser Str. 28, 67655 Kaiserslautern",
+        "Water_source": "Stadtwerke",
+        "OpeningTimes": "Mo - Sa / 07:30 bis 18:00",
+        "type": "manual",
+        "OfferedWaterTypes": "mineral",
+        "ImagePath": "./images/refill_stations/base.jpg"
+    },
+    {
+        "Name": "Fraunhofer IESE",
+        "Description": " Das Fraunhofer IESE bietet seinen Mitarbeitern und Gästen eine kostenlose Refill-Station für Wasser.",
+        "Latitude": 49.431517952394806,
+        "Longitude": 7.752184316316046,
+        "Address": "Fraunhofer-Platz 1, 67663 Kaiserslautern",
+        "WaterSource": "Stadtwerke",
+        "OpeningTimes": "Mo - Fr, 8am - 6pm",
+        "Type": "smart",
+        "OfferedWaterTypes": "both",
+        "ImagePath": "./images/refill_stations/refill_station.jpg"
     }
 ]
